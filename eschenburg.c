@@ -1,5 +1,5 @@
 /* compile with: 
-   g++ -std=c++11 eschenburlg.c
+   g++ -std=c++11 eschenburg.c
 */
 #include<cstdio>
 #include<vector>

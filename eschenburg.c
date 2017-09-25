@@ -2,7 +2,6 @@
    g++ -std=c++11 eschenburg.c
 */
 #include<cstdio>
-#include<cstdlib>
 #include<vector>
 
 //////////////////////////////////////////////////
@@ -16,7 +15,18 @@ int mod (int a, int b)
     ret+=b;
   return ret;
 }
-
+int maximum (int a, int b)
+{
+  a > b ? a : b;
+}
+int minimum (int a, int b)
+{
+  a < b ? a : b;
+}
+int absolute (int a)
+{
+  a >= 0 ? a : -a;
+}
 int gcd (int a, int b)
 // Euclid's algorithm
 // see https://codereview.stackexchange.com/a/39110
@@ -28,7 +38,7 @@ int gcd (int a, int b)
       a = b;
       b = x;
     }
-  return abs(a);
+  return absolute(a);
 }
 
 //////////////////////////////////////////////////
@@ -42,7 +52,7 @@ struct Space {
   int s;
   int p1;
   void print(FILE *file){
-    printf("[%4d,%4d,%4d |%4d,%4d, 0] --> r = %4d, s = %4d, p1 = %4d\n",k1,k2,l1+l2-k1-k2,l1,l2,-mr,s,p1);
+    printf(      "[%4d,%4d,%4d |%4d,%4d, 0] --> r = %4d, s = %4d, p1 = %4d\n",k1,k2,l1+l2-k1-k2,l1,l2,-mr,s,p1);
     fprintf(file,"[%4d,%4d,%4d |%4d,%4d, 0] --> r = %4d, s = %4d, p1 = %4d\n",k1,k2,l1+l2-k1-k2,l1,l2,-mr,s,p1);
   }
   void compute_r_s_p1(void){
@@ -55,16 +65,31 @@ struct Space {
      s = mod(sigma3_k, mr);  // note: sigma3_l = 0
      p1 = mod(2*sigma1_k*sigma1_k - 6*sigma2_k, mr);
   }
-  bool is_space(void) {
-    // test conditions of [CEZ] (1.1)
+  bool is_positively_curved_space(void) {
+    // Is it an Eschenburg space? 
+    // -- Test conditions of [CEZ06] (1.1):
     int k3 = l1 + l2 - k1 - k2;
     int l3 = 0;
+    // printf("\n[%4d,%4d,%4d |%4d,%4d,%4d]",k1,k2,k3,l1,l2,l3);
     if(gcd(k1 - l1, k2 - l2) > 1) return false;
     if(gcd(k1 - l1, k2 - l3) > 1) return false;
     if(gcd(k1 - l3, k2 - l1) > 1) return false;
     if(gcd(k1 - l2, k2 - l1) > 1) return false;
     if(gcd(k1 - l2, k2 - l3) > 1) return false;
     if(gcd(k1 - l3, k2 - l2) > 1) return false;
+    // Is the space positively curved? 
+    // -- Test conditions of [CEZ06] (1.2):
+    int min = minimum(l1,l2);
+    // printf("min: %d  ", min);
+    if (k1 == min) return false;
+    if (k2 == min) return false;
+    if (k3 == min) return false;
+    int max = maximum(l1,l2);
+    // printf("max: %d  ", max);
+    if (k1 == max) return false;
+    if (k2 == max) return false;
+    if (k3 == max) return false;
+    printf("positively curved");
     return true;
   }
 };
@@ -81,12 +106,11 @@ main(){
       //exit(1);
     }
 
-  // by Lemma 1.4 we have "standard parametrization" by 
+  // by [CEZ06, Lemma 1.4] we have "standard parametrization" by 
   //    k1 >= k2 > l1 >= l2 >= 0;
-  // by proof of Prop. 1.7,  
+  // by [CEZ06, proof of Prop. 1.7],  
   //    r(k1,k2,l1,l2) = R
   // implies that moreover R >= k1.
-
  
   int max_mr;
   printf("\n Maximum value of |r|: ");
@@ -103,7 +127,7 @@ main(){
 	  new_space.compute_r_s_p1();
 	  //new_space = compute_r_s_p1(new_space);
 	  if (new_space.mr > max_mr) break; // note:  r is monotonous in k1 and k2
-	  if (new_space.is_space())
+	  if (new_space.is_positively_curved_space())
 	    spaces[new_space.mr].push_back(new_space);
 	}}}}
   printf("\n");

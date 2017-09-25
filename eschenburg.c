@@ -7,13 +7,26 @@
 //////////////////////////////////////////////////
 // Auxiliary mathematics:
 
-int mod (int a, int b)
-// see https://stackoverflow.com/a/4003287/3611932
+int signed_mod (int a, int base)
+// In general, sign of % is machine dependent, 
+// see https://stackoverflow.com/a/4003287/3611932.
+// For the computation of s mod r,
+// I want modulus numbers to be "symmetric around zero",
+// e.g. s in {2,1,0,-1,-2} for r = 5.
 {
-  int ret = a % b;
-  if(ret < 0)
-    ret+=b;
-  return ret;
+  int remainder = a % base;
+  if(remainder > base/2)
+    remainder -= base;
+  else if(remainder < -base/2)
+    remainder += base;
+  return remainder;
+}
+int absolute_mod (int a, int base)
+{
+  int remainder = a % base;
+  if(remainder < 0)
+    remainder += base;
+  return remainder;
 }
 int maximum (int a, int b)
 {
@@ -62,8 +75,8 @@ struct Space {
      int sigma3_k = k1*k2*k3;
      int sigma2_l = l1*l2;
      mr = sigma2_l - sigma2_k;
-     s = mod(sigma3_k, mr);  // note: sigma3_l = 0
-     p1 = mod(2*sigma1_k*sigma1_k - 6*sigma2_k, mr);
+     s = signed_mod(sigma3_k, mr);  // note: sigma3_l = 0
+     p1 = absolute_mod(2*sigma1_k*sigma1_k - 6*sigma2_k, mr);
   }
   bool is_positively_curved_space(void) {
     // Is it an Eschenburg space? 
@@ -132,16 +145,6 @@ main(){
 	}}}}
   printf("\n");
 
-  //print all spaces, sorted according to value of r:
-  /*
-    for(int mr = 0; mr <= max_mr; mr++){ 
-      for(int s = 0; s < spaces[mr].size(); s++){
-	spaces[mr][s].print();
-      }
-      printf("----------------------\n");
-    }
-  */
-
   /*struct Space E1 {.k1 = 3, .k2 = 3, .l1 = 2, .l2 = 2};
   E1 = compute_r_s_p1(E1);
   E1.print();
@@ -151,14 +154,14 @@ main(){
   std::pair<struct Space, struct Space> spair = std::make_pair(E1,E2);
   spair.first.print();*/
 
-  // find pairs with matching r & s;
+  // find pairs with matching r & |s|;
   ////  std::vector< std::pair<struct Space, struct Space> > space_pairs; 
   for(int mr = 0; mr <= max_mr; mr++){ 
     for(int s1 = 0; s1 < spaces[mr].size(); s1++){
       for(int s2 = s1+1; s2 < spaces[mr].size(); s2++){
 	struct Space E1 = spaces[mr][s1];
 	struct Space E2 = spaces[mr][s2];
-	if (E1.s == E2.s) {
+	if (E1.s == E2.s || E1.s == -E2.s) {
 	  printf("----------------------\n");
 	  fprintf(output_file,"----------------------\n");
 	  E1.print(output_file);
@@ -169,6 +172,5 @@ main(){
       }
     }
   }
-
   fclose(output_file);
 }

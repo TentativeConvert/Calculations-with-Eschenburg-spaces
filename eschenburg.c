@@ -2,15 +2,37 @@
    g++ -std=c++11 eschenburg.c
 */
 #include<cstdio>
+#include<cstdlib>
 #include<vector>
 
-int mod (int a, int b){ // see https://stackoverflow.com/a/4003287/3611932
-   int ret = a % b;
-   if(ret < 0)
-     ret+=b;
-   return ret;
+//////////////////////////////////////////////////
+// Auxiliary mathematics:
+
+int mod (int a, int b)
+// see https://stackoverflow.com/a/4003287/3611932
+{
+  int ret = a % b;
+  if(ret < 0)
+    ret+=b;
+  return ret;
 }
 
+int gcd (int a, int b)
+// Euclid's algorithm
+// see https://codereview.stackexchange.com/a/39110
+{
+  int x;
+  while (b)
+    {
+      x = a % b;
+      a = b;
+      b = x;
+    }
+  return abs(a);
+}
+
+//////////////////////////////////////////////////
+//  Spaces:
 struct Space {
   int k1;
   int k2;
@@ -19,24 +41,46 @@ struct Space {
   int mr; // mr = -r = "minus r"
   int s;
   int p1;
-  void print(void){
+  void print(FILE *file){
     printf("[%4d,%4d,%4d |%4d,%4d, 0] --> r = %4d, s = %4d, p1 = %4d\n",k1,k2,l1+l2-k1-k2,l1,l2,-mr,s,p1);
+    fprintf(file,"[%4d,%4d,%4d |%4d,%4d, 0] --> r = %4d, s = %4d, p1 = %4d\n",k1,k2,l1+l2-k1-k2,l1,l2,-mr,s,p1);
+  }
+  void compute_r_s_p1(void){
+     int k3 = l1 + l2 - k1 - k2;
+     int sigma1_k = l1 + l2;
+     int sigma2_k = k1*k2 + (k1 + k2)*k3;
+     int sigma3_k = k1*k2*k3;
+     int sigma2_l = l1*l2;
+     mr = sigma2_l - sigma2_k;
+     s = mod(sigma3_k, mr);  // note: sigma3_l = 0
+     p1 = mod(2*sigma1_k*sigma1_k - 6*sigma2_k, mr);
+  }
+  bool is_space(void) {
+    // test conditions of [CEZ] (1.1)
+    int k3 = l1 + l2 - k1 - k2;
+    int l3 = 0;
+    if(gcd(k1 - l1, k2 - l2) > 1) return false;
+    if(gcd(k1 - l1, k2 - l3) > 1) return false;
+    if(gcd(k1 - l3, k2 - l1) > 1) return false;
+    if(gcd(k1 - l2, k2 - l1) > 1) return false;
+    if(gcd(k1 - l2, k2 - l3) > 1) return false;
+    if(gcd(k1 - l3, k2 - l2) > 1) return false;
+    return true;
   }
 };
 
-struct Space compute_r_s_p1(struct Space E){
-  int k3 = E.l1 + E.l2 - E.k1 - E.k2;
-  int sigma1_k = E.l1 + E.l2;
-  int sigma2_k = E.k1*E.k2 + (E.k1 + E.k2)*k3;
-  int sigma3_k = E.k1*E.k2*k3;
-  int sigma2_l = E.l1*E.l2;
-  E.mr = sigma2_l - sigma2_k;
-  E.s = mod(sigma3_k, E.mr);  // note: sigma3_l = 0
-  E.p1 = mod(2*sigma1_k*sigma1_k - 6*sigma2_k, E.mr);
-  return E;
-}
+
+//////////////////////////////////////////////////
+// Main routine:
 
 main(){
+  FILE *output_file = fopen("output.txt", "w");
+  if (output_file == NULL)
+    {
+      printf("Error opening file!\n");
+      //exit(1);
+    }
+
   // by Lemma 1.4 we have "standard parametrization" by 
   //    k1 >= k2 > l1 >= l2 >= 0;
   // by proof of Prop. 1.7,  
@@ -56,9 +100,11 @@ main(){
       for (k2 = l1+1; k2 <= max_mr; k2++){
 	for (k1 = k2; k1 <= max_mr; k1++){
 	  struct Space new_space{.k1 = k1, .k2 = k2, .l1 = l1, .l2 = l2};
-	  new_space = compute_r_s_p1(new_space);
-	  if (new_space.mr > max_mr) break; //note:  r is monotonous in k1 and k2
-	  spaces[new_space.mr].push_back(new_space);
+	  new_space.compute_r_s_p1();
+	  //new_space = compute_r_s_p1(new_space);
+	  if (new_space.mr > max_mr) break; // note:  r is monotonous in k1 and k2
+	  if (new_space.is_space())
+	    spaces[new_space.mr].push_back(new_space);
 	}}}}
   printf("\n");
 
@@ -90,8 +136,9 @@ main(){
 	struct Space E2 = spaces[mr][s2];
 	if (E1.s == E2.s) {
 	  printf("----------------------\n");
-	  E1.print();
-	  E2.print();
+	  fprintf(output_file,"----------------------\n");
+	  E1.print(output_file);
+	  E2.print(output_file);
 	  ////std::pair<struct Space, struct Space> new_pair = std::make_pair(E1,E2);
 	  ////spaces_pairs.push_back(new_pair);
 	}
@@ -99,4 +146,5 @@ main(){
     }
   }
 
+  fclose(output_file);
 }

@@ -1,5 +1,5 @@
 /* compile with: 
-   g++ -std=c++11 eschenburg.c1
+   g++ -std=c++11 eschenburg.c
 */
 #include<cstdio>
 #include<vector>
@@ -54,7 +54,7 @@ int gcd (int a, int b)
 //////////////////////////////////////////////////
 // Lens space invariants
 
-int lens_45_s2(int p, int param[4])
+boost::rational<int> lens_s2(int p, int param[4])
 {
   float a = 0;
   for(int k = 1; k < absolute(p); ++k)
@@ -67,7 +67,12 @@ int lens_45_s2(int p, int param[4])
 	/sin(k*M_PI*param[3]/p);
       a += s;
     }
-  return round(a*45/(16*p));// this is supposed to be an integer
+  //// printf("16*p*45*s2 = %.6f -- ",a*45);// this is supposed to be an integer
+  //// printf("round(a*45) = %d -- ",(int)round(a*45));
+  //// printf("45*16*p = %d --", 45*16*p);
+  boost::rational<int> s2((int)round(a*45),45*16*p);
+  //// printf("s2 = %d/%d\n",s2.numerator(),s2.denominator());
+  return s2;
 }
 
 
@@ -100,7 +105,6 @@ struct Space {
   bool is_positively_curved_space(void) {
     // Is it an Eschenburg space? 
     // -- Test conditions of [CEZ06] (1.1):
-    // printf("\n[%4d,%4d,%4d |%4d,%4d,%4d]",k[0],k[1],k[2],l[0],l[1],l[2]);
     if(gcd(k[0] - l[0], k[1] - l[1]) > 1) return false;
     if(gcd(k[0] - l[0], k[1] - l[2]) > 1) return false;
     if(gcd(k[0] - l[2], k[1] - l[0]) > 1) return false;
@@ -110,94 +114,104 @@ struct Space {
     // Is the space positively curved? 
     // -- Test conditions of [CEZ06] (1.2):
     int min_l = minimum(l[0],minimum(l[1],l[2]));
-    // printf("min: %d  ", min_l);
     if (k[0] == min_l) return false;
     if (k[1] == min_l) return false;
     if (k[2] == min_l) return false;
     int max_l = maximum(l[0],maximum(l[1],l[2]));
-    // printf("max: %d  ", max_l);
     if (k[0] == max_l) return false;
     if (k[1] == max_l) return false;
     if (k[2] == max_l) return false;
-    printf("positively curved");
     return true;
   }
-  int A(int i,int j,int ii,int jj){ 
+  int gcdA(int i,int j,int ii,int jj){ 
     // auxiliary function for find_good_row_or_col
     // should be declared private, so I probably ought to make Space a proper class, not just a struct
+    /*int ret = gcd(k[i]-l[j],k[ii]-l[jj]); 
+    if (ret==1) 
+      {
+	printf("\n k[%d]-l[%d] = %d; ", i,j,k[i]-l[j]);
+	printf("k[%d]-l[%d] = %d; ", ii,jj,k[ii]-l[jj]);
+	}*/
     return gcd(k[i]-l[j],k[ii]-l[jj]); 
   } 
-  void find_good_row_or_col(void)
+  void find_good_col_or_row(void)
   {
     // see "condition C" in [CEZ06]
     good_row = -1;
     good_col = -1;
+    for(int c = 0; c < 3; ++c){
+      if(gcdA(0,c,1,c) == 1 && gcdA(0,c,2,c) == 1 && gcdA(1,c,2,c) == 1)
+	{
+	  good_col = c;
+	  //// printf("(%d,%d,%d | %d,%d,%d) -- ",k[0],k[1],k[2],l[0],l[1],l[2]);
+	  //// printf("using column %d: (%d,%d,%d)\n",c+1,k[0]-l[c],k[1]-l[c],k[2]-l[c]);
+	  return;
+	}
+    }
     for(int r = 0; r < 3; ++r){
-      if(A(r,0,r,1) == 1 && A(r,0,r,2) == 1 && A(r,1,r,2))
+      if(gcdA(r,0,r,1) == 1 && gcdA(r,0,r,2) == 1 && gcdA(r,1,r,2) == 1)
 	{
 	  good_row = r;
 	  return;
 	}
     }
-    for(int c = 0; c < 3; ++c){
-      if(A(0,c,1,c) == 1 && A(0,c,2,c) == 1 && A(1,c,2,c))
-	{
-	  good_col = c;
-	  return;
-	}
-    }
   }
-  void compute_s22_row(int j)
+  void compute_s22_col(int j)
   {
     // [CEZ06] (2.1)
     // Again, this should really be a private function.
     // The "public" function is compute_s22 below.
-    int jp1 = absolute_mod(j+1,2);
-    // Write s2 as
     //
-    //   (q-2)/(2r*3*d) + SUM/45
-    //   = [(q-2)*15 + SUM*2r*d ] /45*2r*d
-    // 
-    // Then 
-    //  s22 = 2|r|s2
-    //      = - [(q-2)*15 + (45 SUM)*2r*d] / 45*d
+    //     s2  = (q-2)/d + SUM, 
+    //     s22 = 2|r|s2
+    //
+    int jp1 = absolute_mod(j+1,2);
     int q = 
       (k[0]-l[j])^2   + (k[1]-l[j])^2   + (k[2]-l[j])^2 +
       (k[0]-l[jp1])^2 + (k[1]-l[jp1])^2 + (k[2]-l[jp1])^2 
       - (l[j]-l[jp1])^2; 
-    int d = 8*(k[0]-l[j])*(k[1]-l[j])*(k[2]-l[j]);
-    int sum_45_s2 = 0;
+    int d = 16*3*(-mr)*(k[0]-l[j])*(k[1]-l[j])*(k[2]-l[j]);
+    boost::rational<int> s2(q-2,d);
+    //// printf("1: %d/%d\n",s2.numerator(),s2.denominator());
     for(int i = 0; i < 3; ++i)
       {
 	int ip1 = absolute_mod(i+1,3);
 	int ip2 = absolute_mod(i+2,3);
 	int params[4] = {k[ip1]-l[j], k[ip2]-l[j], k[ip1]-l[jp1], k[ip2]-l[jp1]};
-	sum_45_s2 += -lens_45_s2(k[i]-l[j], params);
+	s2 += -lens_s2(k[i]-l[j], params);
       }
-    int s22_n = -((q-2)*15 + sum_45_s2*2*(-mr)*d); // numerator
-    int s22_d = 45*d; // denominator
-    if(s22_d < 0) 
+    //// printf("2: %d/%d\n",s2.numerator(),s2.denominator());
+    s22 = 2*absolute(mr)*s2;
+    //// printf("3: %d/%d\n",s22.numerator(),s22.denominator());
+    // s2 is now computed as an element of QQ.
+    // The final value should be in QQ/ZZ, so we forget integral part:
+    int s22_n = s22.numerator();
+    int s22_d = s22.denominator();
+    if(s22_d < 0) // probaby unnecessary, but depends on implementation of boost::rational
+      {
       s22_n = -s22_n;
       s22_d = -s22_d;
-    s22_n = absolute_mod(s22_n,s22_d);  // final value will be in QQ/ZZ, so forget integral part
-    //printf("\n%d/%d   ",s22_n,s22_d);
+      }
+    //// printf("4: %d/%d\n",s22_n,s22_d);
+    s22_n = absolute_mod(s22_n,s22_d);  
+    //// printf("5: %d/%d\n",s22_n,s22_d);
     s22.assign(s22_n,s22_d); // this should simplify the fraction
-    //printf("  %d/%d\n",s22.numerator(),s22.denominator());
+    //// printf("6: %d/%d\n",s22.numerator(),s22.denominator());
   }
-  void compute_s22_col(int j)
+  void compute_s22_row(int j)
   {
-    //still need to write this
-    s22.assign(1,1);
+    // still need to write this
+    s22.assign(33,1);
   }
-  void compute_s22()
+  void compute_s22(void)
   {
-    find_good_row_or_col();
-    if(good_row >= 0)
+    find_good_col_or_row();
+    if (good_col >= 0)
+	compute_s22_col(good_col);
+    else if(good_row >= 0)
       compute_s22_row(good_row);
-    else if (good_col >= 0)
-      compute_s22_col(good_col);
     else 
-      s22.assign(1,1); // need better error handling here
+      s22.assign(666,1); // need better error handling here
   }
 };
 
@@ -206,11 +220,23 @@ struct Space {
 // Main routine:
 
 main(){
-  float a = M_PI;
-  printf("%.6f\n",a);
+  /* 
+     printf("gcd(3,6) = %d\n",gcd(3,6));
+     printf("gcd(3,3) = %d\n",gcd(3,3));
+     printf("gcd(3,5) = %d\n",gcd(3,5));
+     printf("gcd(-3,6) = %d\n",gcd(-3,6));
+     printf("gcd(-3,3) = %d\n",gcd(-3,3));
+     printf("gcd(-3,5) = %d\n",gcd(-3,5));
+     printf("gcd(5,-5) = %d\n",gcd(5,-5));
+     
+     float a = M_PI;
+     printf("%.6f\n",a);
 
-  boost::rational<int> myr(10,6);
-  printf("%d/%d\n",myr.numerator(),myr.denominator());
+     boost::rational<int> myr(10,6);
+     printf("%d/%d\n",myr.numerator(),myr.denominator());
+     boost::rational<int> myr2(0,6);
+     printf("%d/%d\n",myr2.numerator(),myr2.denominator());
+  */
 
   FILE *output_file = fopen("output.txt", "w");
   if (output_file == NULL)

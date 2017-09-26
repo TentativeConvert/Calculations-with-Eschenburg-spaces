@@ -8,36 +8,33 @@
 
 //////////////////////////////////////////////////
 // Auxiliary mathematics:
-
+int square(int a){ return a*a; }
+int absolute (int a){ return a >= 0 ? a : -a; }
+int maximum (int a, int b){ return a > b ? a : b; }
+int minimum (int a, int b){ return a < b ? a : b; }
 int signed_mod (int a, int base)
 // In general, sign of % is machine dependent, 
 // see https://stackoverflow.com/a/4003287/3611932.
 // For the computation of s mod r,
-// I want modulus numbers to be "symmetric around zero",
-// e.g. s in {2,1,0,-1,-2} for r = 5.
+// I want modulus numbers to be "symmetric around zero".
+// Input:   a  in ZZ, base in ZZ
+// Output:  a' in (-base/2, base/2] in ZZ such that 
+//          a' = a mod base
 {
   int remainder = a % base;
   if(remainder > base/2)
     remainder -= base;
-  else if(remainder < -base/2)
+  else if(remainder <= -base/2)
     remainder += base;
   return remainder;
 }
-int square(int a){ return a*a; }
-int absolute (int a){ return a >= 0 ? a : -a; }
 int absolute_mod (int a, int base)
 {
   int remainder = a % base;
-// if (a < 0)
-    // printf("\n%d mod %d = %d, |base| = %d \n", a, base, remainder, absolute(base));
   if(remainder < 0)
     remainder += absolute(base);
-// if (a < 0) 
-    // printf("%d mod %d = %d\n", a, base, remainder);
   return remainder;
 }
-int maximum (int a, int b){ return a > b ? a : b; }
-int minimum (int a, int b){ return a < b ? a : b; }
 int gcd (int a, int b)
 // Euclid's algorithm
 // see https://codereview.stackexchange.com/a/39110
@@ -51,7 +48,22 @@ int gcd (int a, int b)
     }
   return absolute(a);
 }
-
+boost::rational<int> reduce_mod_ZZ(boost::rational<int> q)
+{
+  // Input:   q  in QQ 
+  // Output:  q' in (-1/2, 1/2] in QQ such that 
+  //          q' = q in QQ/ZZ.
+  int q_n = q.numerator();
+  int q_d = q.denominator();
+  if(q_d < 0) // probaby unnecessary, but depends on implementation of boost::rational
+    {
+      q_n = -q_n;
+      q_d = -q_d;
+    }
+  q_n = signed_mod(q_n,q_d);  
+  q.assign(q_n,q_d); // this should simplify the fraction
+  return q;
+}
 //////////////////////////////////////////////////
 // Lens space invariants
 
@@ -85,11 +97,18 @@ struct Space {
   int s;
   int p1;
   boost::rational<int> s22;
+  boost::rational<int> s2;
   int good_row; // for "condition C"
   int good_col; // for "condition C"
+
+  void print_basics(void){
+    printf("[%4d,%4d,%4d |%4d,%4d,%4d] --> r = %4d, s = %4d, p1 = %4d",k[0],k[1],k[2],l[0],l[1],l[2],-mr,s,p1);
+  }
   void print(FILE *file){
-    printf(      "[%4d,%4d,%4d |%4d,%4d,%4d] --> r = %4d, s = %4d, p1 = %4d, s22 = %d/%d\n",k[0],k[1],k[2],l[0],l[1],l[2],-mr,s,p1,s22.numerator(),s22.denominator());
-    fprintf(file,"[%4d,%4d,%4d |%4d,%4d,%4d] --> r = %4d, s = %4d, p1 = %4d, s22 = %d/%d\n",k[0],k[1],k[2],l[0],l[1],l[2],-mr,s,p1,s22.numerator(),s22.denominator());
+    printf(         "[%4d,%4d,%4d |%4d,%4d,%4d] --> r = %4d, s = %4d, p1 = %4d, s22 = %d/%d, s2 = %d/%d\n",
+		    k[0],k[1],k[2],l[0],l[1],l[2],-mr,s,p1,s22.numerator(),s22.denominator(),s2.numerator(),s2.denominator());
+    fprintf(  file, "[%4d,%4d,%4d |%4d,%4d,%4d] --> r = %4d, s = %4d, p1 = %4d, s22 = %d/%d, s2 = %d/%d\n",
+	      k[0],k[1],k[2],l[0],l[1],l[2],-mr,s,p1,s22.numerator(),s22.denominator(),s2.numerator(),s2.denominator());
   }
   void compute_r_s_p1(void){
     int sigma1_k = k[0] + k[1] + k[2];
@@ -150,7 +169,7 @@ struct Space {
 	}
     }
   }
-  void compute_s22_col(int j)
+  void compute_s2_col(int j)
   {
     // [CEZ06] (2.1)
     // Again, this should really be a private function.
@@ -167,7 +186,7 @@ struct Space {
       square(k[0]-l[jp1]) + square(k[1]-l[jp1]) + square(k[2]-l[jp1])
       - square(l[j]-l[jp1]);
     int d = 16*3*(-mr)*(k[0]-l[j])*(k[1]-l[j])*(k[2]-l[j]);
-    boost::rational<int> s2(q-2,d);
+    s2.assign(q-2,d);
     printf("q = %d, d = %d\n", q, d);
     printf("=> (q-2)/d = %d/%d\n",s2.numerator(),s2.denominator());
     for(int i = 0; i < 3; ++i)
@@ -179,37 +198,33 @@ struct Space {
         printf("     parameters: %d; %d, %d, %d, %d\n", k[i]-l[j], params[0], params[1], params[2], params[3]);
 	s2 += -lens_s2(k[i]-l[j], params);
       }
+    s2 = reduce_mod_ZZ(s2);
+    printf("=> s2(E)  = %d/%d\n",s2.numerator(),s2.denominator());
+  }
+  void compute_s2_row(int j)
+  {
+    // still need to write this
+    printf("Computation of s2 from row is not yet implemented!");
+    s2.assign(0,1);
+  }
+  void compute_s2(void)
+  {
+    printf("\n===== E(%d, %d, %d | %d, %d, %d) ===== \n", k[0], k[1], k[2], l[0], l[1], l[2]);
+    find_good_col_or_row();
+    if (good_col >= 0)
+	compute_s2_col(good_col);
+    else if(good_row >= 0)
+      compute_s2_row(good_row);
+    else 
+      s2.assign(666,1); // need better error handling here
+  }
+  void compute_s22(void) // only possible AFTER computing s2
+  {
     printf("=> s2(E)  = %d/%d\n",s2.numerator(),s2.denominator());
     s22 = 2*absolute(mr)*s2;
     printf("=> s22(E) = %d/%d (in QQ)\n",s22.numerator(),s22.denominator());
-    // s2 is now computed as an element of QQ.
-    // The final value should be in QQ/ZZ, so we forget integral part:
-    int s22_n = s22.numerator();
-    int s22_d = s22.denominator();
-    if(s22_d < 0) // probaby unnecessary, but depends on implementation of boost::rational
-      {
-      s22_n = -s22_n;
-      s22_d = -s22_d;
-      }
-    s22_n = absolute_mod(s22_n,s22_d);  
-    s22.assign(s22_n,s22_d); // this should simplify the fraction
+    s22 = reduce_mod_ZZ(s22);
     printf("=> s22(E) = %d/%d (in QQ/ZZ)\n",s22.numerator(),s22.denominator());
-  }
-  void compute_s22_row(int j)
-  {
-    // still need to write this
-    s22.assign(0,1);
-  }
-  void compute_s22(void)
-  {
-    printf("\n ==== E(%d, %d, %d | %d, %d, %d) ==== \n", k[0], k[1], k[2], l[0], l[1], l[2]);
-    find_good_col_or_row();
-    if (good_col >= 0)
-	compute_s22_col(good_col);
-    else if(good_row >= 0)
-      compute_s22_row(good_row);
-    else 
-      s22.assign(666,1); // need better error handling here
   }
 };
 
@@ -291,7 +306,9 @@ main(){
 	if (E1.s == E2.s || E1.s == -E2.s) {
 	  printf("----------------------\n");
 	  fprintf(output_file,"----------------------\n");
+	  E1.compute_s2();
 	  E1.compute_s22();
+	  E2.compute_s2();
 	  E2.compute_s22();
 	  printf("\n");
 	  E1.print(output_file);

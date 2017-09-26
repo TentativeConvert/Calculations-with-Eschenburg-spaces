@@ -23,6 +23,7 @@ int signed_mod (int a, int base)
     remainder += base;
   return remainder;
 }
+int square(int a){ return a*a; }
 int absolute (int a){ return a >= 0 ? a : -a; }
 int absolute_mod (int a, int base)
 {
@@ -159,10 +160,12 @@ struct Space {
     //     s22 = 2|r|s2
     //
     int jp1 = absolute_mod(j+1,2);
+    printf("I'm using column %d\n",j+1);
+    printf("jp1 = %d",jp1+1);
     int q = 
-      (k[0]-l[j])^2   + (k[1]-l[j])^2   + (k[2]-l[j])^2 +
-      (k[0]-l[jp1])^2 + (k[1]-l[jp1])^2 + (k[2]-l[jp1])^2 
-      - (l[j]-l[jp1])^2; 
+      square(k[0]-l[j])   + square(k[1]-l[j])   + square(k[2]-l[j]) +
+      square(k[0]-l[jp1]) + square(k[1]-l[jp1]) + square(k[2]-l[jp1])
+      - square(l[j]-l[jp1]);
     int d = 16*3*(-mr)*(k[0]-l[j])*(k[1]-l[j])*(k[2]-l[j]);
     boost::rational<int> s2(q-2,d);
     printf("q = %d, d = %d\n", q, d);

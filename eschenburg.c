@@ -69,10 +69,10 @@ boost::rational<int> reduce_mod_ZZ(boost::rational<int> q)
 
 boost::rational<int> lens_s2(int p, int param[4])
 {
-  float a = 0;
+  double a = 0;
   for(int k = 1; k < absolute(p); ++k)
     {
-      float s = 
+      double s = 
 	(cos(2*M_PI*k/absolute(p)) - 1)
 	/sin(k*M_PI*param[0]/p)
 	/sin(k*M_PI*param[1]/p)
@@ -203,9 +203,28 @@ struct Space {
   }
   void compute_s2_row(int j)
   {
-    // still need to write this
-    printf("Computation of s2 from row is not yet implemented!");
-    s2.assign(0,1);
+    int jp1 = absolute_mod(j+1,2);
+    printf("I'm using row %d\n",j+1);
+    printf("jp1 = %d",jp1+1);
+    int q = 
+      square(k[j]-l[0])   + square(k[j]-l[1])   + square(k[j]-l[2]) +
+      square(k[jp1]-l[0]) + square(k[jp1]-l[1]) + square(k[jp1]-l[2])
+      - square(k[j]-k[jp1]);
+    int d = 16*3*(-mr)*(k[j]-l[0])*(k[j]-l[1])*(k[j]-l[2]);
+    s2.assign(q-2,d);
+    printf("q = %d, d = %d\n", q, d);
+    printf("=> (q-2)/d = %d/%d\n",s2.numerator(),s2.denominator());
+    for(int i = 0; i < 3; ++i)
+      {
+	printf("Lens space invariant s_2 for i=%d: \n",i+1);
+	int ip1 = absolute_mod(i+1,3);
+	int ip2 = absolute_mod(i+2,3);
+	int params[4] = {k[j]-l[ip1], k[j]-l[ip2], k[jp1]-l[ip1], k[jp1]-l[ip2]};
+        printf("     parameters: %d; %d, %d, %d, %d\n", k[i]-l[j], params[0], params[1], params[2], params[3]);
+	s2 += lens_s2(k[j]-l[i], params);
+      }
+    s2 = reduce_mod_ZZ(s2);
+    printf("=> s2(E)  = %d/%d\n",s2.numerator(),s2.denominator());
   }
   void compute_s2(void)
   {

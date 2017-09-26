@@ -22,9 +22,9 @@ int signed_mod (int a, int base)
 //          a' = a mod base
 {
   int remainder = a % base;
-  if(remainder > base/2)
+  if(2*remainder > base)  // remainder > base/2, in "integer language"
     remainder -= base;
-  else if(remainder <= -base/2)
+  else if(2*remainder <= -base) // remainder < -base/2, in "integer language"
     remainder += base;
   return remainder;
 }
@@ -250,6 +250,13 @@ main(){
      boost::rational<int> myr2(0,6);
      printf("%d/%d\n",myr2.numerator(),myr2.denominator());
   */
+
+  boost::rational<int> q(-49,3);
+  printf("q = %d/%d\n",q.numerator(),q.denominator());
+  q = reduce_mod_ZZ(q);
+  printf("&q' = %d/%d\n",q.numerator(),q.denominator());
+  printf("signed_mod(-49,3) = %d\n",signed_mod(-49,3));
+
 
   FILE *output_file = fopen("output.txt", "w");
   if (output_file == NULL)

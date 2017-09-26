@@ -1,5 +1,7 @@
 /* compile with: 
    g++ -std=c++11 eschenburg.c
+
+   ssh username@reh.uni-duesseldorf.de
 */
 #include<cstdio>
 #include<vector>
@@ -80,10 +82,10 @@ boost::rational<int> lens_s2(int p, int param[4])
 	/sin(k*M_PI*param[3]/p);
       a += s;
     }
-  printf("     16*p*45*s2 = %.6f  (This should be a integer)\n",a*45);
-  printf("     round(...) = %d\n",(int)round(a*45));
+  //// printf("     16*p*45*s2 = %.6f  (This should be a integer)\n",a*45);
+  //// printf("     round(...) = %d\n",(int)round(a*45));
   boost::rational<int> s2((int)round(a*45),45*16*p);
-  printf("     s2 = %d/%d\n",s2.numerator(),s2.denominator());
+  //// printf("     s2 = %d/%d\n",s2.numerator(),s2.denominator());
   return s2;
 }
 
@@ -101,9 +103,6 @@ struct Space {
   int good_row; // for "condition C"
   int good_col; // for "condition C"
 
-  void print_basics(void){
-    printf("[%4d,%4d,%4d |%4d,%4d,%4d] --> r = %4d, s = %4d, p1 = %4d",k[0],k[1],k[2],l[0],l[1],l[2],-mr,s,p1);
-  }
   void print(FILE *file){
     printf(         "[%4d,%4d,%4d |%4d,%4d,%4d] --> r = %4d, s = %4d, p1 = %4d, s22 = %d/%d, s2 = %d/%d\n",
 		    k[0],k[1],k[2],l[0],l[1],l[2],-mr,s,p1,s22.numerator(),s22.denominator(),s2.numerator(),s2.denominator());
@@ -156,11 +155,10 @@ struct Space {
       if(gcdA(0,c,1,c) == 1 && gcdA(0,c,2,c) == 1 && gcdA(1,c,2,c) == 1)
 	{
 	  good_col = c;
-	  printf("Column %d is good: (%d,%d,%d)\n",c+1,k[0]-l[c],k[1]-l[c],k[2]-l[c]);
+	  //// printf("Column %d is good: (%d,%d,%d)\n",c+1,k[0]-l[c],k[1]-l[c],k[2]-l[c]);
 	  return;
 	}
     }
-    printf("There is no good column, need to use row instead (not yet implemented).");
     for(int r = 0; r < 3; ++r){
       if(gcdA(r,0,r,1) == 1 && gcdA(r,0,r,2) == 1 && gcdA(r,1,r,2) == 1)
 	{
@@ -179,56 +177,56 @@ struct Space {
     //     s22 = 2|r|s2
     //
     int jp1 = absolute_mod(j+1,2);
-    printf("I'm using column %d\n",j+1);
-    printf("jp1 = %d",jp1+1);
+    //// printf("I'm using column %d\n",j+1);
+    //// printf("jp1 = %d",jp1+1);
     int q = 
       square(k[0]-l[j])   + square(k[1]-l[j])   + square(k[2]-l[j]) +
       square(k[0]-l[jp1]) + square(k[1]-l[jp1]) + square(k[2]-l[jp1])
       - square(l[j]-l[jp1]);
     int d = 16*3*(-mr)*(k[0]-l[j])*(k[1]-l[j])*(k[2]-l[j]);
     s2.assign(q-2,d);
-    printf("q = %d, d = %d\n", q, d);
-    printf("=> (q-2)/d = %d/%d\n",s2.numerator(),s2.denominator());
+    //// printf("q = %d, d = %d\n", q, d);
+    //// printf("=> (q-2)/d = %d/%d\n",s2.numerator(),s2.denominator());
     for(int i = 0; i < 3; ++i)
       {
-	printf("Lens space invariant s_2 for i=%d: \n",i+1);
+	//// printf("Lens space invariant s_2 for i=%d: \n",i+1);
 	int ip1 = absolute_mod(i+1,3);
 	int ip2 = absolute_mod(i+2,3);
 	int params[4] = {k[ip1]-l[j], k[ip2]-l[j], k[ip1]-l[jp1], k[ip2]-l[jp1]};
-        printf("     parameters: %d; %d, %d, %d, %d\n", k[i]-l[j], params[0], params[1], params[2], params[3]);
+        //// printf("     parameters: %d; %d, %d, %d, %d\n", k[i]-l[j], params[0], params[1], params[2], params[3]);
 	s2 += -lens_s2(k[i]-l[j], params);
       }
     s2 = reduce_mod_ZZ(s2);
-    printf("=> s2(E)  = %d/%d\n",s2.numerator(),s2.denominator());
+    //// printf("=> s2(E)  = %d/%d\n",s2.numerator(),s2.denominator());
   }
   void compute_s2_row(int j)
   {
     int jp1 = absolute_mod(j+1,2);
-    printf("I'm using row %d\n",j+1);
-    printf("jp1 = %d",jp1+1);
+    //// printf("I'm using row %d\n",j+1);
+    //// printf("jp1 = %d",jp1+1);
     int q = 
       square(k[j]-l[0])   + square(k[j]-l[1])   + square(k[j]-l[2]) +
       square(k[jp1]-l[0]) + square(k[jp1]-l[1]) + square(k[jp1]-l[2])
       - square(k[j]-k[jp1]);
     int d = 16*3*(-mr)*(k[j]-l[0])*(k[j]-l[1])*(k[j]-l[2]);
     s2.assign(q-2,d);
-    printf("q = %d, d = %d\n", q, d);
-    printf("=> (q-2)/d = %d/%d\n",s2.numerator(),s2.denominator());
+    //// printf("q = %d, d = %d\n", q, d);
+    //// printf("=> (q-2)/d = %d/%d\n",s2.numerator(),s2.denominator());
     for(int i = 0; i < 3; ++i)
       {
-	printf("Lens space invariant s_2 for i=%d: \n",i+1);
+	//// printf("Lens space invariant s_2 for i=%d: \n",i+1);
 	int ip1 = absolute_mod(i+1,3);
 	int ip2 = absolute_mod(i+2,3);
 	int params[4] = {k[j]-l[ip1], k[j]-l[ip2], k[jp1]-l[ip1], k[jp1]-l[ip2]};
-        printf("     parameters: %d; %d, %d, %d, %d\n", k[i]-l[j], params[0], params[1], params[2], params[3]);
+        //// printf("     parameters: %d; %d, %d, %d, %d\n", k[i]-l[j], params[0], params[1], params[2], params[3]);
 	s2 += lens_s2(k[j]-l[i], params);
       }
     s2 = reduce_mod_ZZ(s2);
-    printf("=> s2(E)  = %d/%d\n",s2.numerator(),s2.denominator());
+    //// printf("=> s2(E)  = %d/%d\n",s2.numerator(),s2.denominator());
   }
   void compute_s2(void)
   {
-    printf("\n===== E(%d, %d, %d | %d, %d, %d) ===== \n", k[0], k[1], k[2], l[0], l[1], l[2]);
+    //// printf("\n===== E(%d, %d, %d | %d, %d, %d) ===== \n", k[0], k[1], k[2], l[0], l[1], l[2]);
     find_good_col_or_row();
     if (good_col >= 0)
 	compute_s2_col(good_col);
@@ -239,11 +237,11 @@ struct Space {
   }
   void compute_s22(void) // only possible AFTER computing s2
   {
-    printf("=> s2(E)  = %d/%d\n",s2.numerator(),s2.denominator());
+    //// printf("=> s2(E)  = %d/%d\n",s2.numerator(),s2.denominator());
     s22 = 2*absolute(mr)*s2;
-    printf("=> s22(E) = %d/%d (in QQ)\n",s22.numerator(),s22.denominator());
+    //// printf("=> s22(E) = %d/%d (in QQ)\n",s22.numerator(),s22.denominator());
     s22 = reduce_mod_ZZ(s22);
-    printf("=> s22(E) = %d/%d (in QQ/ZZ)\n",s22.numerator(),s22.denominator());
+    //// printf("=> s22(E) = %d/%d (in QQ/ZZ)\n",s22.numerator(),s22.denominator());
   }
 };
 
@@ -268,17 +266,24 @@ main(){
      printf("%d/%d\n",myr.numerator(),myr.denominator());
      boost::rational<int> myr2(0,6);
      printf("%d/%d\n",myr2.numerator(),myr2.denominator());
+
+     boost::rational<int> q(-49,3);
+     printf("q = %d/%d\n",q.numerator(),q.denominator());
+     q = reduce_mod_ZZ(q);
+     printf("&q' = %d/%d\n",q.numerator(),q.denominator());
+     printf("signed_mod(-49,3) = %d\n",signed_mod(-49,3));
   */
 
-  boost::rational<int> q(-49,3);
-  printf("q = %d/%d\n",q.numerator(),q.denominator());
-  q = reduce_mod_ZZ(q);
-  printf("&q' = %d/%d\n",q.numerator(),q.denominator());
-  printf("signed_mod(-49,3) = %d\n",signed_mod(-49,3));
+  /*
+    "basic invariants":  r, s, p_1
+    r, s, s_22      coincide  =>  spaces homotopy equivalent
+    r, s, s_22, p_1 coincide  =>  spaces tangentially homotopy equivalent
+    If values of s_2 differ, then spaces are not homeomorphic.
+  */
 
-
-  FILE *output_file = fopen("output.txt", "w");
-  if (output_file == NULL)
+  FILE *file_list_basic = fopen("list_basic.txt", "w");  // r, s, p1 agree
+  FILE *file_list_the   = fopen("list_the.txt", "w");    // r, s, p1, s22 agree
+  if (file_list_basic == NULL || file_list_the == NULL)
     {
       printf("Error opening file!\n");
       //exit(1);
@@ -313,37 +318,85 @@ main(){
 	}}}}
   printf("\n");
 
-  /*struct Space E1 {.k1 = 3, .k2 = 3, .l1 = 2, .l2 = 2};
-  E1 = compute_r_s_p1(E1);
-  E1.print();
-  struct Space E2 {.k1 = 5, .k2 = 4, .l1 = 3, .l2 = 2};
-  E2 = compute_r_s_p1(E2);
-  E2.print();
-  std::pair<struct Space, struct Space> spair = std::make_pair(E1,E2);
-  spair.first.print();*/
+
+  
+  /*
+  //////////////////////////////////////////////////
+  // find homotopy equivalent pairs:
+  
+  //std::pair<struct Space, struct Space> spair = std::make_pair(E1,E2);
+  //spair.first.print();
 
   // find pairs with matching r & |s|;
-  ////  std::vector< std::pair<struct Space, struct Space> > space_pairs; 
+  //std::vector< std::pair<struct Space, struct Space> > basic_pairs; 
   for(int mr = 0; mr <= max_mr; mr++){ 
     for(int i1 = 0; i1 < spaces[mr].size(); ++i1){
       for(int i2 = i1+1; i2 < spaces[mr].size(); ++i2){
 	struct Space E1 = spaces[mr][i1];
 	struct Space E2 = spaces[mr][i2];
 	if (E1.s == E2.s || E1.s == -E2.s) {
-	  printf("----------------------\n");
-	  fprintf(output_file,"----------------------\n");
 	  E1.compute_s2();
 	  E1.compute_s22();
 	  E2.compute_s2();
 	  E2.compute_s22();
 	  printf("\n");
-	  E1.print(output_file);
-	  E2.print(output_file);
+	  boost::rational<int> a_half(1,2);
+	  if ((E1.s == E2.s && E1.s22 == E2.s22) // oriented case
+	      || (E1.s == -E2.s && (E1.s22 == -E2.s22 || E1.s22 == a_half && E2.s22 == a_half))) // non-oriented case
+	    {
+	      printf("----------------------\n");
+	      fprintf(file_list_basic,"----------------------\n");
+	      E1.print(file_list_basic);
+	      E2.print(file_list_basic);
+	    }
 	  ////std::pair<struct Space, struct Space> new_pair = std::make_pair(E1,E2);
 	  ////spaces_pairs.push_back(new_pair);
 	}
       }
     }
   }
-  fclose(output_file);
+  //////////////////////////////////////////////////
+  */
+
+  //////////////////////////////////////////////////
+  // find pairs whose basic invariants agree
+  int c_basic = 0; // counts pairs whose basic invariants agree
+  int c_the   = 0; // counts tangentially homotopy equivalent pairs
+  for(int mr = 0; mr <= max_mr; mr++){ 
+    for(int i1 = 0; i1 < spaces[mr].size(); ++i1){
+      for(int i2 = i1+1; i2 < spaces[mr].size(); ++i2){
+	struct Space E1 = spaces[mr][i1];
+	struct Space E2 = spaces[mr][i2];
+	if ( (E1.s == E2.s || E1.s == -E2.s) && E1.p1 == E2.p1 ) 
+	  {
+	    ++c_basic;
+	    printf("Found pair %d.\n", c_basic);
+      
+	    E1.compute_s2();
+	    E1.compute_s22();
+	    E2.compute_s2();
+	    E2.compute_s22();
+
+	    fprintf(file_list_basic,"%d: ----------------------\n", c_basic);
+	    E1.print(file_list_basic);
+	    E2.print(file_list_basic);
+
+	    boost::rational<int> a_half(1,2);
+	    if ((E1.s == E2.s && E1.s22 == E2.s22) // oriented case
+		|| (E1.s == -E2.s && (E1.s22 == -E2.s22 || E1.s22 == a_half && E2.s22 == a_half))) // non-oriented case
+	      {
+		++c_the;
+		printf("--- This pair is tangentially homotopy equivalent. (%d)\n", c_the);
+		fprintf(file_list_the,"%d: ----------------------\n", c_the);
+		E1.print(file_list_the);
+		E2.print(file_list_the);
+	      }
+	    ////std::pair<struct Space, struct Space> new_pair = std::make_pair(E1,E2);
+	  ////spaces_pairs.push_back(new_pair);
+	}
+      }
+    }
+  }
+  fclose(file_list_basic);
+  fclose(file_list_the);
 }

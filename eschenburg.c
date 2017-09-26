@@ -67,11 +67,10 @@ boost::rational<int> lens_s2(int p, int param[4])
 	/sin(k*M_PI*param[3]/p);
       a += s;
     }
-  //// printf("16*p*45*s2 = %.6f -- ",a*45);// this is supposed to be an integer
-  //// printf("round(a*45) = %d -- ",(int)round(a*45));
-  //// printf("45*16*p = %d --", 45*16*p);
+  printf("     16*p*45*s2 = %.6f  (This should be a integer)\n",a*45);
+  printf("     round(...) = %d\n",(int)round(a*45));
   boost::rational<int> s2((int)round(a*45),45*16*p);
-  //// printf("s2 = %d/%d\n",s2.numerator(),s2.denominator());
+  printf("     s2 = %d/%d\n",s2.numerator(),s2.denominator());
   return s2;
 }
 
@@ -126,13 +125,7 @@ struct Space {
   int gcdA(int i,int j,int ii,int jj){ 
     // auxiliary function for find_good_row_or_col
     // should be declared private, so I probably ought to make Space a proper class, not just a struct
-    /*int ret = gcd(k[i]-l[j],k[ii]-l[jj]); 
-    if (ret==1) 
-      {
-	printf("\n k[%d]-l[%d] = %d; ", i,j,k[i]-l[j]);
-	printf("k[%d]-l[%d] = %d; ", ii,jj,k[ii]-l[jj]);
-	}*/
-    return gcd(k[i]-l[j],k[ii]-l[jj]); 
+     return gcd(k[i]-l[j],k[ii]-l[jj]); 
   } 
   void find_good_col_or_row(void)
   {
@@ -143,11 +136,11 @@ struct Space {
       if(gcdA(0,c,1,c) == 1 && gcdA(0,c,2,c) == 1 && gcdA(1,c,2,c) == 1)
 	{
 	  good_col = c;
-	  //// printf("(%d,%d,%d | %d,%d,%d) -- ",k[0],k[1],k[2],l[0],l[1],l[2]);
-	  //// printf("using column %d: (%d,%d,%d)\n",c+1,k[0]-l[c],k[1]-l[c],k[2]-l[c]);
+	  printf("Column %d is good: (%d,%d,%d)\n",c+1,k[0]-l[c],k[1]-l[c],k[2]-l[c]);
 	  return;
 	}
     }
+    printf("There is no good column, need to use row instead (not yet implemented).");
     for(int r = 0; r < 3; ++r){
       if(gcdA(r,0,r,1) == 1 && gcdA(r,0,r,2) == 1 && gcdA(r,1,r,2) == 1)
 	{
@@ -172,17 +165,20 @@ struct Space {
       - (l[j]-l[jp1])^2; 
     int d = 16*3*(-mr)*(k[0]-l[j])*(k[1]-l[j])*(k[2]-l[j]);
     boost::rational<int> s2(q-2,d);
-    //// printf("1: %d/%d\n",s2.numerator(),s2.denominator());
+    printf("q = %d, d = %d\n", q, d);
+    printf("=> (q-2)/d = %d/%d\n",s2.numerator(),s2.denominator());
     for(int i = 0; i < 3; ++i)
       {
+	printf("Lens space invariant s_2 for i=%d: \n",i+1);
 	int ip1 = absolute_mod(i+1,3);
 	int ip2 = absolute_mod(i+2,3);
 	int params[4] = {k[ip1]-l[j], k[ip2]-l[j], k[ip1]-l[jp1], k[ip2]-l[jp1]};
+        printf("     parameters: %d; %d, %d, %d, %d\n", k[i]-l[j], params[0], params[1], params[2], params[3]);
 	s2 += -lens_s2(k[i]-l[j], params);
       }
-    //// printf("2: %d/%d\n",s2.numerator(),s2.denominator());
+    printf("=> s2(E)  = %d/%d\n",s2.numerator(),s2.denominator());
     s22 = 2*absolute(mr)*s2;
-    //// printf("3: %d/%d\n",s22.numerator(),s22.denominator());
+    printf("=> s22(E) = %d/%d (in QQ)\n",s22.numerator(),s22.denominator());
     // s2 is now computed as an element of QQ.
     // The final value should be in QQ/ZZ, so we forget integral part:
     int s22_n = s22.numerator();
@@ -192,19 +188,18 @@ struct Space {
       s22_n = -s22_n;
       s22_d = -s22_d;
       }
-    //// printf("4: %d/%d\n",s22_n,s22_d);
     s22_n = absolute_mod(s22_n,s22_d);  
-    //// printf("5: %d/%d\n",s22_n,s22_d);
     s22.assign(s22_n,s22_d); // this should simplify the fraction
-    //// printf("6: %d/%d\n",s22.numerator(),s22.denominator());
+    printf("=> s22(E) = %d/%d (in QQ/ZZ)\n",s22.numerator(),s22.denominator());
   }
   void compute_s22_row(int j)
   {
     // still need to write this
-    s22.assign(33,1);
+    s22.assign(0,1);
   }
   void compute_s22(void)
   {
+    printf("\n ==== E(%d, %d, %d | %d, %d, %d) ==== \n", k[0], k[1], k[2], l[0], l[1], l[2]);
     find_good_col_or_row();
     if (good_col >= 0)
 	compute_s22_col(good_col);
@@ -295,6 +290,7 @@ main(){
 	  fprintf(output_file,"----------------------\n");
 	  E1.compute_s22();
 	  E2.compute_s22();
+	  printf("\n");
 	  E1.print(output_file);
 	  E2.print(output_file);
 	  ////std::pair<struct Space, struct Space> new_pair = std::make_pair(E1,E2);

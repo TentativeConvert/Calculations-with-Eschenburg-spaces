@@ -1,7 +1,5 @@
 /* compile with: 
    g++ -std=c++11 eschenburg.c
-
-   ssh username@reh.uni-duesseldorf.de
 */
 #include<cstdio>
 #include<vector>

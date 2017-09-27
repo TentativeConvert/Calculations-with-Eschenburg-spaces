@@ -1,11 +1,16 @@
 /* compile with: 
-   g++ -std=c++11 eschenburg.c
-*/
-#include<cstdio>
-#include<vector>
-#include<cmath>
-#include<boost/rational.hpp>
 
+   g++ -std=c++11 -O3 eschenburg.c
+
+   Flags:
+   -std=c++11 specifies the "language version" (I think)
+   -O3        enables optimisation for speed 
+*/
+#include <cstdio>
+#include <vector>
+#include <cmath>
+#include <boost/rational.hpp>
+#include <boost/math/common_factor.hpp>
 //////////////////////////////////////////////////
 // Auxiliary mathematics:
 int square(int a){ return a*a; }
@@ -35,7 +40,7 @@ int absolute_mod (int a, int base)
     remainder += absolute(base);
   return remainder;
 }
-int gcd (int a, int b)
+/*int gcd (int a, int b)
 // Euclid's algorithm
 // see https://codereview.stackexchange.com/a/39110
 {
@@ -47,7 +52,7 @@ int gcd (int a, int b)
       b = x;
     }
   return absolute(a);
-}
+  }*/
 boost::rational<int> reduce_mod_ZZ(boost::rational<int> q)
 {
   // Input:   q  in QQ 
@@ -121,12 +126,12 @@ struct Space {
   bool is_positively_curved_space(void) {
     // Is it an Eschenburg space? 
     // -- Test conditions of [CEZ06] (1.1):
-    if(gcd(k[0] - l[0], k[1] - l[1]) > 1) return false;
-    if(gcd(k[0] - l[0], k[1] - l[2]) > 1) return false;
-    if(gcd(k[0] - l[2], k[1] - l[0]) > 1) return false;
-    if(gcd(k[0] - l[1], k[1] - l[0]) > 1) return false;
-    if(gcd(k[0] - l[1], k[1] - l[2]) > 1) return false;
-    if(gcd(k[0] - l[2], k[1] - l[1]) > 1) return false;
+    if(boost::math::gcd(k[0] - l[0], k[1] - l[1]) > 1) return false;
+    if(boost::math::gcd(k[0] - l[0], k[1] - l[2]) > 1) return false;
+    if(boost::math::gcd(k[0] - l[2], k[1] - l[0]) > 1) return false;
+    if(boost::math::gcd(k[0] - l[1], k[1] - l[0]) > 1) return false;
+    if(boost::math::gcd(k[0] - l[1], k[1] - l[2]) > 1) return false;
+    if(boost::math::gcd(k[0] - l[2], k[1] - l[1]) > 1) return false;
     // Is the space positively curved? 
     // -- Test conditions of [CEZ06] (1.2):
     int min_l = minimum(l[0],minimum(l[1],l[2]));
@@ -142,7 +147,7 @@ struct Space {
   int gcdA(int i,int j,int ii,int jj){ 
     // auxiliary function for find_good_row_or_col
     // should be declared private, so I probably ought to make Space a proper class, not just a struct
-     return gcd(k[i]-l[j],k[ii]-l[jj]); 
+     return boost::math::gcd(k[i]-l[j],k[ii]-l[jj]); 
   } 
   void find_good_col_or_row(void)
   {

@@ -11,6 +11,9 @@
 #include <cmath>
 #include <boost/rational.hpp>
 #include <boost/math/common_factor.hpp>
+#include <boost/math/constants/constants.hpp>
+#include <boost/math/special_functions/round.hpp>
+#include <boost/multiprecision/cpp_dec_float.hpp>
 //////////////////////////////////////////////////
 // Auxiliary mathematics:
 int square(int a){ return a*a; }
@@ -74,10 +77,10 @@ boost::rational<int> reduce_mod_ZZ(boost::rational<int> q)
 
 boost::rational<int> lens_s2(int p, int param[4])
 {
-  double a = 0;
+  boost::multiprecision::cpp_dec_float_100 a = 0;
   for(int k = 1; k < absolute(p); ++k)
     {
-      double s = 
+      boost::multiprecision::cpp_dec_float_100 s = 
 	(cos(2*M_PI*k/absolute(p)) - 1)
 	/sin(k*M_PI*param[0]/p)
 	/sin(k*M_PI*param[1]/p)
@@ -85,9 +88,14 @@ boost::rational<int> lens_s2(int p, int param[4])
 	/sin(k*M_PI*param[3]/p);
       a += s;
     }
-  //// printf("     16*p*45*s2 = %.6f  (This should be a integer)\n",a*45);
-  //// printf("     round(...) = %d\n",(int)round(a*45));
-  boost::rational<int> s2((int)round(a*45),45*16*p);
+  ///printf("     16*p*45*s2 = %.6f  (This should be a integer)\n",a*45);
+  std::cout << "    ";
+  std::cout << std::setprecision(std::numeric_limits<boost::multiprecision::cpp_dec_float_100>::max_digits10)
+	    << a*45 
+	    << std::endl; // print a
+  int rounded_45_a = (int)boost::math::round(a*45);
+  printf("     round(...) = %d\n",rounded_45_a);
+  boost::rational<int> s2(rounded_45_a,45*16*p);
   //// printf("     s2 = %d/%d\n",s2.numerator(),s2.denominator());
   return s2;
 }
@@ -166,6 +174,7 @@ struct Space {
       if(gcdA(r,0,r,1) == 1 && gcdA(r,0,r,2) == 1 && gcdA(r,1,r,2) == 1)
 	{
 	  good_row = r;
+	  printf("using row %d\n", r+1);
 	  return;
 	}
     }

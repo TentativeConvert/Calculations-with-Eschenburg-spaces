@@ -88,11 +88,6 @@ main(){
   //              k3 is called k2 or k[2]
   // etc.
 
-  FILE *file_list_maple = fopen("list_basic_maple.txt", "w");  // r, s, p1 agree
-  FILE *file_list_human = fopen("list_basic_human.txt", "w");  // r, s, p1 agree
-  if ((file_list_maple == NULL) || (file_list_human == NULL))
-      printf("Error opening file!\n");
-
   long R;
   printf("\n Maximum value of |r|: ");
   scanf("%ld",&R); 
@@ -107,15 +102,13 @@ main(){
   long old_n = 0;       // first pair in Farey sequence is 0/1
   long old_d = 1;       //   discard this pair -- it's only needed to start the algorithm
   long n = 1;          // second pair in Farey sequence is 1/R
-  //printf("%ld\n",R);
-  // long R_ = R;
+  //**long R_ = R;
   long R_ = (long)std::sqrt(R); // experimental 
-  //printf("%ld\n",R_);
   long d = R_;
   while (n <= R_)
     {
-      if(d == 101) // pick a prime number here
-	printf("%3ld/%ld\n", n, d);
+       if(d == 101) // pick a prime number here
+      	printf("%3ld/%ld\n", n, d);
       
       // (2) For the current Farey pair (n,d), 
       //     find values of k2 ...
@@ -152,20 +145,9 @@ main(){
 			      if (gcd(k1 - l1, k2 - l2) != 1) continue;
 			      if (gcd(k1 - l1, k2)      != 1) continue;
 			      
-			      // Check whether space is positively curved
-			      // (conditions (1.2) of [CEZ06]):
-			      //
-			      // Note that  l3  = 0
-			      // and  that  k3 = l1 + l2 - k1 - k2
-			      // will always be negative in our setup,
-			      // so we can ignore it l3 and k3.
-			      int min_l = min(l1,l2);
-			      if (k1 == min_l) continue;
-			      if (k2 == min_l) continue;
-			      int max_l = max(l1,l2);
-			      if (k1 == max_l) continue;
-			      if (k2 == max_l) continue;
-			      
+			      //if (d > (long)std::sqrt(R))
+			      //	printf(" %ld/%ld ---!--- \n",n,d);
+				      
 			      // If we get this far, we've found an actual 
 			      // positively curved Eschenburg space with |r| < R.
 			      // Add it to our list:
@@ -197,8 +179,14 @@ main(){
 
   //////////////////////////////////////////////////
   // List of spaces is now complete.
-  // Now find pairs whose basic invariants agree:
+  // Now find pairs whose basic invariants agree 
+  // and write them to a file:
 
+  FILE *file_list_maple = fopen("list_basic_maple.txt", "w");  // r, s, p1 agree
+  FILE *file_list_human = fopen("list_basic_human.txt", "w");  // r, s, p1 agree
+  if ((file_list_maple == NULL) || (file_list_human == NULL))
+    printf("Error opening file!\n");
+    
   int c_basic = 0; // counts pairs whose basic invariants agree
   for(int mr = 0; mr <= R; mr++){ 
     for(int i1 = 0; i1 < spaces[mr].size(); ++i1){
@@ -225,6 +213,7 @@ main(){
       }
     }
   }
+
   fclose(file_list_maple);
   fclose(file_list_human);
 }

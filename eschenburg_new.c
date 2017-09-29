@@ -70,24 +70,6 @@ struct Space {
 // Main routine:
 
 main(){
-  /*
-    "basic invariants":  r, s, p_1
-    r, s, s_22      coincide  =>  spaces homotopy equivalent
-    r, s, s_22, p_1 coincide  =>  spaces tangentially homotopy equivalent
-    If values of s_2 differ, then spaces are not homeomorphic.
-  */
-
-  // by [CEZ06, Lemma 1.4] we have "standard parametrization" by 
-  //    k1 >= k2 > l1 >= l2 >= 0;
-  // by [CEZ06, proof of Prop. 1.7],  
-  //    r(k1,k2,l1,l2) = R
-  // implies that moreover R >= k1.
-  //
-  // in the code, k1 is called k0 or k[0]
-  //              k2 is called k1 or k[1]
-  //              k3 is called k2 or k[2]
-  // etc.
-
   long R;
   printf("\n Maximum value of |r|: ");
   scanf("%ld",&R); 

@@ -2,8 +2,8 @@
 
 The "basic invariants" of an Eschenburg space `E` are:  
 
-    |r|  - the order of H^4(E); an odd integer)
-    s    - an integer in [-|r|/2, |r|/2] describing the linking form
+    |r|  - the order of H^4(E); an odd integer
+     s   - an integer in [-|r|/2, |r|/2] describing the linking form
     p_1  - an integer in [0, |r|] describing the first Pontryagin class
 
 We say that "the basic invariants of two Eschenburg spaces `E` and `E'` agree if

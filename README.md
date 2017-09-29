@@ -9,15 +9,15 @@ The "basic invariants" of an Eschenburg space `E` are:
 We say that "the basic invariants of two Eschenburg spaces `E` and `E'` agree if
 
      |r| = |r'|
-       s =  +/- s' 
+      s  =  +/- s' 
      p_1 = p_1'
 
 (The invariant `s` changes sign under orientation-reversing homeomorphisms.)
 
-    r, s, s_2       coincide <=>  spaces homeomorphic
-    r, s, s_22      coincide <=>  spaces homotopy equivalent
-    r, s, s_22, p_1 coincide <=>  spaces tangentially homotopy equivalent
-
+    r, s, s_2       coincide  <---->  spaces homeomorphic
+    r, s, s_22      coincide  <---->  spaces homotopy equivalent
+    r, s, s_22, p_1 coincide  <---->  spaces tangentially homotopy equivalent
+    
 
 #### The task (high-level formulation)
 Find all pairs of positively curved Eschenburg spaces `(E, E')` with `|r| <= R` whose basic invariants agree, for some given positive bound `R`.

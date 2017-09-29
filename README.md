@@ -28,7 +28,7 @@ quadruples `(k1, k2, l1, l2)` with
 
     R >=  k1 >= k2 > l1 >= l2 >= 0                  (1)
 
--- see [CEZ06, Lemma 1.4] and [CEZ06, proof of Prop. 1.7].  Moreover, these quadruples are required to satisfy a list of coprimacy conditions [CEZ06, (1.1)], see below.  (The conditions [CEZ06, (1.2)] are automatically satisfied.)  
+-- see [CEZ06, Lemma 1.4] and [CEZ06, proof of Prop. 1.7].  Moreover, these quadruples are required to satisfy a list of coprimacy conditions [CEZ06, (1.1)], see below.  (The conditions of [CEZ06, (1.2)] for positive curvature are automatically satisfied in this parametrization.)  
 
 #### The algorithm
 Instead of iterating over quadruples (`k1`,`k2`,`l1`,`l2`), the algorithm iterates over quadruples (`d`,`n`,`k1`,`k2`), where

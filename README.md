@@ -57,16 +57,16 @@ The additional conditions [CEZ06, (1.1)] that the quadruples (`d`,`n`, `k1`, `k2
     
 Of course, there is a straight-forward way of finding all such quadruples:  simply iterate over all possible values of `k1`, `k2 `, `l1` and `l2` between `0`and `R`and check the conditions in each case.  The problem with this approach is that it is very inefficient (i.e. very slow).  The strategy we employ instead can be summarized as follows:
 
-##### Step 1:  Find all coprime pairs `(n,d)` with `D >= d >= n > 0`, where `D := sqrt(R-3/4) - 1/2`
+##### Step 1:  Find all coprime pairs `(n,d)` with `max_d >= d >= n > 0`, where `max_d := sqrt(R-3/4) - 1/2`
 We employ the [standard algorithm for generating Farey sequences](https://en.wikipedia.org/wiki/Farey_sequence#Next_term) to find these.  (The pairs are interpreted as reduced fractions `0 < n/d <= 1`.  This explains our choice of letters: `n` for numerator and `d` for denominator.)  The necessity of the inequalities `d >= n > 0` follows from (1).  The necessity of the inequality `R' > d` follows from (2b).
 
-##### Step 2:  Find all `k2` such that `(k2,d)` coprime with `K2 >= k2 > 0`, where `K2 := (R-d^2)/n - 1`.
-Here, the inequality `k2 > 0` follows from (1) and `K2 >= k2` follows from (2c). 
+##### Step 2:  Find all `k2` such that `(k2,d)` coprime with `max_k2 >= k2 > 0`, where `max_k2 := (R-d^2)/n - 1`.
+Here, the inequality `k2 > 0` follows from (1) and `max_k2 >= k2` follows from (2c). 
 To find all these `k2`, proceed in two substeps:
 
 (a) First, search only in the range `d >= k2 > 0`.  Note that we need to allow the boundary case `d = k2` because `d` may be `1`.
-On the other hand, we can of course make use of the upper bound `K2`, so really we search in the range
-`min(d, K2) >= k2 > 0`.
+On the other hand, we can of course make use of the upper bound, so really we search in the range
+`min(d, max_k2) >= k2 > 0`.
 (b) All remaining `k2` with `(k2,d)` coprime will be of the form `k2 = k2' + i*d` for some positive `i`, where `k2'` is as in (a). 
 
 ##### Step 3:  Find all `k1 >= k2` such that `(k1, n)` coprime, `|r| < R` and the remaining conditions of (1) are satisfied.
@@ -90,3 +90,5 @@ Again, to find these `k1`, we proceed in two substeps:
 (b) All remaining `k1` with `(k1,d)` coprime will be of the form `k1 = k1' + i*d` for some positive `i`, where `k1'`is as in (a).
 
 ##### Step 4:  Check the remaining conditions (3).
+
+To save memory, in the actual algorithm the steps are interlaced -- as soon as we've found a Farey pair `(n,d)`, we look for a possible value of `k2`, as soon as we've found that value, we look for `k1`, etc. until we run out of possibilities;  then we proceed to the next Farey pair.

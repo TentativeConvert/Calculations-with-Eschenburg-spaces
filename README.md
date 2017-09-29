@@ -1,4 +1,4 @@
-## Background
+#### Background
 
 The "basic invariants" of an Eschenburg space `E` are:  
 
@@ -19,10 +19,10 @@ We say that "the basic invariants of two Eschenburg spaces `E` and `E'` agree if
     r, s, s_22, p_1 coincide <=>  spaces tangentially homotopy equivalent
 
 
-## The task (high-level formulation)
+#### The task (high-level formulation)
 Find all pairs of positively curved Eschenburg spaces `(E, E')` with `|r| <= R` whose basic invariants agree, for some given positive bound `R`.
      
-## The task (low-level formulation)
+#### The task (low-level formulation)
 [CEZ06] prove that all positively curved Eschenburg spaces with `|r| <= R` can be parametrized by 
 quadruples `(k1, k2, l1, l2)` with
 
@@ -30,7 +30,7 @@ quadruples `(k1, k2, l1, l2)` with
 
 -- see [CEZ06, Lemma 1.4] and [CEZ06, proof of Prop. 1.7].  Moreover, these quadruples are required to satisfy a list of coprimacy conditions [CEZ06, (1.1)], see below.  (The conditions [CEZ06, (1.2)] are automatically satisfied.)  
 
-## The algorithm
+#### The algorithm
 Instead of iterating over quadruples (`k1`,`k2`,`l1`,`l2`), the algorithm iterates over quadruples (`d`,`n`,`k1`,`k2`), where
 
     n := k2-l1

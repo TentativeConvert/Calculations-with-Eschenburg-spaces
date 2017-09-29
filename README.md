@@ -76,8 +76,8 @@ Using (2a), the condition `|r| < R` can be rewritten as:
 
 The remaining conditions of (1) translate as follows:
 
-    l1 >= l2  <---->    k2+d-n >= k1
-    l2 >= 0   <----->       k1 >= d
+    l1 >= l2  <---->   k2+d-n >= k1
+    l2 >= 0   <---->       k1 >= d
 
 So the range we need to search in is `max_k1 > k1 >= min_k1` with
  

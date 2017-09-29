@@ -3,20 +3,20 @@
 The "basic invariants" of an Eschenburg space `E` are:  
 
     |r|  - the order of H^4(E); an odd integer
-     s   - an integer in [-|r|/2, |r|/2] describing the linking form
-    p_1  - an integer in [0, |r|] describing the first Pontryagin class
+     s   - an integer in (-|r|/2, |r|/2) describing the linking form
+     p₁  - an integer in [0, |r|) describing the first Pontryagin class
 
 We say that "the basic invariants of two Eschenburg spaces `E` and `E'` agree if
 
      |r| = |r'|
-      s  =  +/- s' 
-     p_1 = p_1'
+      s  = ±s' 
+      p₁ = p₁'
 
 (The invariant `s` changes sign under orientation-reversing homeomorphisms.)
 
-    r, s, s_2       coincide  <---->  spaces homeomorphic
-    r, s, s_22      coincide  <---->  spaces homotopy equivalent
-    r, s, s_22, p_1 coincide  <---->  spaces tangentially homotopy equivalent
+    r, s, s₂₂       coincide  <---->  spaces homeomorphic
+    r, s, s₂₂       coincide  <---->  spaces homotopy equivalent
+    r, s, s₂₂, p₁   coincide  <---->  spaces tangentially homotopy equivalent
     
 
 #### The task (high-level formulation)
@@ -24,19 +24,19 @@ Find all pairs of positively curved Eschenburg spaces `(E, E')` with `|r| <= R` 
      
 #### The task (low-level formulation)
 [CEZ06] prove that all positively curved Eschenburg spaces with `|r| <= R` can be parametrized by 
-quadruples `(k1, k2, l1, l2)` with
+quadruples `(k₁, k₂, l₁, l₂)` with
 
-    R >=  k1 >= k2 > l1 >= l2 >= 0                  (1)
+    R >=  k₁ >= k₂ > l₁ >= l₂ >= 0                  (1)
 
 -- see [CEZ06, Lemma 1.4] and [CEZ06, proof of Prop. 1.7].  Moreover, these quadruples are required to satisfy a list of coprimacy conditions [CEZ06, (1.1)], see below.  (The conditions of [CEZ06, (1.2)] for positive curvature are automatically satisfied in this parametrization.)  
 
 #### The algorithm
-Instead of iterating over quadruples (`k1`,`k2`,`l1`,`l2`), the algorithm iterates over quadruples (`d`,`n`,`k1`,`k2`), where
+Instead of iterating over quadruples (`k₁`,`k₂`,`l₁`,`l₂`), the algorithm iterates over quadruples (`d`,`n`,`k₁`,`k₂`), where
 
-    n := k2-l1
-    d := k1-l2
+    n := k₂-l₁
+    d := k₁-l₂
 
-Thus, below, `l1` and `l2` are to be read as short hands for `k2-n` and `k1-d`, respectively.
+Thus, below, `l₁` and `l₂` are to be read as short hands for `k₂-n` and `k₁-d`, respectively.
 Note that `d >= n > 0`.  In terms of `n` and `d`, the formula for `|r|` can be written as
 
     |r| = d^2 + (k1+k2)*n + l2*(d-n).                (2a)

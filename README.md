@@ -57,15 +57,15 @@ The additional conditions [CEZ06, (1.1)] that the quadruples (`d`,`n`, `k1`, `k2
     
 Of course, there is a straight-forward way of finding all such quadruples:  simply iterate over all possible values of `k1`, `k2 `, `l1` and `l2` between `0`and `R`and check the conditions in each case.  The problem with this approach is that it is very inefficient (i.e. very slow).  The strategy we employ instead can be summarized as follows:
 
-#### Step 1:  Find all coprime pairs `(n,d)` with `D >= d >= n > 0`, where `D := sqrt(R-3/4)-1/2`
+##### Step 1:  Find all coprime pairs `(n,d)` with `D >= d >= n > 0`, where `D := sqrt(R-3/4)-1/2`
 We employ the [standard algorithm for generating Farey sequences](https://en.wikipedia.org/wiki/Farey_sequence#Next_term) to find these.  (The pairs are interpreted as reduced fractions `0 < n/d <= 1`.  This explains our choice of letters: `n` for numerator and `d` for denominator.)  The necessity of the inequalities `d >= n > 0` follows from (1).  The necessity of the inequality `R' > d` follows from (2b).
 
-#### Step 2:  Find all `k2` such that `(k2,d)` coprime with `K2 > k2 > 0`, where `K2 := (R-d^2)/n`.
+##### Step 2:  Find all `k2` such that `(k2,d)` coprime with `K2 > k2 > 0`, where `K2 := (R-d^2)/n`.
 Here, the inequality `k2 > 0` follows from (1) and `K2 > k2` follows from (2c). 
 
-##### Step 2.1:  Find all such `k2` such that `d >= k2 > 0`.
+###### Step 2.1:  Find all such `k2` such that `d >= k2 > 0`.
 
-##### Step 2.2:  Consider all `k2`of the form `k2 = k2' + i*d`, where `k2'` was found in 2.1.
+###### Step 2.2:  Consider all `k2`of the form `k2 = k2' + i*d`, where `k2'` was found in 2.1.
 
-#### Step 3:  Find all `k1 > k2` such (1), (2a) and the remaining conditions (3) are satisfied.
+##### Step 3:  Find all `k1 > k2` such (1), (2a) and the remaining conditions (3) are satisfied.
 

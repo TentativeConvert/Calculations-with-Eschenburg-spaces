@@ -1,5 +1,3 @@
-≥≤  
-
 #### Background
 
 The "basic invariants" of an Eschenburg space `E` are:  
@@ -66,10 +64,12 @@ We employ the [standard algorithm for generating Farey sequences](https://en.wik
 Here, the inequality `k₂ > 0` follows from (1) and `max_k₂ ≥ k₂` follows from (2c). 
 To find all these `k₂`, proceed in two substeps:
 
-(a) First, search only in the range `d ≥ k₂ > 0`.  Note that we need to allow the boundary case `d = k₂` because `d` may be `1`.
-On the other hand, we can of course make use of the upper bound, so really we search in the range
-`min(d, max_k₂) ≥ k₂ > 0`.
-(b) All remaining `k₂` with `(k₂,d)` coprime will be of the form `k₂ = k₂' + i*d` for some positive `i`, where `k₂'` is as in (a). 
+(a) First, search only in the range `d ≥ k₂ > 0`.  
+    Note that we need to allow the boundary case `d = k₂` because `d` may be `1`.
+    On the other hand, we can of course make use of the upper bound, so really we search in the range `min(d, max_k₂) ≥ k₂ > 0`.
+    
+(b) All remaining `k₂` with `(k₂,d)` coprime will be of the form `k₂ = k₂' + i*d` for some positive `i`, 
+    where `k₂'` is as in (a). 
 
 ##### Step 3:  Find all `k₁ ≥ k₂` such that `(k₁, n)` coprime, `|r| < R` and the remaining conditions of (1) are satisfied.
 Using (2a), the condition `|r| < R` can be rewritten as:
@@ -88,8 +88,10 @@ So the range we need to search in is `max_k₁ > k₁ ≥ min_k₁` with
    
 Again, to find these `k₁`, we proceed in two substeps:
 
-(a) First, search only in the range `min_k₁ + n > k₁ ≥ min_k₁`. Again, we should also take into account our upper bound, so the actual search will be in the range  `min(min_k₁ + n, max_k₁) > k₁ ≥ min_k₁`. 
-(b) All remaining `k₁` with `(k₁,d)` coprime will be of the form `k₁ = k₁' + i*d` for some positive `i`, where `k₁'`is as in (a).
+(a) First, search only in the range `min_k₁ + n > k₁ ≥ min_k₁`. 
+    Again, we should also take into account our upper bound, so the actual search will be in the range  `min(min_k₁ + n, max_k₁) > k₁ ≥ min_k₁`. 
+    
+(b) All remaining `k₁` with `(k₁,n)` coprime will be of the form `k₁ = k₁' + i*n` for some positive `i`, where `k₁'`is as in (a).
 
 ##### Step 4:  Check the remaining conditions (3).
 

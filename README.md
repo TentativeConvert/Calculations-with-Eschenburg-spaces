@@ -20,7 +20,7 @@ We say that the basic invariants of two Eschenburg spaces `E` and `E'` *agree* i
     
 
 #### The task (high-level formulation)
-Find all pairs of positively curved Eschenburg spaces `(E, E')` with `|r| ≤ R`, for some given positive bound `R`.
+Find all positively curved Eschenburg spaces `E` with `|r| ≤ R`, for some given positive bound `R`.
    
   
 #### The task (low-level formulation)

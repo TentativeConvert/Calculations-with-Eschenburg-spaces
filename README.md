@@ -32,13 +32,15 @@ Moreover, these quadruples are required to satisfy a list of coprimacy condition
 
       (1.1) of [CEZ06]                                    (2)
 
-which we will spell out below.  (The conditions of [CEZ06, (1.2)] for positive curvature are automatically satisfied in this parametrization.)  
-The task is thus to find all quadruples satisfying (1), (2) and  
+which we will spell out below.  (The conditions of [CEZ06, (1.2)] for positive curvature are automatically satisfied in this parametrization.)  The task is thus to find all quadruples satisfying (1), (2) and  
 
       |r| ≤ R                                             (3)
 
-for some given upper bound `R`.  By [CEZ06, proof of Prop. 1.7], such an upper bound implies `R ≥ k₁`, so the search space is finite.
-
+for some given upper bound `R`.  By [CEZ06, proof of Prop. 1.7], such an upper bound implies `R ≥ k₁`.
+So there is a straight-forward way of finding all such quadruples:  
+simply iterate over all possible values of `k₁`, `k₂ `, `l₁` and `l₂` between `0`and `R`and check the conditions in each case.  
+The problem with this approach is that it is very inefficient (i.e. very slow).  
+We therefore use a slightly refined strategy, outlined below.
 
 #### The algorithm
 Instead of iterating over quadruples (`k₁`,`k₂`,`l₁`,`l₂`), the algorithm iterates over quadruples (`d`,`n`,`k₁`,`k₂`), where
@@ -76,10 +78,11 @@ As `k₁ ≥ d`, `k₂ ≥ n ≥ 1` and `n ≥ 1`, this implies in particular th
     R ≥ d² + d + 1                                         (3'a)
     R ≥ d² + n² + k₁*n                                     (3'b)
     
-Of course, there is a straight-forward way of finding all such quadruples:  simply iterate over all possible values of `k₁`, `k₂ `, `l₁` and `l₂` between `0`and `R`and check the conditions in each case.  The problem with this approach is that it is very inefficient (i.e. very slow).  The strategy we employ instead can be summarized as follows:
-
 ##### Step (a):  Find all coprime pairs `(n,d)` with `D ≥ d ≥ n > 0`, where `D := sqrt(R-3/4) - 1/2`
-We employ the [standard algorithm for generating Farey sequences](https://en.wikipedia.org/wiki/Farey_sequence#Next_term) to find these.  (The pairs are interpreted as reduced fractions `0 < n/d ≤ 1`.  This explains our choice of letters: `n` for numerator and `d` for denominator.)  The value of the upper bound `D` follows from (3'a).
+We employ the [standard algorithm for generating Farey sequences](https://en.wikipedia.org/wiki/Farey_sequence#Next_term) to find these.  
+(The pairs are interpreted as reduced fractions `0 < n/d ≤ 1`.  
+This explains our choice of letters: `n` for numerator and `d` for denominator.)  
+The value of the upper bound `D` follows from (3'a).
 
 ##### Step (b):  Find all `k₁` such that `(k₁,n)` coprime with `K₁ ≥ k₁ ≥ d`, where `K₁ := (R-d²-n²)/n`.
 The value of `K₁` follows from (3'b).  To find all these `k₁`, proceed in two substeps:

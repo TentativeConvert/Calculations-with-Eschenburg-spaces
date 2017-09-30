@@ -224,7 +224,7 @@ main(){
 		  E1.print_for_human(file_human_3);
 		  fprintf(file_human_3,"\n ");
 		  E3.print_for_human(file_human_3);
-		  fprintf(file_human_3,"\n");
+		  fprintf(file_human_3,"\n ");
 		  E2.print_for_human(file_human_3);
 		  fprintf(file_human_3,"\n");
 		}

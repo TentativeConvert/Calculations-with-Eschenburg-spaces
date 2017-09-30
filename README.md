@@ -62,23 +62,23 @@ The additional conditions [CEZ06, (1.1)] that the quadruples (`d`,`n`, `k₁`, `
     (n,  d)    coprime                                    (2'a)
     (k₁, n)    coprime                                    (2'b)
     (k₂, d)    coprime                                    (2'c)
-    (k₂,    k₁-l₁)  (= (k₂, k₁-n))   coprime             \
+    (k₂,    k₁-l₁)  (= (k₂, k₁+n))   coprime             \
     (k₁,    k₂-l₂)  (= (k₁, k₂+d))   coprime              (2'd)
-    (k₁-l₁, k₂-l₂)  (= (k₁+k₂-n,k₂-k₁+d))   coprime      /
+    (k₁-l₁, k₂-l₂)  (= (k₁-k₂+n,k₂-k₁+d))   coprime      /
 
 
 In terms of `n` and `d`, the formula for `|r|` can be written as: 
 
-    |r| = k₁*d + k₂*n + d*n                
+    |r| = k₁d + nd + nk₂
 
 Thus, condition (3) is equivalent to: 
 
-    R ≥ k₁*d + k₂*n + d*n                                  (3')
+    R ≥ k₁d + nd + nk₂                                     (3')
 
-As `k₁ ≥ d`, `k₂ ≥ n ≥ 1` and `n ≥ 1`, this implies in particular that:
+As `k₁ ≥ d` and `k₂ ≥ n ≥ 1`, this implies in particular that:
 
     R ≥ d² + d + 1                                         (3'a)
-    R ≥ d² + n² + k₁*n                                     (3'b)
+    R ≥ k₁d + nd + n²                                      (3'b)
     
 ##### Step (a):  Find all coprime pairs `(n,d)` with `D ≥ d ≥ n > 0`, where `D := sqrt(R-3/4) - 1/2`
 We employ the [standard algorithm for generating Farey sequences](https://en.wikipedia.org/wiki/Farey_sequence#Next_term) to find these. 
@@ -86,28 +86,28 @@ We employ the [standard algorithm for generating Farey sequences](https://en.wik
 This explains our choice of letters: `n` for numerator and `d` for denominator.) 
 The value of the upper bound `D` follows from (3'a). 
 
-##### Step (b):  Find all `k₁` such that `(k₁,n)` coprime with `K₁ ≥ k₁ ≥ d`, where `K₁ := (R-d²)n - n`. 
+##### Step (b):  Find all `k₁` such that `(k₁,n)` coprime with `K₁ ≥ k₁ ≥ d`, where `K₁ := (R-n²)/d - n`. 
 The value of `K₁` follows from (3'b).  To find all these `k₁`, proceed in two substeps: 
 
 (b.1) First, search only in the range `d+n > k₁ ≥ d`. 
       We can of course make use of the upper bound, so really we search in the range `min(d+n-1, K₁) ≥ k₁ ≥ d`. 
     
-(b.2) All remaining `k₁` with `(k₁,d)` coprime will be of the form `k₁ = k₁' + i*d` for some positive `i`,
-      where `k₁'` is as in (b.1).
+(b.2) All remaining `k₁` with `(k₁,n)` coprime will be of the form `k₁ = k₁' + in` for some positive integer `i`,
+      where `k₁'` is one of the values found in (b.1).
 
 
 ##### Step (c):  Find all  `k₂` such that `(k₂, d)` coprime such that `k₁ ≥ k₂ ≥ k₁+n-d` and such that (3') is satisfied.
-Condition (3') is equivalent to `(R-d*k₁)/n - d ≥ k₁`.  So the range we need to search in is `K₂ > k₂ ≥ k₁+n-d` with
+Condition (3') is equivalent to `(R-k₁d)/n - d ≥ k₁`.  So the range we need to search in is `K₂ ≥ k₂ ≥ k₁+n-d` with
  
-    K₂ := max((R-d*k₁)/n - d, k₁).
+    K₂ := max((R-k₁d)/n - d, k₁).
    
 Again, to find these `k₂`, we proceed in two substeps:
 
-(a) First, search only in the range `k₁+n > k₂ ≥ k₁+n-d`.
+(c.1) First, search only in the range `k₁+n > k₂ ≥ k₁+n-d`.
     Again, we should also take into account our upper bound, so the actual search will be in the range  `min(k₁+n-1, K₂) ≥ k₁ ≥ k₁+n-d`.
-    
-(b) All remaining `k₂` with `(k₂,n)` coprime will be of the form `k₂ = k₂' + i*n` for some positive `i`, where `k₂'`is as in (a).
 
-##### Step (d):  Check the remaining conditions (2d).
+(c.2) All remaining `k₂` with `(k₂,d)` coprime will be of the form `k₂ = k₂' + id` for some positive integer `i`, where `k₂'`is one of the values found in (c.1).
 
-To save memory, in the actual algorithm the steps are interlaced -- as soon as we've found a Farey pair `(n,d)`, we look for a possible value of `k₂`, as soon as we've found that value, we look for `k₁`, etc. until we run out of possibilities;  then we proceed to the next Farey pair.
+##### Step (d):  Check the remaining conditions (2'd).
+
+To save memory, in the actual algorithm the steps are interlaced -- as soon as we've found a Farey pair `(n,d)`, we look for a possible value of `k₁`, as soon as we've found that value, we look for `k₂`, etc. until we run out of possibilities;  then we proceed to the next Farey pair.

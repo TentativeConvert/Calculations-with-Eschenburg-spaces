@@ -86,7 +86,7 @@ We employ the [standard algorithm for generating Farey sequences](https://en.wik
 This explains our choice of letters: `n` for numerator and `d` for denominator.) 
 The value of the upper bound `D` follows from (3'a). 
 
-##### Step (b):  Find all `k₁` such that `(k₁,n)` coprime with `K₁ ≥ k₁ ≥ d`, where `K₁ := (R-d²-n²)/n`. 
+##### Step (b):  Find all `k₁` such that `(k₁,n)` coprime with `K₁ ≥ k₁ ≥ d`, where `K₁ := (R-d²)n - n`. 
 The value of `K₁` follows from (3'b).  To find all these `k₁`, proceed in two substeps: 
 
 (b.1) First, search only in the range `d+n > k₁ ≥ d`. 
@@ -97,9 +97,9 @@ The value of `K₁` follows from (3'b).  To find all these `k₁`, proceed in tw
 
 
 ##### Step (c):  Find all  `k₂` such that `(k₂, d)` coprime such that `k₁ ≥ k₂ ≥ k₁+n-d` and such that (3') is satisfied.
-Condition (3') is equivalent to `(R-d*(k₁+n))/n ≥ k₁`.  So the range we need to search in is `K₂ > k₂ ≥ k₁+n-d` with
+Condition (3') is equivalent to `(R-d*k₁)/n - d ≥ k₁`.  So the range we need to search in is `K₂ > k₂ ≥ k₁+n-d` with
  
-    K₂ := max((R-d*(k₁+n))/n, k₁).
+    K₂ := max((R-d*k₁)/n - d, k₁).
    
 Again, to find these `k₂`, we proceed in two substeps:
 

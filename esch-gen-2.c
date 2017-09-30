@@ -9,17 +9,20 @@
 */
 #include <cstdio>
 #include <vector>
-#include <cmath>
-#include <boost/math/common_factor.hpp>
+using std::vector;
+#include <algorithm>
+using std::sort;
 
 //////////////////////////////////////////////////
 // Auxiliary mathematics:
-using boost::math::gcd;
+#include <cmath>
 using std::min;
 using std::max;
 using std::sqrt;
-using std::vector;
-long absolute (long a){ return a >= 0 ? a : -a; }
+using std::abs;
+#include <boost/math/common_factor.hpp>
+using boost::math::gcd;
+//long absolute (long a){ return a >= 0 ? a : -a; }
 long signed_mod (long a, long base)
 {
   long remainder = a % base;
@@ -33,7 +36,7 @@ long absolute_mod (long a, long base)
 {
   long remainder = a % base;
   if(remainder < 0)
-    remainder += absolute(base);
+    remainder += abs(base);
   return remainder;
 }
 
@@ -65,7 +68,11 @@ struct Space {
     p1 = absolute_mod(2*sigma1_k*sigma1_k - 6*sigma2_k, mr);
   }
 };
-
+bool compare_spaces(struct Space E1, struct Space E2)
+{
+  return (E1.p1 < E2.p1)  
+    || (E1.p1 == E2.p1 && abs(E1.s) < abs(E2.s));
+}
 
 //////////////////////////////////////////////////
 // Main routine:
@@ -76,9 +83,11 @@ main(){
   long R;
   printf("\nMaximum value of |r|: ");
   if(scanf("%ld",&R) != 1 || R <= 0) return -1; 
-
-  vector< struct Space> spaces [R+1]; // vector of lists of spaces that we find, one list for each value of |r| <= R
   printf("Looking for Eschenburg spaces with |r| <= %ld ... \n", R);
+
+  long c_spaces = 0; // counter
+  vector< struct Space> spaces [R+1]; // array of lists ("vectors") of spaces that we find, one list for each value of |r| <= R
+  
 
   // Step (a)
   long D = (long)(sqrt(R-3/4) - 1/2 + epsilon);
@@ -130,6 +139,7 @@ main(){
 
 		      // If we get this far, we've found a positively curved Eschenburg space with |r| < R.
 		      // Add it to our list:
+		      ++c_spaces;
 		      struct Space new_space = {{k1, k2, l1 + l2 - k1 - k2}, {l1, l2, 0}, mr,0,0};
 		      new_space.compute_s_and_p1();
 		      spaces[new_space.mr].push_back(new_space);
@@ -148,6 +158,7 @@ main(){
       d = new_d;
     }
   printf(" 100%%");
+  printf("\n\nFound %ld spaces in this range.\n", c_spaces);
 
   //////////////////////////////////////////////////
   // List of spaces is now complete.
@@ -160,7 +171,7 @@ main(){
   if ((file_list_maple == NULL) || (file_list_human == NULL))
     printf("Error opening file!\n");
     
-  long c_basic = 0; // counts pairs whose basic invariants agree
+  long c_pairs = 0; // counts pairs whose basic invariants agree
   long feedback_step_size = max((long)(R/100),(long)1);
   for(long mr = 0; mr <= R; mr++){ 
     if(mr % feedback_step_size == 0) // feedback for user
@@ -168,32 +179,36 @@ main(){
       printf(" %3d%%\r",(int)(mr*100/R));
       fflush(stdout);
       }
-    for(long i1 = 0; i1 < spaces[mr].size(); ++i1){
-      for(long i2 = i1+1; i2 < spaces[mr].size(); ++i2){
-	struct Space E1 = spaces[mr][i1];
-	struct Space E2 = spaces[mr][i2];
-	if ( (E1.s == E2.s || E1.s == -E2.s) && E1.p1 == E2.p1 ) 
+    sort(spaces[mr].begin(),spaces[mr].end(),compare_spaces);
+    for(long i1 = 0; i1 < spaces[mr].size(); ++i1)
+      {
+	for(long i2 = i1+1; i2 < spaces[mr].size(); ++i2)
 	  {
-	    ++c_basic;
-	    // print for maple:
-	    fprintf(file_list_maple,"[");
-	    E1.print_for_maple(file_list_maple);
-	    fprintf(file_list_maple,",");
-	    E2.print_for_maple(file_list_maple);
-	    fprintf(file_list_maple,"]\n");
-	    // print for human:
-	    fprintf(file_list_human,"\n Pair %ld:\n ", c_basic);
-	    E1.print_for_human(file_list_human);
-	    fprintf(file_list_human,"\n ");
-	    E2.print_for_human(file_list_human);
-	    fprintf(file_list_human,"\n");
+	    struct Space E1 = spaces[mr][i1];
+	    struct Space E2 = spaces[mr][i2];
+	    if ( E1.p1 == E2.p1 && abs(E1.s) == abs(E2.s) ) 
+	      {
+		++c_pairs;
+		// print for maple:
+		fprintf(file_list_maple,"[");
+		E1.print_for_maple(file_list_maple);
+		fprintf(file_list_maple,",");
+		E2.print_for_maple(file_list_maple);
+		fprintf(file_list_maple,"]\n");
+		// print for human:
+		fprintf(file_list_human,"\n Pair %ld:\n ", c_pairs);
+		E1.print_for_human(file_list_human);
+		fprintf(file_list_human,"\n ");
+		E2.print_for_human(file_list_human);
+		fprintf(file_list_human,"\n");
+	      }
+	    else break;  // can break here since list is sorted
 	  }
       }
-    }
   }
   printf(" 100%%");
-  printf("\n\nFound %ld pairs.\n\n", c_basic);
-
+  printf("\n\nFound %ld pairs in this range.\n\n", c_pairs);
+  
   fclose(file_list_maple);
   fclose(file_list_human);
   return 0;

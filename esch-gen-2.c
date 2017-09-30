@@ -8,6 +8,8 @@
    -O3        enables optimisation for speed 
 */
 #include <cstdio>
+#include <cstring>
+using std::strcat;
 #include <vector>
 using std::vector;
 #include <algorithm>
@@ -51,10 +53,12 @@ struct Space {
   void print(void){
     printf("[%4ld,%4ld,%4ld |%4ld,%4ld,%4ld] -> r = %4ld, s = %4ld, p1 = %4ld\n", k[0],k[1],k[2],l[0],l[1],l[2],mr, s, p1);
   }
-  void print_for_human(FILE* file){
-    fprintf(file, "[%4ld,%4ld,%4ld |%4ld,%4ld,%4ld] -> r = %4ld, s = %4ld, p1 = %4ld", k[0],k[1],k[2],l[0],l[1],l[2],mr, s, p1);
+  void print_for_human(FILE* file)
+  {
+     fprintf(file, "[%4ld,%4ld,%4ld |%4ld,%4ld,%4ld] -> r = %4ld, s = %4ld, p1 = %4ld", k[0],k[1],k[2],l[0],l[1],l[2],mr, s, p1);
   }
-  void print_for_maple(FILE* file){
+  void print_for_maple(FILE* file)
+  {
     fprintf(file, "[%ld,%ld,%ld,%ld,%ld,%ld]",k[0],k[1],k[2],l[0],l[1],l[2]);
   }
   void compute_s_and_p1(void){
@@ -166,12 +170,15 @@ main(){
   // and write them to a file:
   printf("\nLooking for pairs whose basic invariants agree ...\n");
 
-  FILE *file_list_maple = fopen("list_basic_maple.txt", "w");  // r, s, p1 agree
-  FILE *file_list_human = fopen("list_basic_human.txt", "w");  // r, s, p1 agree
-  if ((file_list_maple == NULL) || (file_list_human == NULL))
+  FILE *file_maple = fopen("list_basic_pairs_maple.txt", "w");  // r, s, p1 agree
+  FILE *file_human = fopen("list_basic_pairs_human.txt", "w");  // r, s, p1 agree
+  FILE *file_maple_3 = fopen("list_basic_triples_maple.txt", "w");  
+  FILE *file_human_3 = fopen("list_basic_triples_human.txt", "w");  
+  if (file_maple == NULL || file_human == NULL || file_human_3 == NULL || file_maple_3 == NULL)
     printf("Error opening file!\n");
     
-  long c_pairs = 0; // counts pairs whose basic invariants agree
+  long c_pairs = 0;    // counts pairs whose basic invariants agree
+  long c_triples = 0;  // counts triples whose basic invariants agree
   long feedback_step_size = max((long)(R/100),(long)1);
   for(long mr = 0; mr <= R; mr++){ 
     if(mr % feedback_step_size == 0) // feedback for user
@@ -182,34 +189,56 @@ main(){
     sort(spaces[mr].begin(),spaces[mr].end(),compare_spaces);
     for(long i1 = 0; i1 < spaces[mr].size(); ++i1)
       {
-	for(long i2 = i1+1; i2 < spaces[mr].size(); ++i2)
+	for(long i2 = 1; i1+i2 < spaces[mr].size(); ++i2)
 	  {
 	    struct Space E1 = spaces[mr][i1];
-	    struct Space E2 = spaces[mr][i2];
+	    struct Space E2 = spaces[mr][i1+i2];
 	    if ( E1.p1 == E2.p1 && abs(E1.s) == abs(E2.s) ) 
 	      {
 		++c_pairs;
 		// print for maple:
-		fprintf(file_list_maple,"[");
-		E1.print_for_maple(file_list_maple);
-		fprintf(file_list_maple,",");
-		E2.print_for_maple(file_list_maple);
-		fprintf(file_list_maple,"]\n");
+		fprintf(file_maple,"[");
+		E1.print_for_maple(file_maple);
+		fprintf(file_maple,",");
+		E2.print_for_maple(file_maple);
+		fprintf(file_maple,"]\n");
 		// print for human:
-		fprintf(file_list_human,"\n Pair %ld:\n ", c_pairs);
-		E1.print_for_human(file_list_human);
-		fprintf(file_list_human,"\n ");
-		E2.print_for_human(file_list_human);
-		fprintf(file_list_human,"\n");
+		fprintf(file_human,"\n Pair %ld:\n ", c_pairs);
+		E1.print_for_human(file_human);
+		fprintf(file_human,"\n ");
+		E2.print_for_human(file_human);
+		fprintf(file_human,"\n");
+		if(i2 > 1) {
+		  struct Space E3 = spaces[mr][i1+1];
+		  ++c_triples;
+		  // print for maple:
+		  fprintf(file_maple_3,"[");
+		  E1.print_for_maple(file_maple_3);
+		  fprintf(file_maple_3,",");
+		  E3.print_for_maple(file_maple_3);
+		  fprintf(file_maple_3,",");
+		  E2.print_for_maple(file_maple_3);
+		  fprintf(file_maple,"]\n");
+		  // print for human:
+		  fprintf(file_human_3,"\n Triple %ld:\n ", c_triples);
+		  E1.print_for_human(file_human_3);
+		  fprintf(file_human_3,"\n ");
+		  E3.print_for_human(file_human_3);
+		  fprintf(file_human_3,"\n");
+		  E2.print_for_human(file_human_3);
+		  fprintf(file_human_3,"\n");
+		}
 	      }
 	    else break;  // can break here since list is sorted
 	  }
       }
   }
   printf(" 100%%");
-  printf("\n\nFound %ld pairs in this range.\n\n", c_pairs);
+  printf("\n\nFound %ld pairs and %ld triples in this range.\n\n", c_pairs, c_triples);
   
-  fclose(file_list_maple);
-  fclose(file_list_human);
+  fclose(file_maple);
+  fclose(file_human);
+  fclose(file_maple_3);
+  fclose(file_human_3);
   return 0;
 }

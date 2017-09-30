@@ -104,9 +104,11 @@ Condition (3') is equivalent to `(R-k₁d)/n - d ≥ k₂`.  So the range we nee
 Again, to find these `k₂`, we proceed in two substeps:
 
 (c.1) First, search only in the range `k₁+n > k₂ ≥ k₁+n-d`.
-    Again, we should also take into account our upper bound, so the actual search will be in the range  `min(k₁+n-1, K₂) ≥ k₁ ≥ k₁+n-d`.
+      Again, we should also take into account our upper bound, so the actual search will be in the range
+      `min(k₁+n-1, K₂) ≥ k₂ ≥ k₁+n-d`.
 
-(c.2) All remaining `k₂` with `(k₂,d)` coprime will be of the form `k₂ = k₂' + id` for some positive integer `i`, where `k₂'`is one of the values found in (c.1).
+(c.2) All remaining `k₂` with `(k₂,d)` coprime will be of the form `k₂ = k₂' + id` for some positive integer `i`, 
+      where `k₂'`is one of the values found in (c.1).
 
 ##### Step (d):  Check the remaining conditions (2'd).
 

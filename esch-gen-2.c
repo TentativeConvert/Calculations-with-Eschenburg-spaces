@@ -74,10 +74,11 @@ main(){
   double epsilon = 0.1; // used as "safety buffer" against rounding erros
   
   long R;
-  printf("\n Maximum value of |r|: ");
-  scanf("%ld",&R); 
+  printf("\nMaximum value of |r|: ");
+  if(scanf("%ld",&R) != 1 || R <= 0) return -1; 
 
   vector< struct Space> spaces [R+1]; // vector of lists of spaces that we find, one list for each value of |r| <= R
+  printf("Looking for Eschenburg spaces with |r| <= %ld ... \n", R);
 
   // Step (a)
   long D = (long)(sqrt(R-3/4) - 1/2 + epsilon);
@@ -87,9 +88,11 @@ main(){
   long d = D;           //
   while (n <= D)
     {
-      if(d == 101) // progress feedback for user
-      	printf("%ld%%  ", n);  // will display 1%  2%  3%  ...
-      
+      if(d == 47) // progress feedback for user
+	{
+      	printf(" %3d%%\r", (int)(n*100/47));  // will display 1%  2%  3%  ...
+	fflush(stdout);
+	}
       // Step (b.1) 
       long K1  = (long)((R-n*n)/d - n + epsilon);
       long K1_ = min(d+n-1, K1);
@@ -144,29 +147,34 @@ main(){
       n = new_n;  
       d = new_d;
     }
-  printf("\n");
-
+  printf(" 100%%");
 
   //////////////////////////////////////////////////
   // List of spaces is now complete.
   // Now find pairs whose basic invariants agree 
   // and write them to a file:
+  printf("\nLooking for pairs whose basic invariants agree ...\n");
 
   FILE *file_list_maple = fopen("list_basic_maple.txt", "w");  // r, s, p1 agree
   FILE *file_list_human = fopen("list_basic_human.txt", "w");  // r, s, p1 agree
   if ((file_list_maple == NULL) || (file_list_human == NULL))
     printf("Error opening file!\n");
     
-  int c_basic = 0; // counts pairs whose basic invariants agree
-  for(int mr = 0; mr <= R; mr++){ 
-    for(int i1 = 0; i1 < spaces[mr].size(); ++i1){
-      for(int i2 = i1+1; i2 < spaces[mr].size(); ++i2){
+  long c_basic = 0; // counts pairs whose basic invariants agree
+  long feedback_step_size = max((long)(R/100),(long)1);
+  for(long mr = 0; mr <= R; mr++){ 
+    if(mr % feedback_step_size == 0) // feedback for user
+      {
+      printf(" %3d%%\r",(int)(mr*100/R));
+      fflush(stdout);
+      }
+    for(long i1 = 0; i1 < spaces[mr].size(); ++i1){
+      for(long i2 = i1+1; i2 < spaces[mr].size(); ++i2){
 	struct Space E1 = spaces[mr][i1];
 	struct Space E2 = spaces[mr][i2];
 	if ( (E1.s == E2.s || E1.s == -E2.s) && E1.p1 == E2.p1 ) 
 	  {
 	    ++c_basic;
-	    printf("Found pair %d.\n", c_basic);
 	    // print for maple:
 	    fprintf(file_list_maple,"[");
 	    E1.print_for_maple(file_list_maple);
@@ -174,7 +182,7 @@ main(){
 	    E2.print_for_maple(file_list_maple);
 	    fprintf(file_list_maple,"]\n");
 	    // print for human:
-	    fprintf(file_list_human,"\n Pair %d:\n ", c_basic);
+	    fprintf(file_list_human,"\n Pair %ld:\n ", c_basic);
 	    E1.print_for_human(file_list_human);
 	    fprintf(file_list_human,"\n ");
 	    E2.print_for_human(file_list_human);
@@ -183,7 +191,10 @@ main(){
       }
     }
   }
+  printf(" 100%%");
+  printf("\n\nFound %ld pairs.\n\n", c_basic);
 
   fclose(file_list_maple);
   fclose(file_list_human);
+  return 0;
 }

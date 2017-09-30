@@ -97,7 +97,7 @@ The value of `K₁` follows from (3'b).  To find all these `k₁`, proceed in tw
 
 
 ##### Step (c):  Find all  `k₂` such that `(k₂, d)` coprime such that `k₁ ≥ k₂ ≥ k₁+n-d` and such that (3') is satisfied.
-Condition (3') is equivalent to `(R-k₁d)/n - d ≥ k₁`.  So the range we need to search in is `K₂ ≥ k₂ ≥ k₁+n-d` with
+Condition (3') is equivalent to `(R-k₁d)/n - d ≥ k₂`.  So the range we need to search in is `K₂ ≥ k₂ ≥ k₁+n-d` with
  
     K₂ := max((R-k₁d)/n - d, k₁).
    

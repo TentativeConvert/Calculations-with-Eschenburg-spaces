@@ -1,22 +1,22 @@
 #### Background
 
-The "basic invariants" of an Eschenburg space `E` are:  
+The *basic invariants* of an Eschenburg space `E` are:  
 
     |r|  - the order of H^4(E); an odd integer
      s   - an integer in (-|r|/2, |r|/2) describing the linking form
      p₁  - an integer in [0, |r|) describing the first Pontryagin class
 
-We say that "the basic invariants of two Eschenburg spaces `E` and `E'` agree if
+We say that the basic invariants of two Eschenburg spaces `E` and `E'` *agree* if
 
      |r| = |r'|
       s  = ±s' 
       p₁ = p₁'
 
-(The invariant `s` changes sign under orientation-reversing homeomorphisms.)
+(The invariant `s` changes sign under orientation-reversing homeomorphisms.)  The agreement of these basic invariants does not itself have any geometric interpretation.  However, if in addition a certain invariant s₂₂ agrees, then the spaces are tangentially homotopy equivalent; if a certain invariant s₂ agrees, they are homeomorphic [CEZ, Thm 2.3].  (Again, signs have to be taken into account in the definition of "agree".) 
 
-    r, s, s₂₂       coincide  <---->  spaces homeomorphic
-    r, s, s₂₂       coincide  <---->  spaces homotopy equivalent
-    r, s, s₂₂, p₁   coincide  <---->  spaces tangentially homotopy equivalent
+    r, s,   s₂₂    agree  ⇔  spaces homotopy equivalent
+    r, s, p₁, s₂₂  agree  ⇔  spaces tangentially homotopy equivalent
+    r, s, p₁, s₂   agree  ⇔  spaces homeomorphic
     
 
 #### The task (high-level formulation)

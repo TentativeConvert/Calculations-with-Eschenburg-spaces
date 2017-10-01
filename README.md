@@ -28,8 +28,8 @@ We say that the basic polynomial invariants of two Eschenburg spaces `E` and `E'
     r, s, p₁, s₂   agree  ⇔  spaces homeomorphic
     
 
-## Task 1 in detail
-The first task is to find all positively curved Eschenburg spaces `E` with `|r| ≤ R`, for some given positive bound `R`.
+## Implementation of Task 1
+The task is to find all positively curved Eschenburg spaces `E` with `|r| ≤ R`, for some given positive bound `R`.
   
 Lemma 1.4 of [CEZ06] shows that all positively curved Eschenburg spaces can be parametrized by quadruples `(k₁, k₂, l₁, l₂)` with
 

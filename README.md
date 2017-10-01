@@ -51,7 +51,7 @@ simply iterate over all possible values of `k₁`, `k₂ `, `l₁` and `l₂` be
 The problem with this approach is that it is very inefficient (i.e. very slow). 
 We therefore use a slightly refined strategy, outlined below. 
 
-#### The algorithm
+### The algorithm
 Instead of iterating over quadruples (`k₁`,`k₂`,`l₁`,`l₂`), the algorithm iterates over quadruples (`d`,`n`,`k₁`,`k₂`), where
 
     n := k₂-l₁

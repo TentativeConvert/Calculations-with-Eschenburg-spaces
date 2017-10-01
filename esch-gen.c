@@ -90,8 +90,10 @@ main(){
   printf("Looking for Eschenburg spaces with |r| <= %ld ... \n", R);
 
   long c_spaces = 0; // counter
-  vector< struct Space> spaces [R+1]; // array of lists ("vectors") of spaces that we find, one list for each value of |r| <= R
-  
+  vector<struct Space>* spaces = new vector<struct Space>[R+1]; 
+  // array of lists ("vectors") of spaces that we find, one list for each value of |r| <= R
+  // allocated dynamically, so size is only limited by OS/hardware 
+  // (see https://stackoverflow.com/a/216731/3611932)  
 
   // Step (a)
   long D = (long)(sqrt(R-3/4) - 1/2 + epsilon);

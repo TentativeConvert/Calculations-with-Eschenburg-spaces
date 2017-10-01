@@ -4,7 +4,7 @@ The aim of this little snippet of code is to find all pairs of Eschenburg spaces
 **Task 1:** Find all Eschenburg spaces with `|r| ≤ R` for some given bound `R`.  
 **Task 2:** Given a list of all such spaces, find all pairs on this list whose basic polynomial invariants agree.
 
-Task 1 is described in detail below.  Task 2 is fairly straight-forward.
+The implementation of Task 1 is described in detail below.  Task 2 is fairly straight-forward.
 
 
 ## Background

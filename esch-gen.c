@@ -1,7 +1,7 @@
 /* compile with: 
 
-   g++ -std=c++11 -O3 esch-gen-2.c -o esch-gen-2
-   g++ -std=c++11 esch-gen-2.c -o esch-gen-2
+   g++ -std=c++11 -O3 esch-gen.c -o esch-gen
+   g++ -std=c++11 esch-gen.c -o esch-gen
 
    Flags:
    -std=c++11 specifies the "language version" (I think)
@@ -103,10 +103,10 @@ main(){
   long d = D;           //
   while (n <= D)
     {
-      if(d == 47) // progress feedback for user
+      if(d == 101) // progress feedback for user
 	{
-      	printf(" %3d%%\r", (int)(n*100/47));  // will display 1%  2%  3%  ...
-	fflush(stdout);
+	  printf(" %3d%%\r", (int)(n*100/101));  // will display 1%  2%  3%  ...
+	  fflush(stdout);
 	}
       // Step (b.1) 
       long K1  = (long)((R-n*n)/d - n + epsilon);

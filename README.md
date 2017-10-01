@@ -1,14 +1,13 @@
-#### Aim
+## Aim
 The aim of this little snippet of code is to find all pairs of Eschenburg spaces `E` with bounded `|r| := |H⁴(E)|` whose basic polynomial invariants agree.  This task is subdivided into two (sub)tasks:
 
-**Task 1:** Find all Eschenburg spaces with `|r| ≤ R` for some given bound `R`.
-
+**Task 1:** Find all Eschenburg spaces with `|r| ≤ R` for some given bound `R`.  
 **Task 2:** Given a list of all such spaces, find all pairs on this list whose basic polynomial invariants agree.
 
 Task 1 is described in detail below.  Task 2 is fairly straight-forward.
 
 
-#### Background
+## Background
 
 The *basic polynomial invariants* of an Eschenburg space `E` are:  
 
@@ -29,7 +28,7 @@ We say that the basic polynomial invariants of two Eschenburg spaces `E` and `E'
     r, s, p₁, s₂   agree  ⇔  spaces homeomorphic
     
 
-#### Task 1 in detail
+## Task 1 in detail
 The first task is to find all positively curved Eschenburg spaces `E` with `|r| ≤ R`, for some given positive bound `R`.
   
 Lemma 1.4 of [CEZ06] shows that all positively curved Eschenburg spaces can be parametrized by quadruples `(k₁, k₂, l₁, l₂)` with
@@ -122,5 +121,5 @@ Again, to find these `k₂`, we proceed in two substeps:
 
 To save memory, in the actual algorithm the steps are interlaced -- as soon as we've found a Farey pair `(n,d)`, we look for a possible value of `k₁`, as soon as we've found that value, we look for `k₂`, etc. until we run out of possibilities;  then we proceed to the next Farey pair.
 
-##### Limits
+## Limits
 All integers are implemented using the data type `long`, which can store values up to ±2³¹ (so more than ±10⁹). The biggest value occuring is the upper bound `R` on `|r|`.  So in theory, the programme can find all Eschenburg spaces with `|r| ≤ 2³¹`.  Calculations for `|r| ≤ 100.000` should complete within a few minutes on standard machines.

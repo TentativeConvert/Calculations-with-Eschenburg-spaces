@@ -1,0 +1,9 @@
+Looking for Eschenburg spaces with |r| <= 150000 ... 
+ 100%
+
+Found 231426712 spaces in this range.
+
+Looking for pairs whose basic invariants agree ...
+ 100%
+
+Found 1886 pairs and 1 triples in this range.

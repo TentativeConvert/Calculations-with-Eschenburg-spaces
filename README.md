@@ -21,7 +21,7 @@ We say that the basic polynomial invariants of two Eschenburg spaces `E` and `E'
       s  = ±s' 
       p₁ = p₁'
 
-(The invariant `s` changes sign under orientation-reversing homeomorphisms.)  The agreement of these basic invariants does not itself have any geometric interpretation.  However, if in addition a certain invariant s₂₂ agrees, then the spaces are tangentially homotopy equivalent; if a certain invariant s₂ agrees, they are homeomorphic [CEZ, Thm 2.3].  (Again, signs have to be taken into account in the definition of "agree".) 
+(The invariant `s` changes sign under orientation-reversing homeomorphisms.)  The agreement of these basic invariants does not itself have any geometric interpretation.  However, if in addition a certain invariant s₂₂ agrees, then the spaces are tangentially homotopy equivalent; if a certain invariant s₂ agrees, they are homeomorphic [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6), Thm 2.3].  (Again, signs have to be taken into account in the definition of "agree".) 
 
     r, s,   s₂₂    agree  ⇔  spaces homotopy equivalent
     r, s, p₁, s₂₂  agree  ⇔  spaces tangentially homotopy equivalent
@@ -31,21 +31,21 @@ We say that the basic polynomial invariants of two Eschenburg spaces `E` and `E'
 ## Implementation of Task 1
 The task is to find all positively curved Eschenburg spaces `E` with `|r| ≤ R`, for some given positive bound `R`.
   
-Lemma 1.4 of [CEZ06] shows that all positively curved Eschenburg spaces can be parametrized by quadruples `(k₁, k₂, l₁, l₂)` with
+Lemma 1.4 of [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6)] shows that all positively curved Eschenburg spaces can be parametrized by quadruples `(k₁, k₂, l₁, l₂)` with
 
        k₁ ≥ k₂ > l₁ ≥ l₂ ≥ 0                              (1)
 
 Moreover, these quadruples are required to satisfy a list of coprimacy conditions 
 
-      (1.1) of [CEZ06]                                    (2)
+      (1.1) of [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6)]                                    (2)
 
 which we will spell out below. 
-(The conditions of [CEZ06, (1.2)] for positive curvature are automatically satisfied in this parametrization.) 
+(The conditions of [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6), (1.2)] for positive curvature are automatically satisfied in this parametrization.) 
 The task is thus to find all quadruples satisfying (1), (2) and
 
       |r| ≤ R                                             (3)
 
-for some given upper bound `R`.  By [CEZ06, proof of Prop. 1.7], such an upper bound implies `R ≥ k₁`. 
+for some given upper bound `R`.  By [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6), proof of Prop. 1.7], such an upper bound implies `R ≥ k₁`. 
 So there is a straight-forward way of finding all such quadruples: 
 simply iterate over all possible values of `k₁`, `k₂ `, `l₁` and `l₂` between `0`and `R`and check the conditions in each case. 
 The problem with this approach is that it is very inefficient (i.e. very slow). 
@@ -64,7 +64,7 @@ In terms of these quadrauples, conditions (1) are above are equivalent to the fo
     k₁ ≥ k₂ ≥ k₁+n-d                                      (1'c)
 
 (The condition `d ≥ n` is in fact superfluous, but it will be useful to know that it holds.) 
-The additional conditions [CEZ06, (1.1)] that the quadruples (`d`,`n`, `k₁`, `k₂`) need to satisfy are: 
+The additional conditions [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6), (1.1)] that the quadruples (`d`,`n`, `k₁`, `k₂`) need to satisfy are: 
 
     (n,  d)    coprime                                    (2'a)
     (k₁, n)    coprime                                    (2'b)

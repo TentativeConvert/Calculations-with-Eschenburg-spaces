@@ -1,0 +1,9 @@
+Notes on old versions
+
+v0:  contains computations of s₂ & s₂₂ and test for "condition C" not contained in later versions
+
+v2:  completely new algorithm for finding the list of spaces
+
+v3 = current version (see main folder)  
+list of spaces no realized as deque of deques  
+conversion to vector before sorting & looking for pairs

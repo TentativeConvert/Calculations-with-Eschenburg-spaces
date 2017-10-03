@@ -1,6 +1,6 @@
 /* compile with: 
 
-   g++ -std=c++11 -O3 esch-gen-deques.c -o esch-gen-deques
+   g++ -std=c++11 -O3 esch-gen-speed.c -o esch-gen-speed
 
    Flags:
    -std=c++11 specifies the "language version" (I think)
@@ -13,8 +13,6 @@ using std::strcat;
 using std::vector;
 #include <deque>
 using std::deque;
-#include <array>
-using std::array;
 #include <algorithm>
 using std::sort;
 #include <chrono>
@@ -49,8 +47,8 @@ long absolute_mod (long a, long base)
 //////////////////////////////////////////////////
 //  Spaces:
 struct Space {
-  array<long,3> k;
-  array<long,3> l;
+  long k[3];
+  long l[3];
   long mr; // mr = -r = "minus r"
   long s;
   long p1;
@@ -78,8 +76,10 @@ struct Space {
 };
 bool compare_spaces(struct Space E1, struct Space E2)
 {
-  return (E1.p1 < E2.p1)  
-    || (E1.p1 == E2.p1 && abs(E1.s) < abs(E2.s));
+  return 
+    (E1.mr < E2.mr)
+    || (E1.mr == E2.mr && E1.p1 < E2.p1)  
+    || (E1.mr == E2.mr && E1.p1 == E2.p1 && abs(E1.s) < abs(E2.s));
 }
 
 //////////////////////////////////////////////////
@@ -93,10 +93,10 @@ main(){
   if(scanf("%ld",&R) != 1 || R <= 0) return -1; 
   printf("Looking for Eschenburg spaces with |r| <= %ld ... \n", R);
 
-  system_clock::time_point t1 = system_clock::now();/*timer*/
+  high_resolution_clock::time_point t1 = high_resolution_clock::now();/*timer*/
 
   long c_spaces = 0; // counter
-  deque< deque< array <long, 4> > > quads((long)((R+1)/2)); 
+  deque<struct Space> spaces; 
   // array of lists ("vectors") of spaces that we find, one list for each value of |r| <= R
   // allocated dynamically, so size is only limited by OS/hardware 
   // (see https://stackoverflow.com/a/216731/3611932)  
@@ -152,10 +152,10 @@ main(){
 		      // If we get this far, we've found a positively curved Eschenburg space with |r| < R.
 		      // Add it to our list:
 		      ++c_spaces;
-		      array<long, 4> new_quad = {d, n, k1, k2};
-		      //  0 < mr <= R   and   mr is odd
-		      //  0 <= (mr-1)/2 <= (R-1)/2
-		      quads[(long)((mr-1)/2)].push_back(new_quad);
+		      struct Space new_space = {{k1, k2, l1 + l2 - k1 - k2}, {l1, l2, 0}, mr,0,0};
+		      new_space.compute_s_and_p1();
+		      spaces.push_back(new_space);
+		      // printf("%ld, %ld, %ld, %ld, %ld, %ld\n", gcd(k1-l1, k2-l2), gcd(k1-l1, k2), gcd(k1, k2-l1), gcd(k1-l2, k2-l1), gcd(k1-l2, k2), gcd(k1, k2-l2));
 		    }
 		}
 	    }
@@ -169,10 +169,10 @@ main(){
       n = new_n;  
       d = new_d;
     }
+  high_resolution_clock::time_point t2 = high_resolution_clock::now();/*timer*/
+  long duration1 = (long)duration_cast<milliseconds>( t2 - t1 ).count();/*timer*/
   printf(" 100%%");
-  system_clock::time_point t2 = system_clock::now();/*timer*/
-  float duration = (float)duration_cast<milliseconds>( t2 - t1 ).count()/1000;/*timer*/
-  printf("\n\nFound %ld spaces in this range (time: %.2f s).\n", c_spaces,duration);
+  printf("\n\nFound %ld spaces in this range (time: %ld milliseconds)\n", c_spaces, duration1);
 
   //////////////////////////////////////////////////
   // List of spaces is now complete.
@@ -189,79 +189,66 @@ main(){
     
   long c_pairs = 0;    // counts pairs whose basic invariants agree
   long c_triples = 0;  // counts triples whose basic invariants agree
-  long feedback_step_size = max((long)((R+1)/2/100),(long)1);
-  for(long hmr = 0; hmr < (R+1)/2; ++hmr){  //hmr = "half minus r" (abgerundet)
-    if(hmr % feedback_step_size == 0) // feedback for user
-      {
-	printf(" %3d%%\r",(int)(100*hmr*2/(R+1)));
-	fflush(stdout);
-      }
-    long mr = 2*hmr+1;
-    vector<struct Space> spaces(quads[hmr].size());
-    for(long i = 0; i < quads[hmr].size(); ++i){
-      long d = quads[hmr][i][0];
-      long n = quads[hmr][i][1];
-      long k1 = quads[hmr][i][2];
-      long k2 = quads[hmr][i][3];
-      spaces[i].mr = mr;
-      spaces[i].k = {k1, k2, -n-d};
-      spaces[i].l = {k2-n, k1-d, 0};
-      spaces[i].compute_s_and_p1();
-    }
-    quads[hmr].clear();  // free up memory space!
-    sort(spaces.begin(),spaces.end(),compare_spaces);
-    
-    for(long i1 = 0; i1 < spaces.size(); ++i1)
-      {
-	for(long i2 = 1; i1+i2 < spaces.size(); ++i2)
-	  {
-	    struct Space E1 = spaces[i1];
-	    struct Space E2 = spaces[i1+i2];
-	    if ( E1.p1 == E2.p1 && abs(E1.s) == abs(E2.s) ) 
-	      {
-		++c_pairs;
+  long feedback_step_size = max((long)(spaces.size()/100),(long)1);
+
+  sort(spaces.begin(),spaces.end(),compare_spaces);
+
+  for(long i1 = 0; i1 < spaces.size(); ++i1)
+    {
+      if(i1 % feedback_step_size == 0) // feedback for user
+	{
+	  printf(" %3d%%\r",(int)(i1*100/R));
+	  fflush(stdout);
+	}
+      for(long i2 = 1; i1+i2 < spaces.size(); ++i2)
+	{
+	  struct Space E1 = spaces[i1];
+	  struct Space E2 = spaces[i1+i2];
+	  if (E1.mr == E2.mr && E1.p1 == E2.p1 && abs(E1.s) == abs(E2.s) ) 
+	    {
+	      ++c_pairs;
+	      // print for maple:
+	      fprintf(file_maple,"[");
+	      E1.print_for_maple(file_maple);
+	      fprintf(file_maple,",");
+	      E2.print_for_maple(file_maple);
+	      fprintf(file_maple,"]\n");
+	      // print for human:
+	      fprintf(file_human,"\n Pair %ld:\n ", c_pairs);
+	      E1.print_for_human(file_human);
+	      fprintf(file_human,"\n ");
+	      E2.print_for_human(file_human);
+	      fprintf(file_human,"\n");
+	      if(i2 > 1) {
+		struct Space E3 = spaces[i1+1];
+		++c_triples;
 		// print for maple:
-		fprintf(file_maple,"[");
-		E1.print_for_maple(file_maple);
-		fprintf(file_maple,",");
-		E2.print_for_maple(file_maple);
+		fprintf(file_maple_3,"[");
+		E1.print_for_maple(file_maple_3);
+		fprintf(file_maple_3,",");
+		E3.print_for_maple(file_maple_3);
+		fprintf(file_maple_3,",");
+		E2.print_for_maple(file_maple_3);
 		fprintf(file_maple,"]\n");
 		// print for human:
-		fprintf(file_human,"\n Pair %ld:\n ", c_pairs);
-		E1.print_for_human(file_human);
-		fprintf(file_human,"\n ");
-		E2.print_for_human(file_human);
-		fprintf(file_human,"\n");
-		if(i2 > 1) {
-		  struct Space E3 = spaces[i1+1];
-		  ++c_triples;
-		  // print for maple:
-		  fprintf(file_maple_3,"[");
-		  E1.print_for_maple(file_maple_3);
-		  fprintf(file_maple_3,",");
-		  E3.print_for_maple(file_maple_3);
-		  fprintf(file_maple_3,",");
-		  E2.print_for_maple(file_maple_3);
-		  fprintf(file_maple_3,"]\n");
-		  // print for human:
-		  fprintf(file_human_3,"\n Triple %ld:\n ", c_triples);
-		  E1.print_for_human(file_human_3);
-		  fprintf(file_human_3,"\n ");
-		  E3.print_for_human(file_human_3);
-		  fprintf(file_human_3,"\n ");
-		  E2.print_for_human(file_human_3);
-		  fprintf(file_human_3,"\n");
-		}
+		fprintf(file_human_3,"\n Triple %ld:\n ", c_triples);
+		E1.print_for_human(file_human_3);
+		fprintf(file_human_3,"\n ");
+		E3.print_for_human(file_human_3);
+		fprintf(file_human_3,"\n ");
+		E2.print_for_human(file_human_3);
+		fprintf(file_human_3,"\n");
 	      }
-	    else break;  // can break here since list is sorted
-	  }
-      }
-  }
+	    }
+	  else break;  // can break here since list is sorted
+	}
+    }
+  
   printf(" 100%%");
-  t2 = system_clock::now();/*timer*/
-  duration = (float)duration_cast<milliseconds>( t2 - t1 ).count()/1000;/*timer*/
-  printf("\n\nFound %ld pairs and %ld triples in this range (total time: %.2f s).\n\n", c_pairs, c_triples,duration);
-
+  high_resolution_clock::time_point t3 = high_resolution_clock::now();/*timer*/
+  long duration2 = (long)duration_cast<milliseconds>( t3 - t1 ).count();/*timer*/
+  printf("\n\nFound %ld pairs and %ld triples in this range (total time: %ld).\n\n", c_pairs, c_triples,duration2);
+  
   fclose(file_maple);
   fclose(file_human);
   fclose(file_maple_3);

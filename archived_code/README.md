@@ -6,7 +6,7 @@ Version 2 implemented a completely new algorithm for finding the list of spaces 
 
 Version 3, i.e. the current version in the main folder, differs from Version 2 mainly in the use of different containers:  the list of spaces is now realized as deque of deques, and deques are converted to vectors only before sorting & looking for pairs.  This change was institigated by problems with memory management and followed a series of trials/expriments sketched in the "timings" section below.
 
-The crucial difference between std::vector and std::deque (for the purposes of this program) seem to be that vectors require a single contiguous block of memory, and thus may need to be moved around when they grow.  On the other hand, it seems that std::sort can operate much faster on a vector than it can operate on a deque (as the below timings show, despite conflicting reports on the web).
+The crucial difference between std::vector and std::deque (for the purposes of this program) seems to be that vectors require a single contiguous block of memory, and thus may need to be moved around when they grow.  On the other hand, it seems that std::sort can operate much faster on a vector than it can operate on a deque (as the below timings show, despite conflicting reports on the web).
 
 ## Timings
 

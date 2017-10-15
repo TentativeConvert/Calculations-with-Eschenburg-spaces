@@ -33,6 +33,6 @@ Short explanation of the version names:
 | v2_dd | – | list of spaces = deque of deques, one deque for each value of `\|r\|` |
 | v2_p1 | `esch-gen-2-p1.c` | list of spaces = array of vectors, one vector for each value of `p₁` |
 | v2_sd | `esch-gen-2-single-deque.c` | list of spaces = single deque |
-| v3 | [current] | list of spaces = deque of deques, conversion to vector before sorting |
-| v4 | current  | list of all spaces as in v3, sorting in two stages |
+| v3 | `esch-gen-3.c` | list of spaces = deque of deques, conversion to vector before sorting |
+| v4 | [current]  | list of all spaces as in v3, sorting in two stages |
 

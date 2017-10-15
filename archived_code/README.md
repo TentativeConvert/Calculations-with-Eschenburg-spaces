@@ -6,7 +6,7 @@ Version 3, differs from Version 2 mainly in the use of different containers:  th
 
 The crucial difference between std::vector and std::deque (for the purposes of this program) seems to be that vectors require a single contiguous block of memory, and thus may need to be moved around when they grow.  On the other hand, it seems that std::sort can operate much faster on a vector than it can operate on a deque (as the below timings show, despite conflicting reports on the web).
 
-Version 4, i.e. the current version in the main folder, is the first version that is split up into several files.  Moreover, it has a more efficient (and more flexible) two-stage sorting algorithm.
+Version 4, i.e. the current version in the main folder, is the first version that is split up into several files.  The algorithm for finding a list of all spaces with `|r| < R` is as in version 3, but the subsequent search for pairs whose basic polynomial invariants agree has been broken up into two stages in preparation for different searches in subsequent versions.  Incidentally, the new search is faster for `R` up to `100.000`, but slows down dramatically for larger `R`, probably due to memory issues.
 
 ## Timings
 

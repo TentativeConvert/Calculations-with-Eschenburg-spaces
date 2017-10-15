@@ -1,6 +1,9 @@
+# temporary files
+temp.*
+.depend
+
 # emacs auto-save data
-*.c~
-*.txt~
+*~
 
 # Prerequisites
 *.d

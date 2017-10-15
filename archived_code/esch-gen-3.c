@@ -82,6 +82,7 @@ bool compare_spaces(struct Space E1, struct Space E2)
     || (E1.p1 == E2.p1 && abs(E1.s) < abs(E2.s));
 }
 
+
 //////////////////////////////////////////////////
 // Main routine:
 

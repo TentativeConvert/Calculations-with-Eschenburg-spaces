@@ -1,12 +1,12 @@
 ## Notes
 
-Version 0 still contains computations of s₂ & s₂₂ and test for "condition C" not contained in later versions
-
 Version 2 implemented a completely new algorithm for finding the list of spaces (the algorithm described in the current main README.)
 
-Version 3, i.e. the current version in the main folder, differs from Version 2 mainly in the use of different containers:  the list of spaces is now realized as deque of deques, and deques are converted to vectors only before sorting & looking for pairs.  This change was institigated by problems with memory management and followed a series of trials/expriments sketched in the "timings" section below.
+Version 3, differs from Version 2 mainly in the use of different containers:  the list of spaces is now realized as deque of deques, and deques are converted to vectors only before sorting & looking for pairs.  This change was institigated by problems with memory management and followed a series of trials/expriments sketched in the "timings" section below.
 
 The crucial difference between std::vector and std::deque (for the purposes of this program) seems to be that vectors require a single contiguous block of memory, and thus may need to be moved around when they grow.  On the other hand, it seems that std::sort can operate much faster on a vector than it can operate on a deque (as the below timings show, despite conflicting reports on the web).
+
+Version 4, i.e. the current version in the main folder, is the first version that is split up into several files.  Moreover, it has a more efficient (and more flexible) two-stage sorting algorithm.
 
 ## Timings
 
@@ -22,8 +22,9 @@ t₂ = total time
 | v2_p1 | 16/18 | | | |      
 | v2_sd  | 14/26 | | | | 
 | v3 | 14/19 | 10/15 | 45/70 | 107/181 | 196/367 |
+| v4 | 14/17 | 10/13 | 45/59 | 107/138 | 196/ ?  |
 
-Explanation of the version names:
+Short explanation of the version names:
 
 | version | file-name | implemantion |
 | --- | --- | --- |
@@ -33,5 +34,5 @@ Explanation of the version names:
 | v2_p1 | `esch-gen-2-p1.c` | list of spaces = array of vectors, one vector for each value of `p₁` |
 | v2_sd | `esch-gen-2-single-deque.c` | list of spaces = single deque |
 | v3 | [current] | list of spaces = deque of deques, conversion to vector before sorting |
-
+| v4 | current  | list of all spaces as in v3, sorting in two stages |
 

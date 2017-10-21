@@ -14,7 +14,7 @@ class Space_family : public std::deque< class Space >
 class Deque_of_Space_families : public std::deque< Space_family >
 {
  private:
-  std::vector< long > counters_;
+  std::vector< long > counters_;  // counter_[i-1] = number of families with i members
   
  public:
   void sort_and_count_families();

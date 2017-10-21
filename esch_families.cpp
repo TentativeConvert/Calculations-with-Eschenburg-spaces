@@ -21,9 +21,10 @@ void Deque_of_Space_families::print(const char* filename) const
   FILE *file = fopen(filename, "w");  // r, s agree
   if (file == NULL)
     printf("Error opening file!\n");
-  for(size_t c = counters_.size()-1; c >= 2; --c)
+  for(size_t c = counters_.size(); c >= 2; --c) 
+    // note that size_t is unsigned, so can't start at counters_size()-1!
     {
-      fprintf(file,"Found %4ld families with %ld members.\n", counters_[c], (long)c);
+      fprintf(file,"Found %4ld families with %ld members.\n", counters_[c-1], (long)c);
     }
   for(size_t i = 0; i < this->size(); ++i)
     {
@@ -42,8 +43,8 @@ void Deque_of_Space_families::sort_and_count_families()
   for(Space_family F : *this)
     {
       size_t s = F.size();
-      if (s >= counters_.size()) 
-	counters_.resize(s+1,0);
-      ++counters_[s];
+      if (s > counters_.size()) 
+	counters_.resize(s,0);
+      ++counters_[s-1];
     }
 }

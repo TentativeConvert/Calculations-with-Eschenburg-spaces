@@ -3,12 +3,10 @@
 */
 #include <algorithm>
 using std::sort;
+
 #include "aux_feedback.h"
-//////////////////////////////////////////////////
-#include "aux_math.h"  // includes <cmath>
-#include <boost/rational.hpp>
-using boost::rational;
-//////////////////////////////////////////////////
+#include "aux_math.h"       // includes <cmath> & rationals
+
 // eschenburg classes:
 #include "esch_space.h"     // class Space
 #include "esch_families.h"  // class Space_family
@@ -46,31 +44,19 @@ main(){
   long c_pairs = 0;
   long c_triples = 0;
   Deque_of_Space_families families_rss22;  
-
   long c_rsp_spaces = 0;
+
   feedback.start(families_rs.size());
   for(std::size_t i = 0; i < families_rs.size(); ++i)
     {
       feedback.update(i);
-      struct mycomparator {
-	//bool operator() (const Space& E1, const Space& E2) { return (E1.p1() < E2.p1());}
-	bool operator() (Space E1, Space E2) { return (E1.s22() < E2.s22());}  // <--- need to pass by value, not by reference for s22()
-      } comparator;
-
       Space_family& F = families_rs[i];
-      sort(F.begin(),F.end(),comparator);
+      sort(F.begin(),F.end(),Filter_rs_to_homotopy_equivalent::sort);
 
       for(std::size_t i1 = 0; i1 < F.size(); )// i1 is incremented indirectly via i2
       {
 	std::size_t i2 = i1+1;
-	while (i2 < F.size() 
-	       && (
-		   ((F[i1].s() == F[i2].s() && F[i1].s22() == F[i2].s22()) 
-		    || (F[i1].s() == -F[i2].s() && F[i1].s22() == -F[i2].s22())
-		    || (abs(F[i1].s()) == abs(F[i2].s()) && F[i1].s22() == rational<long long>(1,2) && F[i2].s22() == rational<long long>(1,2) )
-		    )
-		   )
-	       )
+	while (i2 < F.size() && Filter_rs_to_homotopy_equivalent::equal(F[i1],F[i2]))
 	  ++i2;
 	if(i2 > i1+1)
 	  {

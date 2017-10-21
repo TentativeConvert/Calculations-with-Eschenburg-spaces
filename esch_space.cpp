@@ -7,10 +7,6 @@ using std::array;
 #include <boost/multiprecision/cpp_dec_float.hpp>
 
 //////////////////////////////////////////////////
-// Auxiliary mathematics:
-
-
-//////////////////////////////////////////////////
 // Lens space invariants:
 rational<long long> lens_s2(long p, array<long,4> param)
 {
@@ -215,3 +211,5 @@ bool compare_spaces(class Space E1, class Space E2)
   return (E1.p1() < E2.p1())  
     || (E1.p1() == E2.p1() && abs(E1.s()) < abs(E2.s()));
 }
+
+

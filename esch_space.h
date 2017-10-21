@@ -57,3 +57,37 @@ std::array<long,3> l_;
 };
 bool compare_spaces(struct Space E1, struct Space E2);
 
+struct Space_Filter
+{
+  static bool sort(void); // just for overloading later
+  static bool equal(void);// just for overloading later
+};
+
+struct Filter_rs_to_rsp : Space_Filter
+{
+  static bool sort(const Space& E1, const Space& E2)
+  {
+    return (E1.p1() < E2.p1());
+  };
+  static bool equal(const Space& E1, const Space& E2)
+  {
+    return (E1.p1() == E2.p1());
+  };
+};
+
+struct Filter_rs_to_homotopy_equivalent : Space_Filter
+{ 
+  static bool sort(Space E1, Space E2)
+  {
+    return (E1.s22() < E2.s22());
+  }
+  static bool equal(Space& E1, Space& E2)
+  {
+    return 
+      ((E1.s() == E2.s() && E1.s22() == E2.s22()) 
+       || (E1.s() == -E2.s() && E1.s22() == -E2.s22())
+       || (abs(E1.s()) == abs(E2.s()) && E1.s22() == boost::rational<long long>(1,2) && E2.s22() == boost::rational<long long>(1,2) )
+       );
+  }
+};
+

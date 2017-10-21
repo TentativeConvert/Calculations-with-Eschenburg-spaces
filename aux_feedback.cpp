@@ -20,7 +20,7 @@ void Feedback::start(size_t max)
 void Feedback::update(size_t progress) const
 {
   if(progress % step_size_ == 0) 
-    update_percent((int)progress/step_size_);
+    update_percent(std::min((int)(progress/step_size_),(int)99));
 }; 
 
 void Feedback::finish() const

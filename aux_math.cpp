@@ -1,8 +1,12 @@
 #include "aux_math.h"
+//#include <cmath>
+//#include <algorithm>
+using std::abs;
+using std::sqrt;
+using std::min;
+using std::max;
+using boost::rational;
 
-#include <cmath>
-//#include <boost/rational.hpp>
-//using boost::rational;
 #include <boost/math/special_functions/round.hpp>
 using boost::math::gcd;
 

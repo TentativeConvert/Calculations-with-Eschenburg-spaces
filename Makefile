@@ -6,7 +6,7 @@ RM=rm -f
 CPPFLAGS=-std=c++11 -O3
 LDFLAGS=-std=c++11 -O3
 
-SRCS=main.cpp esch_space.cpp esch_families.cpp esch_generate.cpp aux_math.cpp
+SRCS=main.cpp esch_space.cpp esch_families.cpp esch_generate.cpp aux_math.cpp aux_feedback.cpp
 OBJS=$(subst .cpp,.o,$(SRCS))
 
 all: main

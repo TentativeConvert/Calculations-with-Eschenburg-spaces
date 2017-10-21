@@ -3,12 +3,9 @@
 */
 #include <algorithm>
 using std::sort;
-#include <chrono>
-using namespace std::chrono;
+#include "aux_feedback.h"
 //////////////////////////////////////////////////
 #include "aux_math.h"  // includes <cmath>
-using std::abs;
-using std::max;        // from <algorithm>
 #include <boost/rational.hpp>
 using boost::rational;
 //////////////////////////////////////////////////
@@ -31,14 +28,14 @@ main(){
   //test_rationals();
   //test_Space();
   //std::string s = "abcd";
+  Feedback feedback;
 
   long R;
   printf("\nMaximum value of |r|: ");
   if(scanf("%ld",&R) != 1 || R <= 0) return -1; 
 
-  system_clock::time_point t1 = system_clock::now();/*timer*/
   Deque_of_Space_families families_rs;  
-  generate_rs_families(families_rs, R, t1);
+  generate_rs_families(families_rs, R);
 
   //////////////////////////////////////////////////
   // We now have a deque of families (families_rs) whose invariants r & s agree.
@@ -51,14 +48,10 @@ main(){
   Deque_of_Space_families families_rss22;  
 
   long c_rsp_spaces = 0;
-  long feedback_step_size = max((long)(families_rs.size()/100),(long)1);
+  feedback.start(families_rs.size());
   for(std::size_t i = 0; i < families_rs.size(); ++i)
     {
-      if(i % feedback_step_size == 0) // feedback for user
-	{
-	  printf(" %3d%%\r",(int)((float)i/feedback_step_size));
-	  fflush(stdout);
-	}
+      feedback.update(i);
       struct mycomparator {
 	//bool operator() (const Space& E1, const Space& E2) { return (E1.p1() < E2.p1());}
 	bool operator() (Space E1, Space E2) { return (E1.s22() < E2.s22());}  // <--- need to pass by value, not by reference for s22()
@@ -92,7 +85,7 @@ main(){
 	i1 = i2;
       }
     }
-  printf(" 100%%");
+  feedback.finish();
   // print first list of families to file:
   // (do this AFTER s22-values have been computed)
   families_rs.sort_and_count_families(); //stable_sort(families_rs.begin(),families_rs.end());
@@ -102,9 +95,6 @@ main(){
   families_rss22.sort_and_count_families();
   families_rss22.print("list_rss22_human.txt");
 
-  system_clock::time_point t2 = system_clock::now();/*timer*/
-  float duration = (float)duration_cast<milliseconds>( t2 - t1 ).count()/1000;/*timer*/
-  //printf("\nFound %ld pairs and %ld triples in this range (total time: %.2f s).\n\n", c_pairs, c_triples,duration);
   return 0;
 }
 

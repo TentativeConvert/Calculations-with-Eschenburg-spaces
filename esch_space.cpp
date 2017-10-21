@@ -1,6 +1,6 @@
 #include "esch_space.h"
 using std::array;
-using boost::rational;
+#include "aux_math.h"
 
 #include <boost/math/constants/constants.hpp>
 #include <boost/math/special_functions/round.hpp>
@@ -8,12 +8,7 @@ using boost::rational;
 
 //////////////////////////////////////////////////
 // Auxiliary mathematics:
-#include "aux_math.h"
-using std::min;
-using std::max;
-using std::sqrt;
-using std::abs;
-using boost::math::gcd;
+
 
 //////////////////////////////////////////////////
 // Lens space invariants:

@@ -1,24 +1,21 @@
 #include "esch_generate.h"
 using std::deque;
-using namespace std::chrono;
 
+#include "aux_feedback.h"
 #include "aux_math.h"
-using std::sqrt;
-using std::abs;
-using boost::math::gcd;
-using boost::rational;
 
 #include <algorithm>
-using std::min;
-using std::max;
 using std::sort;
 
 #include <vector>
 using std::vector;
 
-void generate_rs_families(Deque_of_Space_families& families_rs, const long& R, const system_clock::time_point& t1)
+void generate_rs_families(Deque_of_Space_families& families_rs, const long& R)
 {
   printf("Looking for Eschenburg spaces with |r| <= %ld ... \n", R);
+  Feedback feedback;
+  feedback.start(100);
+
   double epsilon = 0.1; // used as "safety buffer" against rounding erros
   long c_spaces = 0; // counter
   struct miniSpace {
@@ -42,11 +39,7 @@ void generate_rs_families(Deque_of_Space_families& families_rs, const long& R, c
   long d = D;           //
   while (n <= D)
     {
-      if(d == 101) // progress feedback for user
-	{
-	  printf(" %3d%%\r", (int)(n*100/101));  // will display 1%  2%  3%  ...
-	  fflush(stdout);
-	}
+      if(d == 101) feedback.update_percent((int)(n*100/101));
       // Step (b.1) 
       long K1  = (long)((R-n*n)/d - n + epsilon);
       long K1_ = min(d+n-1, K1);
@@ -102,28 +95,19 @@ void generate_rs_families(Deque_of_Space_families& families_rs, const long& R, c
       n = new_n;  
       d = new_d;
     }
-  printf(" 100%%");
-  system_clock::time_point t2 = system_clock::now();/*timer*/
-  float duration = (float)duration_cast<milliseconds>( t2 - t1 ).count()/1000;/*timer*/
-  printf("\nFound %ld spaces in this range (time: %.2f s).\n", c_spaces,duration);
+  feedback.finish();
+  printf("Found %ld spaces in this range.\n", c_spaces);
  
   //////////////////////////////////////////////////
   // List of spaces (all_spaces) is now complete.
   // Now look for families of spaces whose invariants r & s agree!
   printf("\nLooking for candidate spaces whose invariants r & s agree ...\n");
-
-  // deque< deque< class Space > > families_rs;
-  // a deque of families (deques) of spaces whose invariants r & s agree
  
   long c_rs_spaces = 0;
-  long feedback_step_size = max((long)((R+1)/2/100),(long)1);
+  feedback.start((size_t)(R+1)/2/100);
 
   for(long hmr = 0; hmr < (R+1)/2; ++hmr){  //hmr = "half minus r" (abgerundet)
-    if(hmr % feedback_step_size == 0) // feedback for user
-      {
-	printf(" %3d%%\r",(int)(100*hmr*2/(R+1)));
-	fflush(stdout);
-      }
+    feedback.update((size_t)hmr);
     //------------------------------------------------
     // Sort spaces in all_spaces[hmr] by their s-invariant.
     //
@@ -167,9 +151,7 @@ void generate_rs_families(Deque_of_Space_families& families_rs, const long& R, c
       }
     all_spaces[hmr].clear();  // free up memory space!
   }
-  printf(" 100%%");
-  t2 = system_clock::now();/*timer*/
-  duration = (float)duration_cast<milliseconds>( t2 - t1 ).count()/1000;/*timer*/
-  printf("\nFound %ld spaces with non-unique values of (r,s) in this range (total time: %.2f s).\n\n", c_rs_spaces,duration);
+  feedback.finish();
+  printf("Found %ld spaces with non-unique values of (r,s) in this range\n\n", c_rs_spaces);
 }
 

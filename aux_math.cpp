@@ -1,14 +1,6 @@
 #include "aux_math.h"
-//#include <cmath>
-//#include <algorithm>
-using std::abs;
-using std::sqrt;
-using std::min;
-using std::max;
-using boost::rational;
 
-#include <boost/math/special_functions/round.hpp>
-using boost::math::gcd;
+//#include <boost/math/special_functions/round.hpp>
 
 long square(long long a){ return a*a; }
 long signed_mod (long a, long base)

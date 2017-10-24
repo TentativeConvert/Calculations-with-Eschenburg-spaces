@@ -1,10 +1,13 @@
 #include "esch_space.h"
 using std::array;
-#include "aux_math.h"
+const boost::rational<long long> Space::KS_UNKNOWN = boost::rational<long long>(-1,1);
+const boost::rational<long long> Space::KS_UNCOMPUTABLE = boost::rational<long long>(1,1); 
 
+#include "aux_math.h"
 #include <boost/math/constants/constants.hpp>
 #include <boost/math/special_functions/round.hpp>
 #include <boost/multiprecision/cpp_dec_float.hpp>
+
 
 //////////////////////////////////////////////////
 // Lens space invariants:
@@ -53,11 +56,11 @@ void Space::setParameters(array<long,3> kkk, array<long,3> lll){ //compute_s_and
   int sigma2_l = l_[0]*l_[1] + l_[0]*l_[2] + l_[1]*l_[2];
   int sigma3_l = l_[0]*l_[1]*l_[2];
   r_ = sigma2_k - sigma2_l;
-  s_ = signed_mod(sigma3_k, abs(r_));  // note: sigma3_l = 0
+  s_ = signed_mod(sigma3_k-sigma3_l, abs(r_))*sign(r_);
   p1_ = absolute_mod(2*sigma1_k*sigma1_k - 6*sigma2_k, abs(r_));
-  good_col_or_row = -1; // -1   means "not yet computed"
-  s2_.assign(-1,1);     // -1/1 means "not yet computed"
-  s22_.assign(-1,1);    // -1/1 means "not yet computed"
+  good_col_or_row = GOOD_CoR_UNKNOWN; 
+  s2_ =  KS_UNKNOWN;
+  s22_ = KS_UNKNOWN;
 }
 
 bool Space::is_positively_curved_space(void) {
@@ -91,7 +94,7 @@ int Space::gcdA(int i, int j, int ii, int jj)
   return boost::math::gcd(k_[i]-l_[j],k_[ii]-l_[jj]); 
 } 
 
-bool Space::conditionC(void)
+bool Space::test_condition_C(void)
 {
   // see "condition C" in [CEZ06]
   if (good_col_or_row == -1) // condition has not yet been checked
@@ -149,67 +152,94 @@ void Space::compute_s2_col(int j)
 }
 
 void Space::compute_s2_row(int j)
-  {
-    int jp1 = absolute_mod(j+1,2);
-    //printf("I'm using row %d",j+1);
-    //printf(" (%ld,%ld,%ld)\n",k_[j]-l_[0],k_[j]-l_[1],k_[j]-l_[2]);
-    //printf("jp1 = %d",jp1+1);
-    long long q = 
-      square(k_[j]-l_[0])   + square(k_[j]-l_[1])   + square(k_[j]-l_[2]) +
-      square(k_[jp1]-l_[0]) + square(k_[jp1]-l_[1]) + square(k_[jp1]-l_[2])
-      - square(k_[j]-k_[jp1]);
-    long long d = 16*3*(long long)(r_)*(k_[j]-l_[0])*(k_[j]-l_[1])*(k_[j]-l_[2]);
-    s2_.assign(q-2,d);
-    //printf("q = %lld, d = %lld\n", q, d);
-    // printf("=> (q-2)/d = %lld/%lld\n",s2_.numerator(),s2_.denominator());
-    for(int i = 0; i < 3; ++i)
-      {
-	//   printf("Lens space invariant s_2 for i=%d: \n",i+1);
-	int ip1 = absolute_mod(i+1,3);
-	int ip2 = absolute_mod(i+2,3);
-	array<long,4> params = {k_[j]-l_[ip1], k_[j]-l_[ip2], k_[jp1]-l_[ip1], k_[jp1]-l_[ip2]};
-        //   printf("     parameters: %ld; %ld, %ld, %ld, %ld\n", k_[j]-l_[i], params[0], params[1], params[2], params[3]);
-	s2_ += lens_s2(k_[j]-l_[i], params);
-      }
-    s2_ = reduce_mod_ZZ(s2_);
-    // printf("=> s2(E)  = %lld/%lld\n",s2_.numerator(),s2_.denominator());
-  }
+{
+  int jp1 = absolute_mod(j+1,2);
+  //printf("I'm using row %d",j+1);
+  //printf(" (%ld,%ld,%ld)\n",k_[j]-l_[0],k_[j]-l_[1],k_[j]-l_[2]);
+  //printf("jp1 = %d",jp1+1);
+  long long q = 
+    square(k_[j]-l_[0])   + square(k_[j]-l_[1])   + square(k_[j]-l_[2]) +
+    square(k_[jp1]-l_[0]) + square(k_[jp1]-l_[1]) + square(k_[jp1]-l_[2])
+    - square(k_[j]-k_[jp1]);
+  long long d = 16*3*(long long)(r_)*(k_[j]-l_[0])*(k_[j]-l_[1])*(k_[j]-l_[2]);
+  s2_.assign(q-2,d);
+  //printf("q = %lld, d = %lld\n", q, d);
+  // printf("=> (q-2)/d = %lld/%lld\n",s2_.numerator(),s2_.denominator());
+  for(int i = 0; i < 3; ++i)
+    {
+      //   printf("Lens space invariant s_2 for i=%d: \n",i+1);
+      int ip1 = absolute_mod(i+1,3);
+      int ip2 = absolute_mod(i+2,3);
+      array<long,4> params = {k_[j]-l_[ip1], k_[j]-l_[ip2], k_[jp1]-l_[ip1], k_[jp1]-l_[ip2]};
+      //   printf("     parameters: %ld; %ld, %ld, %ld, %ld\n", k_[j]-l_[i], params[0], params[1], params[2], params[3]);
+      s2_ += lens_s2(k_[j]-l_[i], params);
+    }
+  s2_ = reduce_mod_ZZ(s2_);
+  // printf("=> s2(E)  = %lld/%lld\n",s2_.numerator(),s2_.denominator());
+}
 
-const rational<long long>& Space::s2(void)
+bool Space::compute_KS_invariants() // compute s2 & s22
 {
-  if (s2_ == rational<long long>(-1)) // s2 not yet computed
+  if (test_condition_C())
     {
-      //printf("\n===== E(%ld, %ld, %ld | %ld, %ld, %ld) ===== \n", k_[0], k_[1], k_[2], l_[0], l_[1], l_[2]);
-      if (conditionC() == true)
-	{
-	  if (good_col_or_row < 3)
-	    compute_s2_col(good_col_or_row);
-	  else
-	    compute_s2_row(good_col_or_row-3);
-	}
-      else 
-	s2_.assign(1,1); // need better error handling here
-    }
-  return s2_;
-}
-const rational<long long>& Space::s22(void)
-{
-  if (s22_ == rational<long long>(-1)) // s22 not yet computed
-    {
-      //// printf("=> s2(E)  = %ld/%ld\n",s2.numerator(),s2.denominator());
-      s22_ = 2*abs(r_)*s2();  // use s2() instead of s2_ instead s2_ has not yet been computed
-      //// printf("=> s22(E) = %ld/%ld (in QQ)\n",s22_.numerator(),s22_.denominator());
+      if (good_col_or_row < 3)
+	compute_s2_col(good_col_or_row);
+      else
+	compute_s2_row(good_col_or_row-3);
+      // printf("=> s2(E)  = %ld/%ld\n",s2.numerator(),s2.denominator());
+      s22_ = 2*abs(r_)*s2_;  
+      // printf("=> s22(E) = %ld/%ld (in QQ)\n",s22_.numerator(),s22_.denominator());
       s22_ = reduce_mod_ZZ(s22_);
-      //// printf("=> s22(E) = %ld/%ld (in QQ/ZZ)\n",s22_.numerator(),s22_.denominator());
+      // printf("=> s22(E) = %ld/%ld (in QQ/ZZ)\n",s22_.numerator(),s22_.denominator());
+      return true;
     }
-  return s22_;
-}
+  else 
+    {
+      s2_ = KS_UNCOMPUTABLE; 
+      s22_ = KS_UNCOMPUTABLE;
+      return false;
+    }
+} 
 
 //////////////////////////////////////////////////
-bool compare_spaces(class Space E1, class Space E2)
+/*bool compare_spaces(class Space E1, class Space E2)
 {
   return (E1.p1() < E2.p1())  
     || (E1.p1() == E2.p1() && abs(E1.s()) < abs(E2.s()));
+    }*/
+
+Space::comp Space::Space::compareBasicType(const Space& E1, const Space& E2)
+{
+  if (abs(E1.p1_) > abs(E2.p1_)) return comp::GREATER;
+  if (abs(E1.p1_) < abs(E2.p1_)) return comp::SMALLER;
+  return comp::EQUAL;
 }
 
+Space::comp Space::compareHomotopyType(const Space& E1, const Space& E2)
+{ 
+  if (abs(E1.s22_) > abs(E2.s22_)) return comp::GREATER;
+  if (abs(E1.s22_) < abs(E2.s22_)) return comp::SMALLER;
+  if (sign(E1.s22_)*sign(E1.s_) > sign(E2.s22_)*sign(E2.s_)) return comp::GREATER;
+  if (sign(E1.s22_)*sign(E1.s_) < sign(E2.s22_)*sign(E2.s_)) return comp::SMALLER;
+  if (abs(E1.s_) > abs(E2.s_)) return comp::GREATER;
+  if (abs(E1.s_) < abs(E2.s_)) return comp::SMALLER;
+  if (abs(E1.r_) > abs(E2.r_)) return comp::GREATER;
+  if (abs(E1.r_) < abs(E2.r_)) return comp::SMALLER;
+  return comp::EQUAL;
+}
 
+Space::comp Space::compareTangentialHomotopyType(const Space& E1, const Space& E2)
+{
+  if (E1.p1_ > E2.p1_) return comp::GREATER;
+  if (E1.p1_ < E2.p1_) return comp::SMALLER;
+  return compareHomotopyType(E1,E2);
+}
+
+Space::comp Space::compareHomeomorphismType(const Space& E1, const Space& E2)
+{
+  if (E1.s2_ > E2.s2_) return comp::GREATER;
+  if (E1.s2_ < E2.s2_) return comp::SMALLER;
+  if (sign(E1.s2_)*sign(E1.s_) > sign(E2.s2_)*sign(E2.s_)) return comp::GREATER;
+  if (sign(E1.s2_)*sign(E1.s_) < sign(E2.s2_)*sign(E2.s_)) return comp::SMALLER;
+  return compareHomotopyType(E1,E2);
+}

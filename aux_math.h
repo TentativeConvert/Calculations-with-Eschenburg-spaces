@@ -14,11 +14,15 @@ using boost::math::gcd; //*
 long square(long long a);
 long signed_mod (long a, long base);
 long absolute_mod (long a, long base);
+int sign(const long &i);
 
 // rationals:
 #include <boost/rational.hpp>
 using boost::rational; //*
-rational<long long> reduce_mod_ZZ(const rational<long long>& q);
+//template<class Typ> rational<Typ> reduce_mod_ZZ(const rational<Typ> &q);
+rational<long long> reduce_mod_ZZ(const rational<long long> &q);
+int sign(const rational<long long> &r);
+
 
 
 /* 

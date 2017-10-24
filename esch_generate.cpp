@@ -104,7 +104,7 @@ void generate_rs_families(Deque_of_Space_families& families_rs, const long& R)
   printf("\nLooking for candidate spaces whose invariants r & s agree ...\n");
  
   long c_rs_spaces = 0;
-  feedback.start((size_t)(R+1)/2/100);
+  feedback.start((size_t)(R+1)/2);
 
   for(long hmr = 0; hmr < (R+1)/2; ++hmr){  //hmr = "half minus r" (abgerundet)
     feedback.update((size_t)hmr);

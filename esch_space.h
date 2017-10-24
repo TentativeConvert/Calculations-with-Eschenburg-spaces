@@ -1,93 +1,63 @@
 #pragma once
-
-#include <array>
-// std::array;
-
-#include <boost/rational.hpp>
-// boost::rational;
+#include <array>               // std::array;
+#include <boost/rational.hpp>  // boost::rational;
 
 class Space {
-public:
-   // Setters:
-  void setParameters(std::array<long,3> kkk, std::array<long,3>);  //xx
-   
-  // Getters that change class members:
-  bool conditionC(); 
-  const boost::rational<long long>& s22(); 
-  const boost::rational<long long>& s2(); 
-   
-  // Getters that don't change class members:
-  bool is_positively_curved_space(void);
-  const std::array<long,3>& k() const { return k_; }
-  const std::array<long,3>& l() const { return k_; }
-  const long& s() const { return s_; }
-  const long& p1() const { return p1_; }
-  
-  // Other methods that don't change class members:
-  // (note that wrong values of s2 & s22 will be printed
-  //  if they haven't yet been computed)
-  void print_for_human (FILE* file) const;
-  void print_for_maple (FILE* file) const;
-
-private:
-std::array<long,3> k_;
-std::array<long,3> l_;
+ private:
+  std::array<long,3> k_;
+  std::array<long,3> l_;
   long r_;  // = r(k,l); it can be positive or negative.
             // (in [CEZ07], "r := |r(k,l)|")
   long s_;  // = s(k,l) modulo |r(k,l)|
   long p1_; // = p_1(k,l) modulo |r(k,l)|
 
   boost::rational<long long> s2_;
-  // values in interval (-1/2,1/2]
-  // -1 = not yet computed
-  //  1 = condition C not satisfied
   boost::rational<long long> s22_;
-  // values in interval (-1/2,1/2]
-  // -1 = not yet computed
+  // KS-invariants s2 and s22 take values in interval (-1/2,1/2]
+  static const boost::rational<long long> KS_UNKNOWN;      // (set to -1/1 in .cpp)
+  static const boost::rational<long long> KS_UNCOMPUTABLE; // (set to 1/1 in .cpp)
+  // KS-invariants s2, s22 are uncomputable if condition C is not satisfied
 
   int good_col_or_row;
-  // -1     = not checked
+  static const int GOOD_CoR_UNKNOWN = -1;
+  static const int GOOD_CoR_NONEXISTENT = 6;
   // 0,1,2  = col 1,2,3 satisfies condition C
   // 3,4,5  = row 1,2,3 satisfies condition C
-  // 6      =  condition C not satisfied
   int gcdA(int i, int j, int ii, int jj);
   void find_good_col_or_row(void);
   void compute_s2_row(int j);
   void compute_s2_col(int j);
-};
-bool compare_spaces(struct Space E1, struct Space E2);
 
-struct Space_Filter
-{
-  static bool sort(void); // just for overloading later
-  static bool equal(void);// just for overloading later
+public:
+   // Setters:
+  void setParameters(std::array<long,3> kkk, std::array<long,3>);  //xx
+   
+  // Methods that change class members:
+  bool test_condition_C(); 
+  bool compute_KS_invariants();  // same return value as conditionC, but also computes s22 & s2
+
+  // Getters that don't change class members:
+  bool is_positively_curved_space(void);
+  const std::array<long,3>& k() const { return k_; }
+  const std::array<long,3>& l() const { return k_; }
+  const long& r() const { return r_; }
+  const long& s() const { return s_; }
+  const long& p1() const { return p1_; }
+  const boost::rational<long long>& s22() const {return s22_; }
+  const boost::rational<long long>& s2() const {return s2_; }
+
+  // Other methods that don't change class members:
+  // (note that wrong values of s2 & s22 will be printed
+  //  if they haven't yet been computed)
+  void print_for_human (FILE* file) const;
+  void print_for_maple (FILE* file) const;
+
+  // static methods:
+  enum class comp {EQUAL, SMALLER, GREATER};
+  static comp compareBasicType(const Space& E1, const Space& E2);
+  static comp compareHomotopyType(const Space& E1, const Space& E2);
+  static comp compareTangentialHomotopyType(const Space& E1, const Space& E2);
+  static comp compareHomeomorphismType(const Space& E1, const Space& E2);
 };
 
-struct Filter_rs_to_rsp : Space_Filter
-{
-  static bool sort(const Space& E1, const Space& E2)
-  {
-    return (E1.p1() < E2.p1());
-  };
-  static bool equal(const Space& E1, const Space& E2)
-  {
-    return (E1.p1() == E2.p1());
-  };
-};
-
-struct Filter_rs_to_homotopy_equivalent : Space_Filter
-{ 
-  static bool sort(Space E1, Space E2)
-  {
-    return (E1.s22() < E2.s22());
-  }
-  static bool equal(Space& E1, Space& E2)
-  {
-    return 
-      ((E1.s() == E2.s() && E1.s22() == E2.s22()) 
-       || (E1.s() == -E2.s() && E1.s22() == -E2.s22())
-       || (abs(E1.s()) == abs(E2.s()) && E1.s22() == boost::rational<long long>(1,2) && E2.s22() == boost::rational<long long>(1,2) )
-       );
-  }
-};
 

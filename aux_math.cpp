@@ -19,6 +19,7 @@ long absolute_mod (long a, long base)
     remainder += abs(base);
   return remainder;
 }
+
 rational<long long> reduce_mod_ZZ(const rational<long long>& q)
 {
   // Input:   q  in QQ 
@@ -33,4 +34,23 @@ rational<long long> reduce_mod_ZZ(const rational<long long>& q)
     }
   q_n = signed_mod(q_n,q_d);  
   return rational<long long>(q_n,q_d);
+}
+
+int sign(const long &i){
+  if (i > 0) return 1;
+  if (i < 0) return -1;
+  return 0;
+}
+
+int sign(const rational<long long> &r){
+  // implementation is really for rationals mod ZZ
+  // (We need this only for the invariants s22 and s2.)
+  //
+  //  r =  1/4          ---> sign(r) = +1
+  //  r = -1/4          ---> sign(r) = -1
+  //  r = 0, 1/2, -1/2  ---> sign(r) =  0
+  rational<long long> r_ = reduce_mod_ZZ(r);
+  if (0 < r && r < rational<long long>(1,2)) return 1;
+  if (0 > r && r > -rational<long long>(1,2)) return -1;
+  return 0;
 }

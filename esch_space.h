@@ -23,15 +23,16 @@ class Space {
   static const int GOOD_CoR_NONEXISTENT = 6;
   // 0,1,2  = col 1,2,3 satisfies condition C
   // 3,4,5  = row 1,2,3 satisfies condition C
-  int gcdA(int i, int j, int ii, int jj);
   void find_good_col_or_row(void);
-  void compute_s2_row(int j);
-  void compute_s2_col(int j);
+  int gcdA(int i, int j, int ii, int jj);
+  void compute_s2_from_row(int j);
+  void compute_s2_from_col(int j);
+  boost::rational<long long> lens_s2(long p, std::array<long,4> param);
 
 public:
-   // Setters:
-  void setParameters(std::array<long,3> kkk, std::array<long,3>);  //xx
-   
+  // Constructor:
+  Space(std::array<long,3> kkk, std::array<long,3>);
+
   // Methods that change class members:
   bool test_condition_C(); 
   bool compute_KS_invariants();  // same return value as conditionC, but also computes s22 & s2
@@ -49,8 +50,7 @@ public:
   // Other methods that don't change class members:
   // (note that wrong values of s2 & s22 will be printed
   //  if they haven't yet been computed)
-  void print_for_human (FILE* file) const;
-  void print_for_maple (FILE* file) const;
+  void print(FILE* file) const;
 
   // static methods:
   enum class comp {EQUAL, SMALLER, GREATER};

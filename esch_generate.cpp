@@ -1,16 +1,15 @@
-#include "esch_generate.h"
+#include "esch_space.h"
+#include "esch_tuples.h"
 using std::deque;
-
+#include <vector>
+using std::vector;
 #include "aux_feedback.h"
 #include "aux_math.h"
-
 #include <algorithm>
 using std::sort;
 
-#include <vector>
-using std::vector;
 
-void generate_rs_families(Deque_of_Space_families& families_rs, const long& R)
+SpaceTupleList::SpaceTupleList(const long& R)
 {
   printf("Looking for Eschenburg spaces with |r| <= %ld ... \n", R);
   Feedback feedback;
@@ -100,8 +99,8 @@ void generate_rs_families(Deque_of_Space_families& families_rs, const long& R)
  
   //////////////////////////////////////////////////
   // List of spaces (all_spaces) is now complete.
-  // Now look for families of spaces whose invariants r & s agree!
-  printf("\nLooking for candidate spaces whose invariants r & s agree ...\n");
+  // Now look for tuples of spaces whose invariants r & s agree!
+  printf("\nLooking for tuples of spaces whose invariants r & s agree ...\n");
  
   long c_rs_spaces = 0;
   feedback.start((size_t)(R+1)/2);
@@ -136,22 +135,24 @@ void generate_rs_families(Deque_of_Space_families& families_rs, const long& R)
 	if(i2 > i1+1)
 	  {
 	    //all_spaces with indexes i1,...,i2 define spaces with the same invariants
-            Space_family new_family;
+            SpaceTuple new_tuple;
 	    for(long j = i1; j < i2; ++j)
 	      {
-                Space E;
 		miniSpace& e = all_spaces[hmr][i_s_pairs[j].i];
-		E.setParameters({e.k1, e.k2, -e.n-e.d},{e.k2-e.n, e.k1-e.d, 0});
-		new_family.push_back(E);
+		//Space E;
+		//E.setParameters({e.k1, e.k2, -e.n-e.d},{e.k2-e.n, e.k1-e.d, 0});
+		Space E({e.k1, e.k2, -e.n-e.d},{e.k2-e.n, e.k1-e.d, 0});
+		new_tuple.push_back(E);
 		++c_rs_spaces;
 	      }
-	    families_rs.push_back(new_family);
+	    //tuples_rs.push_back(new_tuple); //xxx
+	    this->push_back(new_tuple);
 	  }
 	i1 = i2;
       }
     all_spaces[hmr].clear();  // free up memory space!
   }
   feedback.finish();
-  printf("Found %ld spaces with non-unique values of (r,s) in this range\n\n", c_rs_spaces);
+  printf("Found %ld spaces with non-unique values of (r,s) in this range.\n\n", c_rs_spaces);
 }
 

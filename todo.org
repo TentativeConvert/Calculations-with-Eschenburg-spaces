@@ -1,0 +1,149 @@
+* DONE make s22() const                                             :ARCHIVE:
+introduce method 
+   compute_KS_invariants()
+to Space, Space_family & Deque_of_Space_families
+
+* DONE static CONSTANTS                                             :ARCHIVE:
+for s22() unkown        (not yet computed)
+for s22() uncomputable  (condition C fails)
+* DONE renaming                                                     :ARCHIVE:
+Space_family             -->  SpaceTuple
+Deque_of_Space_families  -->  SpaceTupleList
+   
+* Config: DATA types
+* DONE Config: max-lines-per-file                                   :ARCHIVE:
+* DONE print ?? if s22() unkown                                     :ARCHIVE:
+print WARNING if condition C fails
+* DONE print statistics to screen                                   :ARCHIVE:
+* DONE move esch_generate to esch_families                          :ARCHIVE:
+* DONE Constructors                                                 :ARCHIVE:
+* DONE Filters -- idea "invariants"                                 :ARCHIVE:
+
+HomotopyClass(E1) returns "tuple" |s22|, sgn(s22,s), |s|, |r|
+(of type deque<boost::variant<long, rational<long long>>)
+
+vector<boost::variant<...>> homotopyClass(const Space &E)
+{
+   my_var.pushback(|s22|), 
+   my_var.pushback(sign(s22,s)), 
+   ... 
+   return my_var
+}
+
+class IsoClass
+{
+}
+
+
+
+class HomotopyClass : parent IsoClass
+{
+  rational abs_s22
+  long abs_s2
+  int sign
+  long r
+  long abs_s
+
+
+}
+
+
+* Filters -- idea "Test"                                            :ARCHIVE:
+user interface:
+
+   Test::HomotopyClass.is_equal(E1,E2)
+
+
+** esch_tests.h:
+
+Test
+   is_equal(E1,E2)
+   is_greater(E1,E2)
+
+Test::HomotopyClass
+   equal(E1,E2):
+   - |s22|, sgn(s22,s), |s|, |r| agree
+   greater(E1,E2):
+   - |s22|, sgn(s22,s), |s|, |r|  
+
+Test::TangentialHomotopyClass
+   - Test::HomotopyClass.is_equal & p agrees
+   - ....
+
+Test::Homeomorphism
+   - Test::HomotopyClass.is_equal & |s2| & sign(s2,s) agree
+   - ...
+
+** esch_families:   <-- should include esch_generate
+
+Deque_of_Space_families:
+   + method generate_rs_families
+   + method filter
+     pass above Test objects as parameter
+
+** aux_math:
+
+sgn(p/q,s) =  1 if 1/2 > p/q > 0 and s > 0
+sgn(p/q,s) =  0 if 1/2 = p/q  OR  p/q = 0  OR  s = 0
+sgn(p/q,s) = -1 if (1/2 > p/q > 0  and s < 0)  OR  (0 > p/q > -1/2  and s > 0)
+
+To compute it, define
+    sgn(s) = 1 / 0 / -1
+  sgn(p/q) = 1 / 0 / -1
+and multiply these together.
+
+
+** OLD TEST CODE
+
+class Test
+{
+  static bool equal(const Space& E1, const Space& E2); //placeholder for overloading later
+  static bool greater(const Space& E1, const Space& E2); //placeholder for overloading later
+};
+class HomotopyClass : Test
+{
+  static bool equal(const Space& E1, const Space& E2)
+  {
+    if (abs(E1.s22()) != abs(E2.s22())) return false;
+    if (sign(E1.s22)*sign(E1.s()) != sign(E1.s22)*sign(E2.s())) return false;
+    if (abs(E1.s()) != abs(E2.s())) return false;
+    if (abs(E1.r()) != abs(E2.r())) return false;
+  }
+  static int compareHomotopyClass(const Space& E1, const Space&E2)
+  { 
+    if (abs(E1.s22()) > abs(E2.s22())) return 1;
+    if (abs(E1.s22()) < abs(E2.s22())) return -1;
+    if (sign(E1.s22())*sign(E1.s()) > sign(E2.s22())*sign(E2.s())) return 1;
+    if (sign(E1.s22())*sign(E1.s()) < sign(E2.s22())*sign(E2.s())) return -1;
+    if (abs(E1.s()) > abs(E2.s())) return 1;
+    if (abs(E1.s()) < abs(E2.s())) return -1;
+    if (abs(E1.r()) > abs(E2.r())) return 1;
+    if (abs(E1.s()) <= abs(E2.s())) return -1;
+  }
+} homotopyClass;
+
+class TangentialHomotopyClass : Test
+{
+  static bool equal(const Space& E1, const Space& E2)
+  {
+    if (abs(E1.s22()) != abs(E2.s22())) return false;
+    if (sign(E1.s22)*sign(E1.s()) != sign(E1.s22)*sign(E2.s())) return false;
+    if (abs(E1.s()) != abs(E2.s())) return false;
+    if (abs(E1.r()) != abs(E2.r())) return false;
+  }
+  static bool greater(const Space& E1, const Space&E2)
+  { 
+    if (abs(E1.s22()) > abs(E2.s22())) return true;
+    if (abs(E1.s22()) < abs(E2.s22())) return false;
+    if (sign(E1.s22())*sign(E1.s()) > sign(E2.s22())*sign(E2.s())) return true;
+    if (sign(E1.s22())*sign(E1.s()) < sign(E2.s22())*sign(E2.s())) return false;
+    if (abs(E1.s()) > abs(E2.s())) return true;
+    if (abs(E1.s()) < abs(E2.s())) return false;
+    if (abs(E1.r()) > abs(E2.r())) return true;
+    if (abs(E1.s()) <= abs(E2.s())) return false;
+  }
+};
+   
+* read command line
+
+* print instructions for usage when stated without command line parameters

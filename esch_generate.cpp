@@ -11,7 +11,7 @@ using std::sort;
 
 SpaceTupleList::SpaceTupleList(const long& R)
 {
-  printf("Looking for Eschenburg spaces with |r| <= %ld ... \n", R);
+  printf("\nLooking for Eschenburg spaces with |r| <= %ld ... \n", R);
   Feedback feedback;
   feedback.start(100);
 

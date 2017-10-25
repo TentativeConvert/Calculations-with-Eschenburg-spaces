@@ -144,6 +144,6 @@ class TangentialHomotopyClass : Test
   }
 };
    
-* read command line
-
-* print instructions for usage when stated without command line parameters
+* DONE read command line                                            :ARCHIVE:
+  
+* DONE print instructions for usage when stated without command line parameters  :ARCHIVE:

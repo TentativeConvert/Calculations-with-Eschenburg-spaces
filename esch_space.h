@@ -38,7 +38,7 @@ public:
   bool compute_KS_invariants();  // same return value as conditionC, but also computes s22 & s2
 
   // Getters that don't change class members:
-  bool is_positively_curved_space(void);
+  bool is_positively_curved_space(void) const;
   const std::array<long,3>& k() const { return k_; }
   const std::array<long,3>& l() const { return k_; }
   const long& r() const { return r_; }
@@ -51,6 +51,7 @@ public:
   // (note that wrong values of s2 & s22 will be printed
   //  if they haven't yet been computed)
   void print(FILE* file) const;
+  void print(void) const;
 
   // static methods:
   enum class comp {EQUAL, SMALLER, GREATER};

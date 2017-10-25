@@ -12,16 +12,29 @@ const boost::rational<long long> Space::KS_UNCOMPUTABLE = boost::rational<long l
 
 void Space::print(FILE* file) const 
 {
+  fprintf(file, " [%4ld,%4ld,%4ld, %4ld,%4ld,%4ld] -> r = %5ld, s = %5ld, p1 = %5ld",k_[0],k_[1],k_[2],l_[0],l_[1],l_[2],r_, s_, p1_);
   if (s2_ == KS_UNKNOWN)
-    fprintf(file, " [%4ld,%4ld,%4ld |%4ld,%4ld,%4ld] -> r = %5ld, s = %5ld, p1 = %5ld\n", 
-	    k_[0],k_[1],k_[2],l_[0],l_[1],l_[2],r_, s_, p1_);
+    fprintf(file, "\n");
   else if (s2_ == KS_UNCOMPUTABLE)
-    fprintf(file, " [%4ld,%4ld,%4ld |%4ld,%4ld,%4ld] -> r = %5ld, s = %5ld, p1 = %5ld  |!| WARNING: Condition C not satisfied |!|\n", 
-	    k_[0],k_[1],k_[2],l_[0],l_[1],l_[2],r_, s_, p1_);
+    fprintf(file, "  |!| WARNING: Condition C not satisfied |!|\n");
   else
-    fprintf(file, " [%4ld,%4ld,%4ld |%4ld,%4ld,%4ld] -> r = %5ld, s = %5ld, p1 = %5ld, s22 = %lld/%lld, s2 = %lld/%lld\n", 
-	    k_[0],k_[1],k_[2],l_[0],l_[1],l_[2],r_, s_, p1_, s22_.numerator(), s22_.denominator(), s2_.numerator(), s2_.denominator());
+    fprintf(file, ", s22 = %lld/%lld, s2 = %lld/%lld\n", s22_.numerator(), s22_.denominator(), s2_.numerator(), s2_.denominator());
 }
+
+void Space::print(void) const 
+{
+  if (is_positively_curved_space()) 
+    {
+      printf("\nInvariants of the positively curved Eschenburg space with parameters [%ld,%ld,%ld, %ld,%ld,%ld]:\n", k_[0],k_[1],k_[2],l_[0],l_[1],l_[2]);
+      printf("  r = %ld, s = %ld, p1 = %ld\n",r_, s_, p1_);      
+      if (s2_ == KS_UNCOMPUTABLE)
+	printf("! Condition C is not satisfied !\n\n");
+      else
+	printf("  s22 = %lld/%lld, s2 = %lld/%lld\n\n", s22_.numerator(), s22_.denominator(), s2_.numerator(), s2_.denominator());
+    }
+  else
+    printf("\nThe supplied parameters do not describe a positively curved Eschenburg space.\n\n");
+}	
 
 //////////////////////////////////////////////////
 
@@ -42,7 +55,7 @@ Space::Space(array<long,3> kkk, array<long,3> lll){
   s22_ = KS_UNKNOWN;
 }
 
-bool Space::is_positively_curved_space(void) {
+bool Space::is_positively_curved_space(void) const {
     // Is it an Eschenburg space? 
     // -- Test conditions of [CEZ06] (1.1):
     if(boost::math::gcd(k_[0] - l_[0], k_[1] - l_[1]) > 1) return false;

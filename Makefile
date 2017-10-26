@@ -3,8 +3,8 @@
 #
 CXX=g++
 RM=rm -f
-CPPFLAGS=-std=c++11 -O3
-LDFLAGS=-std=c++11 -O3
+CPPFLAGS=-std=c++11 -I=/usr/local/include/boost_1_65_1 -O3
+LDFLAGS=-std=c++11 -I=/usr/local/include/boost_1_65_1 -O3
 
 SRCS=main.cpp esch_space.cpp esch_tuples.cpp esch_generate.cpp aux_math.cpp aux_feedback.cpp
 OBJS=$(subst .cpp,.o,$(SRCS))

@@ -27,10 +27,10 @@ void SpaceTupleList::print(const char* filename, const char* description)
 
   // count total number of pairs, triples, tuples of length 3, ...:
   // counter_[i-1] = number of tuples of length i
-  vector< size_t > counters_;  
+  vector< std::size_t > counters_;  
   for(SpaceTuple F : *this)
     {
-      size_t s = F.size();
+      std::size_t s = F.size();
       if (s > counters_.size()) 
 	counters_.resize(s,0);
       ++counters_[s-1];
@@ -39,9 +39,9 @@ void SpaceTupleList::print(const char* filename, const char* description)
   // print "statistics" to screen and to file (number of tuples of each length):
   printf("%s\n", description);
   fprintf(file, "%s\n", description);
-  for(size_t c = counters_.size(); c >= 2; --c) 
+  for(std::size_t c = counters_.size(); c >= 2; --c) 
     {
-      // note that size_t is unsigned, so can't start at counters_.size()-1!
+      // note that std::size_t is unsigned, so can't start at counters_.size()-1!
       if (c == 3)
 	{
 	  printf(      "  %5ld triples.\n", counters_[c-1]);
@@ -61,15 +61,15 @@ void SpaceTupleList::print(const char* filename, const char* description)
   
   // Print tuples to file, grouped by tuple length
   printf("Writing to file ...");
-  for(size_t c = counters_.size(); c >= 2; --c)
+  for(std::size_t c = counters_.size(); c >= 2; --c)
     {
       fprintf(file,"\n\n\n####### Tuples of length %ld #######\n",(long)c);
       // As tuples are ordered by size in DESCENDING order, 
       // start position = number of tuples of larger sizes:
-      size_t start = 0;
-      for(size_t i = c; i < counters_.size(); ++i)
+      std::size_t start = 0;
+      for(std::size_t i = c; i < counters_.size(); ++i)
 	start += counters_[i];
-      for(size_t i = 0; i < counters_[c-1] && i < MAX_TUPLES_PER_TUPLESIZE_PER_FILE; ++i)
+      for(std::size_t i = 0; i < counters_[c-1] && i < MAX_TUPLES_PER_TUPLESIZE_PER_FILE; ++i)
 	{
 	  fprintf(file," \nTuple %ld: \n", (long)i+1);
 	  this->at(start + i).print(file);
@@ -81,23 +81,23 @@ void SpaceTupleList::print(const char* filename, const char* description)
   printf(" ... done.\n\n");
 }
 
-size_t SpaceTuple::compute_KS_invariants() 
+std::size_t SpaceTuple::compute_KS_invariants() 
 // (return value = number of spaces for which condition C fails)
 {
-  size_t failures = 0;
+  std::size_t failures = 0;
   for(Space& E : *this)
     if (! E.compute_KS_invariants())
       ++failures;
 }
 
-size_t SpaceTupleList::compute_KS_invariants()
+std::size_t SpaceTupleList::compute_KS_invariants()
 // (return value = number of spaces for which condition C fails)
 {
   printf("Computing Kreck-Stolz-invariants s2 and s22 ...\n");
-  size_t failures = 0;
+  std::size_t failures = 0;
   Feedback feedback;
   feedback.start(this->size());
-  for(size_t i = 0; i < this->size(); ++i)
+  for(std::size_t i = 0; i < this->size(); ++i)
     {
       feedback.update(i);
       failures += this->at(i).compute_KS_invariants();

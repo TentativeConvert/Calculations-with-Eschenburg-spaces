@@ -6,7 +6,7 @@ using std::vector;
 #include "aux_feedback.h"
 #include "aux_math.h"
 #include <algorithm>
-using std::sort;
+#include <cstddef> // for std::size_t
 
 
 SpaceTupleList::SpaceTupleList(const INT_R& R)
@@ -16,7 +16,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   feedback.start(100);
 
   double epsilon = 0.1; // used as "safety buffer" against rounding erros
-  size_t c_spaces = 0; // counter
+  std::size_t c_spaces = 0; // counter
   struct miniSpace {
     INT_p d;
     INT_p n;
@@ -102,12 +102,12 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   // Now look for tuples of spaces whose invariants r & s agree!
   printf("\nLooking for tuples of spaces whose invariants r & s agree ...\n");
  
-  size_t counter_distinct_rs_values = 0;
-  size_t counter_singletons = 0;
-  feedback.start((size_t)(R+1)/2);
+  std::size_t counter_distinct_rs_values = 0;
+  std::size_t counter_singletons = 0;
+  feedback.start((std::size_t)(R+1)/2);
 
   for(INT_R hmr = 0; hmr < (R+1)/2; ++hmr){  //hmr = "half minus r" (abgerundet)
-    feedback.update((size_t)hmr);
+    feedback.update((std::size_t)hmr);
     //------------------------------------------------
     // Sort spaces in all_spaces[hmr] by their s-invariant.
     //
@@ -115,21 +115,21 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
     // where s is the s-invariant of the space all_spaces[hmr][index].
     // Then we only sort this list of pairs.
     struct i_s_pair {
-      size_t i; INT_R abs_s;  
+      std::size_t i; INT_R abs_s;  
       bool operator<(const i_s_pair& otherpair) const {return (abs_s < otherpair.abs_s);}
     };
     vector< struct i_s_pair > i_s_pairs(all_spaces[hmr].size());
     INT_R mr = 2*hmr+1;    
-    for(size_t i = 0; i < all_spaces[hmr].size(); ++i){
+    for(std::size_t i = 0; i < all_spaces[hmr].size(); ++i){
       i_s_pairs[i].i = i;
       i_s_pairs[i].abs_s = abs(signed_mod(all_spaces[hmr][i].unreduced_s(), mr));
     }
-    sort(i_s_pairs.begin(),i_s_pairs.end());
+    std::sort(i_s_pairs.begin(),i_s_pairs.end());
     // Our list of paris (i_s_pairs) is now sorted.
     // Now find spaces where s-values match.
-    for(size_t i1 = 0; i1 < i_s_pairs.size(); )// i1 is incremented indirectly via i2
+    for(std::size_t i1 = 0; i1 < i_s_pairs.size(); )// i1 is incremented indirectly via i2
       {
-	size_t i2 = i1+1;
+	std::size_t i2 = i1+1;
 	while (i2 < i_s_pairs.size() 
 	       && i_s_pairs[i1].abs_s == i_s_pairs[i2].abs_s)
 	  ++i2;
@@ -138,7 +138,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
 	  {
 	    //all_spaces with indexes i1,...,i2 define spaces with the same invariants
             SpaceTuple new_tuple;
-	    for(size_t j = i1; j < i2; ++j)
+	    for(std::size_t j = i1; j < i2; ++j)
 	      {
 		miniSpace& e = all_spaces[hmr][i_s_pairs[j].i];
 		//Space E;

@@ -3,11 +3,12 @@
 #include "esch_space.h"
 #include <deque>
 #include <functional>
+#include <cstddef> // for std::size_t
 
 class SpaceTuple : public std::deque< class Space >
 {
  public:
-  size_t compute_KS_invariants(); // (return value = number of spaces for which condition C fails)
+  std::size_t compute_KS_invariants(); // (return value = number of spaces for which condition C fails)
 
   void print(FILE* file) const;
   bool operator<(const SpaceTuple& otherfam) const {return (this->size() > otherfam.size());}
@@ -28,6 +29,6 @@ class SpaceTupleList : public std::deque< SpaceTuple >
 		 const char* description);
 
   // Other methods:
-  size_t compute_KS_invariants(); // (return value = number of spaces for which condition C fails)
+  std::size_t compute_KS_invariants(); // (return value = number of spaces for which condition C fails)
   void print(const char* filename, const char* description);
 };

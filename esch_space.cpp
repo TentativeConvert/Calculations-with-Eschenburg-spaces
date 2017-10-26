@@ -206,15 +206,16 @@ void Space::compute_s2_from_row(int j)
 // Lens space invariants:
 rational<INT_KS> Space::lens_s2(INT_p p, array<INT_p,4> param)
 {
+  const double pi = boost::math::constants::pi<double>();
   FLOAT_KS a = 0;
   for(INT_p k = 1; k < abs(p); ++k)
     {
       FLOAT_KS s = 
-	(cos(2*M_PI*k/abs(p)) - 1)
-	/sin(k*M_PI*param[0]/p)
-	/sin(k*M_PI*param[1]/p)
-	/sin(k*M_PI*param[2]/p)
-	/sin(k*M_PI*param[3]/p);
+	(cos(2*pi*k/abs(p)) - 1)
+	/sin(k*pi*param[0]/p)
+	/sin(k*pi*param[1]/p)
+	/sin(k*pi*param[2]/p)
+	/sin(k*pi*param[3]/p);
       a += s;
     }
   /*std::cout << "    ";

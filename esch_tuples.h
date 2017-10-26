@@ -18,7 +18,7 @@ class SpaceTupleList : public std::deque< SpaceTuple >
  public:
   // CONSTRUCTOR 1 (implemented in esch_generate.cpp):
   // fills list with pairs of spaces whose invariants r & s coincide
-  SpaceTupleList(const long& max_R);
+  SpaceTupleList(const INT_R& max_R);
 
   // CONSTRUCTOR 2 (implement in esch_tuples.cpp):
   // filters tuples from original_list according to the supplied function;

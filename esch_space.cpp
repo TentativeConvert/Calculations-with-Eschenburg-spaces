@@ -1,52 +1,58 @@
 #include "esch_space.h"
 using std::array;
-const boost::rational<long long> Space::KS_UNKNOWN = boost::rational<long long>(-1,1);
-const boost::rational<long long> Space::KS_UNCOMPUTABLE = boost::rational<long long>(1,1); 
+const boost::rational<INT_KS> Space::KS_UNKNOWN = boost::rational<INT_KS>(-1,1);
+const boost::rational<INT_KS> Space::KS_UNCOMPUTABLE = boost::rational<INT_KS>(1,1); 
 
 #include "aux_math.h"
 #include <boost/math/constants/constants.hpp>
 #include <boost/math/special_functions/round.hpp>
-#include <boost/multiprecision/cpp_dec_float.hpp>
+//#include <boost/multiprecision/cpp_dec_float.hpp> -- now in config.h
 
 //////////////////////////////////////////////////
 
 void Space::print(FILE* file) const 
 {
-  fprintf(file, " [%4ld,%4ld,%4ld, %4ld,%4ld,%4ld] -> r = %5ld, s = %5ld, p1 = %5ld",k_[0],k_[1],k_[2],l_[0],l_[1],l_[2],r_, s_, p1_);
+  fprintf(file, " [%4ld,%4ld,%4ld, %4ld,%4ld,%4ld] -> r = %5ld, s = %5ld, p1 = %5ld",
+	  (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2],(long)r_, (long)s_, (long)p1_);
   if (s2_ == KS_UNKNOWN)
     fprintf(file, "\n");
   else if (s2_ == KS_UNCOMPUTABLE)
     fprintf(file, "  |!| WARNING: Condition C not satisfied |!|\n");
   else
-    fprintf(file, ", s22 = %lld/%lld, s2 = %lld/%lld\n", s22_.numerator(), s22_.denominator(), s2_.numerator(), s2_.denominator());
+    fprintf(file, ", s22 = %ld/%ld, s2 = %ld/%ld\n", (long)s22_.numerator(), (long)s22_.denominator(), (long)s2_.numerator(), (long)s2_.denominator());
 }
 
 void Space::print(void) const 
 {
-  if (is_positively_curved_space()) 
+  if (is_space()) 
     {
-      printf("\nInvariants of the positively curved Eschenburg space with parameters [%ld,%ld,%ld, %ld,%ld,%ld]:\n", k_[0],k_[1],k_[2],l_[0],l_[1],l_[2]);
-      printf("  r = %ld, s = %ld, p1 = %ld\n",r_, s_, p1_);      
+      printf("\nInvariants of the Eschenburg space with parameters [%ld,%ld,%ld, %ld,%ld,%ld]:\n", 
+	     (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2]);
+      printf("  r = %ld, s = %ld, p1 = %ld\n",(long)r_, (long)s_, (long)p1_);      
       if (s2_ == KS_UNCOMPUTABLE)
-	printf("! Condition C is not satisfied !\n\n");
+	printf("! Condition C is not satisfied !\n");
       else
-	printf("  s22 = %lld/%lld, s2 = %lld/%lld\n\n", s22_.numerator(), s22_.denominator(), s2_.numerator(), s2_.denominator());
+	printf("  s22 = %ld/%ld, s2 = %ld/%ld\n", (long)s22_.numerator(), (long)s22_.denominator(), (long)s2_.numerator(), (long)s2_.denominator());
+      if (is_positively_curved())
+	printf("  The space is positively curved.\n\n");
+      else
+	printf("  The space is NOT positively curved.\n\n");
     }
   else
-    printf("\nThe supplied parameters do not describe a positively curved Eschenburg space.\n\n");
+    printf("\nThe supplied parameters do not describe an Eschenburg space.\n\n");
 }	
 
 //////////////////////////////////////////////////
 
-Space::Space(array<long,3> kkk, array<long,3> lll){
+Space::Space(array<INT_p,3> kkk, array<INT_p,3> lll){
   k_ = kkk;
   l_ = lll;
-  int sigma1_k = k_[0] + k_[1] + k_[2];
-  int sigma2_k = k_[0]*k_[1] + k_[0]*k_[2] + k_[1]*k_[2];
-  int sigma3_k = k_[0]*k_[1]*k_[2];
-  int sigma1_l = l_[0] + l_[1] + l_[2];
-  int sigma2_l = l_[0]*l_[1] + l_[0]*l_[2] + l_[1]*l_[2];
-  int sigma3_l = l_[0]*l_[1]*l_[2];
+  INT_R sigma1_k = k_[0] + k_[1] + k_[2];
+  INT_R sigma2_k = k_[0]*k_[1] + k_[0]*k_[2] + k_[1]*k_[2];
+  INT_R sigma3_k = k_[0]*k_[1]*k_[2];
+  INT_R sigma1_l = l_[0] + l_[1] + l_[2];
+  INT_R sigma2_l = l_[0]*l_[1] + l_[0]*l_[2] + l_[1]*l_[2];
+  INT_R sigma3_l = l_[0]*l_[1]*l_[2];
   r_ = sigma2_k - sigma2_l;
   s_ = signed_mod(sigma3_k-sigma3_l, abs(r_))*sign(r_);
   p1_ = absolute_mod(2*sigma1_k*sigma1_k - 6*sigma2_k, abs(r_));
@@ -55,27 +61,33 @@ Space::Space(array<long,3> kkk, array<long,3> lll){
   s22_ = KS_UNKNOWN;
 }
 
-bool Space::is_positively_curved_space(void) const {
-    // Is it an Eschenburg space? 
-    // -- Test conditions of [CEZ06] (1.1):
-    if(boost::math::gcd(k_[0] - l_[0], k_[1] - l_[1]) > 1) return false;
-    if(boost::math::gcd(k_[0] - l_[0], k_[1] - l_[2]) > 1) return false;
-    if(boost::math::gcd(k_[0] - l_[2], k_[1] - l_[0]) > 1) return false;
-    if(boost::math::gcd(k_[0] - l_[1], k_[1] - l_[0]) > 1) return false;
-    if(boost::math::gcd(k_[0] - l_[1], k_[1] - l_[2]) > 1) return false;
-    if(boost::math::gcd(k_[0] - l_[2], k_[1] - l_[1]) > 1) return false;
-    // Is the space positively curved? 
-    // -- Test conditions of [CEZ06] (1.2):
-    int min_l = std::min(l_[0],std::min(l_[1],l_[2]));
-    if (k_[0] == min_l) return false;
-    if (k_[1] == min_l) return false;
-    if (k_[2] == min_l) return false;
-    int max_l = std::max(l_[0],std::max(l_[1],l_[2]));
-    if (k_[0] == max_l) return false;
-    if (k_[1] == max_l) return false;
-    if (k_[2] == max_l) return false;
-    return true;
-  }
+bool Space::is_space(void) const {
+  // Is it an Eschenburg space? 
+  // -- Test conditions of [CEZ06] (1.1):
+  using boost::math::gcd;
+  if(gcd(k_[0] - l_[0], k_[1] - l_[1]) > 1) return false;
+  if(gcd(k_[0] - l_[0], k_[1] - l_[2]) > 1) return false;
+  if(gcd(k_[0] - l_[2], k_[1] - l_[0]) > 1) return false;
+  if(gcd(k_[0] - l_[1], k_[1] - l_[0]) > 1) return false;
+  if(gcd(k_[0] - l_[1], k_[1] - l_[2]) > 1) return false;
+  if(gcd(k_[0] - l_[2], k_[1] - l_[1]) > 1) return false;
+  return true;
+}
+
+bool Space::is_positively_curved(void) const {
+  // Is the space positively curved? 
+  // -- Test conditions of [CEZ06] (1.2):
+  using boost::math::gcd;
+  INT_p min_l = std::min(l_[0],std::min(l_[1],l_[2]));
+  if (k_[0] == min_l) return false;
+  if (k_[1] == min_l) return false;
+  if (k_[2] == min_l) return false;
+  INT_p max_l = std::max(l_[0],std::max(l_[1],l_[2]));
+  if (k_[0] == max_l) return false;
+  if (k_[1] == max_l) return false;
+  if (k_[2] == max_l) return false;
+  return true;
+}
 
 //////////////////////////////////////////////////
 // KS-invariants
@@ -143,19 +155,19 @@ void Space::compute_s2_from_col(int j)
   //printf("I'm using column %d: ",j+1);
   //printf("(%ld,%ld,%ld)\n",k_[0]-l_[j],k_[1]-l_[j],k_[2]-l_[j]);
   //printf("jp1 = %d",jp1+1);
-  long long q = 
+  INT_KS q = 
     square(k_[0]-l_[j])   + square(k_[1]-l_[j])   + square(k_[2]-l_[j]) +
     square(k_[0]-l_[jp1]) + square(k_[1]-l_[jp1]) + square(k_[2]-l_[jp1])
     - square(l_[j]-l_[jp1]);
-  long long d = 16*3*(long long)(r_)*(k_[0]-l_[j])*(k_[1]-l_[j])*(k_[2]-l_[j]);
+  INT_KS d = 16*3*(INT_KS)(r_)*(k_[0]-l_[j])*(k_[1]-l_[j])*(k_[2]-l_[j]);
   s2_.assign(q-2,d);
-  //printf("q = %lld, r = %ld, d = %lld\n", q, (long)(r_), d);
+  //printf("q = %lld, r = %lld, d = %lld\n", q, (long long)(r_), d);
   //printf("=> (q-2)/d = %lld/%lld\n",s2_.numerator(),s2_.denominator());
   for(int i = 0; i < 3; ++i)
     {
       int ip1 = absolute_mod(i+1,3);
       int ip2 = absolute_mod(i+2,3);
-      array<long,4> params = {k_[ip1]-l_[j], k_[ip2]-l_[j], k_[ip1]-l_[jp1], k_[ip2]-l_[jp1]};
+      array<INT_p,4> params = {k_[ip1]-l_[j], k_[ip2]-l_[j], k_[ip1]-l_[jp1], k_[ip2]-l_[jp1]};
       s2_ += -lens_s2(k_[i]-l_[j], params);
     }
   s2_ = reduce_mod_ZZ(s2_);
@@ -168,11 +180,11 @@ void Space::compute_s2_from_row(int j)
   //printf("I'm using row %d",j+1);
   //printf(" (%ld,%ld,%ld)\n",k_[j]-l_[0],k_[j]-l_[1],k_[j]-l_[2]);
   //printf("jp1 = %d",jp1+1);
-  long long q = 
+  INT_KS q = 
     square(k_[j]-l_[0])   + square(k_[j]-l_[1])   + square(k_[j]-l_[2]) +
     square(k_[jp1]-l_[0]) + square(k_[jp1]-l_[1]) + square(k_[jp1]-l_[2])
     - square(k_[j]-k_[jp1]);
-  long long d = 16*3*(long long)(r_)*(k_[j]-l_[0])*(k_[j]-l_[1])*(k_[j]-l_[2]);
+  INT_KS d = 16*3*(INT_KS)(r_)*(k_[j]-l_[0])*(k_[j]-l_[1])*(k_[j]-l_[2]);
   s2_.assign(q-2,d);
   //printf("q = %lld, d = %lld\n", q, d);
   // printf("=> (q-2)/d = %lld/%lld\n",s2_.numerator(),s2_.denominator());
@@ -181,7 +193,7 @@ void Space::compute_s2_from_row(int j)
       //   printf("Lens space invariant s_2 for i=%d: \n",i+1);
       int ip1 = absolute_mod(i+1,3);
       int ip2 = absolute_mod(i+2,3);
-      array<long,4> params = {k_[j]-l_[ip1], k_[j]-l_[ip2], k_[jp1]-l_[ip1], k_[jp1]-l_[ip2]};
+      array<INT_p,4> params = {k_[j]-l_[ip1], k_[j]-l_[ip2], k_[jp1]-l_[ip1], k_[jp1]-l_[ip2]};
       //   printf("     parameters: %ld; %ld, %ld, %ld, %ld\n", k_[j]-l_[i], params[0], params[1], params[2], params[3]);
       s2_ += lens_s2(k_[j]-l_[i], params);
     }
@@ -192,12 +204,12 @@ void Space::compute_s2_from_row(int j)
 
 //////////////////////////////////////////////////
 // Lens space invariants:
-rational<long long> Space::lens_s2(long p, array<long,4> param)
+rational<INT_KS> Space::lens_s2(INT_p p, array<INT_p,4> param)
 {
-  boost::multiprecision::cpp_dec_float_100 a = 0;
-  for(long k = 1; k < abs(p); ++k)
+  FLOAT_KS a = 0;
+  for(INT_p k = 1; k < abs(p); ++k)
     {
-      boost::multiprecision::cpp_dec_float_100 s = 
+      FLOAT_KS s = 
 	(cos(2*M_PI*k/abs(p)) - 1)
 	/sin(k*M_PI*param[0]/p)
 	/sin(k*M_PI*param[1]/p)
@@ -206,12 +218,12 @@ rational<long long> Space::lens_s2(long p, array<long,4> param)
       a += s;
     }
   /*std::cout << "    ";
-  std::cout << std::setprecision(std::numeric_limits<boost::multiprecision::cpp_dec_float_100>::max_digits10)
+  std::cout << std::setprecision(std::numeric_limits<FLOAT_KS>::max_digits10)
   	    << a*45 
   	    << std::endl; // print a*/
-  long long rounded_45_a = (long long)boost::math::round(a*45);
+  INT_KS rounded_45_a = (INT_KS)boost::math::round(a*45);
   //printf("     round(...) = %lld\n",rounded_45_a);
-  rational<long long> s2(rounded_45_a,45*16*p);
+  rational<INT_KS> s2(rounded_45_a,45*16*p);
   //printf("     s2 = %lld/%lld\n",s2.numerator(),s2.denominator());
   return s2;
 }
@@ -247,8 +259,8 @@ Space::comp Space::compareTangentialHomotopyType(const Space& E1, const Space& E
 
 Space::comp Space::compareHomeomorphismType(const Space& E1, const Space& E2)
 {
-  if (E1.s2_ > E2.s2_) return comp::GREATER;
-  if (E1.s2_ < E2.s2_) return comp::SMALLER;
+  if (abs(E1.s2_) > abs(E2.s2_)) return comp::GREATER;
+  if (abs(E1.s2_) < abs(E2.s2_)) return comp::SMALLER;
   if (sign(E1.s2_)*sign(E1.s_) > sign(E2.s2_)*sign(E2.s_)) return comp::GREATER;
   if (sign(E1.s2_)*sign(E1.s_) < sign(E2.s2_)*sign(E2.s_)) return comp::SMALLER;
   return compareHomotopyType(E1,E2);

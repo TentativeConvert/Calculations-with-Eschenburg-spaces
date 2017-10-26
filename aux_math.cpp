@@ -2,8 +2,8 @@
 
 //#include <boost/math/special_functions/round.hpp>
 
-long square(long long a){ return a*a; }
-long signed_mod (long a, long base)
+INT_KS square(INT_KS a){ return a*a; }
+INT_R signed_mod (INT_R a, INT_R base)
 {
   long remainder = a % base;
   if(2*remainder > base)  // remainder > base/2, in "integer language"
@@ -20,7 +20,7 @@ long absolute_mod (long a, long base)
   return remainder;
 }
 
-rational<long long> reduce_mod_ZZ(const rational<long long>& q)
+rational<INT_KS> reduce_mod_ZZ(const rational<INT_KS>& q)
 {
   // Input:   q  in QQ 
   // Output:  q' in (-1/2, 1/2] in QQ such that 
@@ -33,7 +33,7 @@ rational<long long> reduce_mod_ZZ(const rational<long long>& q)
       q_d = -q_d;
     }
   q_n = signed_mod(q_n,q_d);  
-  return rational<long long>(q_n,q_d);
+  return rational<INT_KS>(q_n,q_d);
 }
 
 int sign(const long &i){
@@ -42,15 +42,15 @@ int sign(const long &i){
   return 0;
 }
 
-int sign(const rational<long long> &r){
+int sign(const rational<INT_KS> &r){
   // implementation is really for rationals mod ZZ
   // (We need this only for the invariants s22 and s2.)
   //
   //  r =  1/4          ---> sign(r) = +1
   //  r = -1/4          ---> sign(r) = -1
   //  r = 0, 1/2, -1/2  ---> sign(r) =  0
-  rational<long long> r_ = reduce_mod_ZZ(r);
-  if (0 < r && r < rational<long long>(1,2)) return 1;
-  if (0 > r && r > -rational<long long>(1,2)) return -1;
+  rational<INT_KS> r_ = reduce_mod_ZZ(r);
+  if (0 < r && r < rational<INT_KS>(1,2)) return 1;
+  if (0 > r && r > -rational<INT_KS>(1,2)) return -1;
   return 0;
 }

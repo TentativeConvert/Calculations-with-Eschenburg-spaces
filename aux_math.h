@@ -1,5 +1,5 @@
 #pragma once
-
+#include "config.h"
 #include <cmath>     
 using std::abs; //*
 using std::sqrt;//*
@@ -11,8 +11,8 @@ using std::min; //*
 #include <boost/math/common_factor.hpp>
 using boost::math::gcd; //*
 
-long square(long long a);
-long signed_mod (long a, long base);
+INT_KS square(INT_KS a);
+INT_R signed_mod (INT_R a, INT_R base);
 long absolute_mod (long a, long base);
 int sign(const long &i);
 
@@ -20,8 +20,8 @@ int sign(const long &i);
 #include <boost/rational.hpp>
 using boost::rational; //*
 //template<class Typ> rational<Typ> reduce_mod_ZZ(const rational<Typ> &q);
-rational<long long> reduce_mod_ZZ(const rational<long long> &q);
-int sign(const rational<long long> &r);
+rational<INT_KS> reduce_mod_ZZ(const rational<INT_KS> &q);
+int sign(const rational<INT_KS> &r);
 
 
 

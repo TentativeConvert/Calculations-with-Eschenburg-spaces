@@ -10,7 +10,7 @@ for s22() uncomputable  (condition C fails)
 Space_family             -->  SpaceTuple
 Deque_of_Space_families  -->  SpaceTupleList
    
-* Config: DATA types
+* DONE Config: DATA types                                           :ARCHIVE:
 * DONE Config: max-lines-per-file                                   :ARCHIVE:
 * DONE print ?? if s22() unkown                                     :ARCHIVE:
 print WARNING if condition C fails

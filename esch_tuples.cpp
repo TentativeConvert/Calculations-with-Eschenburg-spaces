@@ -5,7 +5,6 @@ using std::deque;
 using std::vector;
 #include "aux_feedback.h"
 #include <algorithm>
-using std::stable_sort;
 
 //////////////////////////////////////////////////
 
@@ -24,11 +23,11 @@ void SpaceTupleList::print(const char* filename, const char* description)
   if (file == NULL) printf("Error opening file!\n");
   
   // sort tuples by size, in DESCENDING ORDER:
-  stable_sort(this->begin(),this->end());
+  std::stable_sort(this->begin(),this->end());
 
   // count total number of pairs, triples, tuples of length 3, ...:
   // counter_[i-1] = number of tuples of length i
-  vector< long > counters_;  
+  vector< size_t > counters_;  
   for(SpaceTuple F : *this)
     {
       size_t s = F.size();
@@ -121,26 +120,24 @@ SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list,
   for(std::size_t i = 0; i < original_list.size(); ++i)
     {
       feedback.update(i);
-      SpaceTuple& F = original_list[i];
+      SpaceTuple& T = original_list[i];
 
-      sort(F.begin(),F.end(),[&compareFunction](const Space& E1, const Space& E2) -> bool
+      std::stable_sort(T.begin(),T.end(),[&compareFunction](const Space& E1, const Space& E2) -> bool
 	   {
 	     return (compareFunction(E1,E2) == Space::comp::GREATER);
 	   } );
 
-      for(std::size_t i1 = 0; i1 < F.size(); )// i1 is incremented indirectly via i2
+      for(std::size_t i1 = 0; i1 < T.size(); )// i1 is incremented indirectly via i2
       {
 	std::size_t i2 = i1+1;
-	while (i2 < F.size() && compareFunction(F[i1],F[i2]) == Space::comp::EQUAL)
+	while (i2 < T.size() && compareFunction(T[i1],T[i2]) == Space::comp::EQUAL)
 	  ++i2;
 	if(i2 > i1+1)
 	  {
 	    //all_spaces with indexes i1,...,i2 define spaces with the same invariants
             SpaceTuple new_tuple;
 	    for(std::size_t j = i1; j < i2; ++j)
-	      {
-		new_tuple.push_back(F[j]);
-	      }
+		new_tuple.push_back(T[j]);
 	    this->push_back(new_tuple);
 	  }
 	i1 = i2;

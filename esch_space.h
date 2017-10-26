@@ -1,21 +1,22 @@
 #pragma once
+#include "config.h"
 #include <array>               // std::array;
 #include <boost/rational.hpp>  // boost::rational;
 
 class Space {
  private:
-  std::array<long,3> k_;
-  std::array<long,3> l_;
-  long r_;  // = r(k,l); it can be positive or negative.
+  std::array<INT_p,3> k_;
+  std::array<INT_p,3> l_;
+  INT_R r_;  // = r(k,l); it can be positive or negative.
             // (in [CEZ07], "r := |r(k,l)|")
-  long s_;  // = s(k,l) modulo |r(k,l)|
-  long p1_; // = p_1(k,l) modulo |r(k,l)|
+  INT_R s_;  // = s(k,l) modulo |r(k,l)|
+  INT_R p1_; // = p_1(k,l) modulo |r(k,l)|
 
-  boost::rational<long long> s2_;
-  boost::rational<long long> s22_;
+  boost::rational<INT_KS> s2_;
+  boost::rational<INT_KS> s22_;
   // KS-invariants s2 and s22 take values in interval (-1/2,1/2]
-  static const boost::rational<long long> KS_UNKNOWN;      // (set to -1/1 in .cpp)
-  static const boost::rational<long long> KS_UNCOMPUTABLE; // (set to 1/1 in .cpp)
+  static const boost::rational<INT_KS> KS_UNKNOWN;      // (set to -1/1 in .cpp)
+  static const boost::rational<INT_KS> KS_UNCOMPUTABLE; // (set to 1/1 in .cpp)
   // KS-invariants s2, s22 are uncomputable if condition C is not satisfied
 
   int good_col_or_row;
@@ -27,25 +28,26 @@ class Space {
   int gcdA(int i, int j, int ii, int jj);
   void compute_s2_from_row(int j);
   void compute_s2_from_col(int j);
-  boost::rational<long long> lens_s2(long p, std::array<long,4> param);
+  boost::rational<INT_KS> lens_s2(INT_p p, std::array<INT_p,4> param);
 
 public:
   // Constructor:
-  Space(std::array<long,3> kkk, std::array<long,3>);
+  Space(std::array<INT_p,3> kkk, std::array<INT_p,3>);
 
   // Methods that change class members:
   bool test_condition_C(); 
   bool compute_KS_invariants();  // same return value as conditionC, but also computes s22 & s2
 
   // Getters that don't change class members:
-  bool is_positively_curved_space(void) const;
-  const std::array<long,3>& k() const { return k_; }
-  const std::array<long,3>& l() const { return k_; }
-  const long& r() const { return r_; }
-  const long& s() const { return s_; }
-  const long& p1() const { return p1_; }
-  const boost::rational<long long>& s22() const {return s22_; }
-  const boost::rational<long long>& s2() const {return s2_; }
+  bool is_space(void) const;
+  bool is_positively_curved(void) const;
+  const std::array<INT_p,3>& k() const { return k_; }
+  const std::array<INT_p,3>& l() const { return k_; }
+  const INT_R& r() const { return r_; }
+  const INT_R& s() const { return s_; }
+  const INT_R& p1() const { return p1_; }
+  const boost::rational<INT_KS>& s22() const {return s22_; }
+  const boost::rational<INT_KS>& s2() const {return s2_; }
 
   // Other methods that don't change class members:
   // (note that wrong values of s2 & s22 will be printed

@@ -2,24 +2,19 @@
    make
 */
 #include <functional>
-// eschenburg classes:
+#include <vector>
 #include "esch_space.h"     // class Space
 #include "esch_tuples.h"    // class SpaceTuple
                             // = wrapper for deque< Space >
                             // class SpaceTupleList
                             // = wrapper for deque< Space_tuples >
 
-#include <iostream>
-#include <string>
-#include <vector>
-
-//////////////////////////////////////////////////
 
 int show_usage(const char* name);
 int generate_lists(const INT_R& R);
 int analyse_space(const INT_p& k1, const INT_p& k2, const INT_p& k3, 
 		  const INT_p &l1, const INT_p& l2, const INT_p& l3);
-//void RemoveSpaces(char* source);
+
 
 int main(int argc, char* argv[])
 {
@@ -68,6 +63,7 @@ int generate_lists(const INT_R& R){
   tuples_homeo.print("list3-homeo.txt", "Found the following numbers of tuples of homeomorphic spaces:");
   return 0;
 }
+
 
 int show_usage(const char* name)
 {

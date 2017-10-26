@@ -1,29 +1,31 @@
-# Makefile taken from 
-# https://stackoverflow.com/a/2481326/3611932
+# By default, this makefile only compiles for Linux.
+# Before compiling for windows, run
+#   
+#   make distclean
 #
-CXX=g++
+# so that all object files get deleted and then rebuilt.
+# Then run
+#
+#   make win
+#
+# I haven't managed to configure make to make separate 
+# object files for windows and linux AND automatically detect
+# dependencies.  The problem is that the automatic dependency
+# detection relies on built-in rules.  
+#
+# See https://stackoverflow.com/a/2481326/3611932
+
 RM=rm -f
-CPPFLAGS=-std=c++11 -I=/usr/local/include/boost_1_65_1 -O3
-LDFLAGS=-std=c++11 -I=/usr/local/include/boost_1_65_1 -O3
 
-SRCS=main.cpp esch_space.cpp esch_tuples.cpp esch_generate.cpp aux_math.cpp aux_feedback.cpp
-OBJS=$(subst .cpp,.o,$(SRCS))
+all: nix 
 
-all: main
-
-main: $(OBJS)
-	$(CXX) $(LDFLAGS) -o main $(OBJS)
-
-depend: .depend
-
-.depend: $(SRCS)
-	$(RM) ./.depend
-	$(CXX) $(CPPFLAGS) -MM $^>>./.depend;
+nix: 
+	make -f Makefile_nix64
+win:
+	make -f Makefile_win64
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) *.o .depend
 
-distclean: clean
-	$(RM) *~ .depend
-
-include .depend
+distclean:
+	$(RM) *.o *~ .depend

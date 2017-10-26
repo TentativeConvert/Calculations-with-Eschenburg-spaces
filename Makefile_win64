@@ -1,0 +1,38 @@
+# Makefile for building windows-exe on Linux.
+# 
+# usage:  
+#    make -f Makefile_win64
+#
+# or simply invoke standard Makefile with
+#    make win
+#
+# This makefile is taken from:
+# https://stackoverflow.com/a/2481326/3611932
+
+CXX=x86_64-w64-mingw32-g++
+RM=rm -f
+CPPFLAGS=-std=c++11 -I/usr/local/include/boost_1_65_1 -static-libgcc -static-libstdc++ -static -O3
+LDFLAGS=-std=c++11 -I/usr/local/include/boost_1_65_1 -static-libgcc -static-libstdc++ -static -O3
+
+SRCS=main.cpp esch_space.cpp esch_tuples.cpp esch_generate.cpp aux_math.cpp aux_feedback.cpp
+OBJS=$(subst .cpp,.o,$(SRCS))
+TARGET=./bin_win64/esch.exe
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(LDFLAGS) -o $(TARGET) $(OBJS)
+
+depend: .depend
+
+.depend: $(SRCS)
+	$(RM) ./.depend
+	$(CXX) $(CPPFLAGS) -MM $^>>./.depend;
+
+clean:
+	$(RM) $(OBJS)
+
+distclean: clean
+	$(RM) *~ .depend
+
+include .depend

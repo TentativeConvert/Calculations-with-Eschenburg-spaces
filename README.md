@@ -47,7 +47,7 @@ With the default configuration, results should be reliable for parameters `kᵢ`
 
 
 ### Count 'isomorphism' classes in a range
-To count the number of various 'isomorphism' classes of positively curved Eschenburg spaces in a certain range, say with |r| < 5000, enter:						
+To count the number of various 'isomorphism' classes of positively curved Eschenburg spaces in a certain range, say with `|r| < 5000`, enter:						
 								
      ./esch r=5000						
 

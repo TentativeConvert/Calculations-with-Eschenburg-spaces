@@ -15,7 +15,6 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   Feedback feedback;
   feedback.start(100);
 
-  double epsilon = 0.1; // used as "safety buffer" against rounding erros
   std::size_t c_spaces = 0; // counter
   struct miniSpace {
     INT_p d;
@@ -31,7 +30,9 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   // (see https://stackoverflow.com/a/216731/3611932)  
   
   // Step (a)
-  INT_p D = (INT_p)(sqrt(R-3/4) - 1/2 + epsilon);
+  INT_p D = (INT_p)(sqrt(R-3/4) - 1/2) + 1; 
+                         // + 1 because result of sqrt is rounded down
+                         // sqrt(integer) returns double, which has 53 bit significand
   INT_p old_n = 0;	 // first pair in Farey sequence is 0/1
   INT_p old_d = 1;	 // -- only used to start the algorithm
   INT_p n = 1;		 // second pair in Farey sequence is 1/D
@@ -40,7 +41,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
     {
       if(d == 101) feedback.update_percent((int)(n*100/101));
       // Step (b.1) 
-      INT_p K1	= (INT_p)((R-n*n)/d - n + epsilon);
+      INT_p K1	= (INT_p)((R-n*n)/d - n) + 1 ; // + 1 to guard against rounding errors
       INT_p K1_ = min(d+n-1, K1);
       for(INT_p k1_ = d; k1_ <= K1_; ++k1_)
 	{
@@ -50,7 +51,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
 	  for(INT_p k1 = k1_; k1 <= K1; k1+=n)
 	    {
 	      // Step (c.1)
-	      INT_p K2 = min((INT_p)((R-k1*d)/n - d + epsilon), k1);
+	      INT_p K2 = min((INT_p)((R-k1*d)/n - d + 1), k1); // + 1 to guard against rounding errors 
 	      INT_p K2_ = min(k1+n-1, K2);
 	      for(INT_p k2_ = k1+n-d; k2_ <= K2_; ++k2_)
 		{

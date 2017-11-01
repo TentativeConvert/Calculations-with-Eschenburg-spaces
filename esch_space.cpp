@@ -6,6 +6,8 @@ const boost::rational<INT_KS> Space::KS_UNCOMPUTABLE = boost::rational<INT_KS>(1
 #include "aux_math.h"
 #include <boost/math/constants/constants.hpp>
 #include <boost/math/special_functions/round.hpp>
+#include <boost/math/special_functions/sin_pi.hpp>
+#include <boost/math/special_functions/cos_pi.hpp>
 //#include <boost/multiprecision/cpp_dec_float.hpp> -- now in config.h
 
 //////////////////////////////////////////////////
@@ -47,12 +49,12 @@ void Space::print(void) const
 Space::Space(array<INT_p,3> kkk, array<INT_p,3> lll){
   k_ = kkk;
   l_ = lll;
-  INT_R sigma1_k = k_[0] + k_[1] + k_[2];
-  INT_R sigma2_k = k_[0]*k_[1] + k_[0]*k_[2] + k_[1]*k_[2];
-  INT_R sigma3_k = k_[0]*k_[1]*k_[2];
-  INT_R sigma1_l = l_[0] + l_[1] + l_[2];
-  INT_R sigma2_l = l_[0]*l_[1] + l_[0]*l_[2] + l_[1]*l_[2];
-  INT_R sigma3_l = l_[0]*l_[1]*l_[2];
+  INT_R sigma1_k = (INT_R)k_[0] + (INT_R)k_[1] + (INT_R)k_[2];
+  INT_R sigma2_k = (INT_R)k_[0]*(INT_R)k_[1] + (INT_R)k_[0]*(INT_R)k_[2] + (INT_R)k_[1]*(INT_R)k_[2];
+  INT_R sigma3_k = (INT_R)k_[0]*(INT_R)k_[1]*(INT_R)k_[2];
+  INT_R sigma1_l = (INT_R)l_[0] + (INT_R)l_[1] + (INT_R)l_[2];
+  INT_R sigma2_l = (INT_R)l_[0]*(INT_R)l_[1] + (INT_R)l_[0]*(INT_R)l_[2] + (INT_R)l_[1]*(INT_R)l_[2];
+  INT_R sigma3_l = (INT_R)l_[0]*(INT_R)l_[1]*(INT_R)l_[2];
   r_ = sigma2_k - sigma2_l;
   s_ = signed_mod(sigma3_k-sigma3_l, abs(r_))*sign(r_);
   p1_ = absolute_mod(2*sigma1_k*sigma1_k - 6*sigma2_k, abs(r_));
@@ -77,15 +79,11 @@ bool Space::is_space(void) const {
 bool Space::is_positively_curved(void) const {
   // Is the space positively curved? 
   // -- Test conditions of [CEZ06] (1.2):
-  using boost::math::gcd;
   INT_p min_l = std::min(l_[0],std::min(l_[1],l_[2]));
-  if (k_[0] == min_l) return false;
-  if (k_[1] == min_l) return false;
-  if (k_[2] == min_l) return false;
   INT_p max_l = std::max(l_[0],std::max(l_[1],l_[2]));
-  if (k_[0] == max_l) return false;
-  if (k_[1] == max_l) return false;
-  if (k_[2] == max_l) return false;
+  if (min_l <= k_[0] && k_[0] <= max_l) return false;
+  if (min_l <= k_[1] && k_[1] <= max_l) return false;
+  if (min_l <= k_[2] && k_[2] <= max_l) return false;
   return true;
 }
 
@@ -206,16 +204,18 @@ void Space::compute_s2_from_row(int j)
 // Lens space invariants:
 rational<INT_KS> Space::lens_s2(INT_p p, array<INT_p,4> param)
 {
-  const double pi = boost::math::constants::pi<double>();
+  //const double pi = boost::math::constants::pi<double>(); no longer needed as I'm using sin_pi now
+  using boost::math::cos_pi;
+  using boost::math::sin_pi;
   FLOAT_KS a = 0;
   for(INT_p k = 1; k < abs(p); ++k)
     {
       FLOAT_KS s = 
-	(cos(2*pi*k/abs(p)) - 1)
-	/sin(k*pi*param[0]/p)
-	/sin(k*pi*param[1]/p)
-	/sin(k*pi*param[2]/p)
-	/sin(k*pi*param[3]/p);
+	(cos_pi((FLOAT_KS)2*k/abs(p)) - 1)
+	/sin_pi((FLOAT_KS)k*param[0]/p)
+	/sin_pi((FLOAT_KS)k*param[1]/p)
+	/sin_pi((FLOAT_KS)k*param[2]/p)
+	/sin_pi((FLOAT_KS)k*param[3]/p);
       a += s;
     }
   /*std::cout << "    ";

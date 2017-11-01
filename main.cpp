@@ -8,8 +8,6 @@
                             // = wrapper for deque< Space >
                             // class SpaceTupleList
                             // = wrapper for deque< Space_tuples >
-
-
 int show_usage(const char* name);
 int generate_lists(const INT_R& R);
 int analyse_space(const INT_p& k1, const INT_p& k2, const INT_p& k3, 
@@ -71,14 +69,23 @@ int show_usage(const char* name)
 \n -------   PROGRAM FOR CALCULATIONS WITH ESCHENBURG SPACES    ------- \
 \n To analyses Eschenburg space described by certain parameters, enter:	\
 \n									\
-\n       %1$s [50,49,48,16,3,-2]					\
-\n or    %1$s \"[50, 49, 48, 16, 6, -2]\"				\
+\n       %1$s [75,54,-51,46,32,0]					\
+\n or    %1$s \"[75, 54, -51, 46, 32, 0]\"				\
 \n									\
-\n To generates various lists of positively curved Eschenburg spaces	\
+\n To generate various lists of positively curved Eschenburg spaces	\
 \n with |r| < 5000, enter:						\
 \n									\
 \n        %1$s r=5000							\
 \n									\
 \n",name);
+  printf(" -------------------------------------------------------------------- ");
+  printf("\n NB: Size of data types on your system:\n");
+  printf("   int:         %3ld bit\n",sizeof(int)*8);
+  printf("   long:        %3ld bit\n",sizeof(long)*8);
+  printf("   long long:   %3ld bit\n",sizeof(long long)*8);
+  printf("   float:       %3ld bit\n",sizeof(float)*8);
+  printf("   double:      %3ld bit\n",sizeof(double)*8);
+  printf("   long double: %3ld bit\n",sizeof(long double)*8);
+  printf(" -------------------------------------------------------------------- \n");
   return 1;
 }

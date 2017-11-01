@@ -2,7 +2,7 @@
 The aim of this little snippet of code is to find all pairs of Eschenburg spaces `E` with bounded `|r| := |H⁴(E)|` whose basic polynomial invariants agree.  This task is subdivided into two (sub)tasks:
 
 **Task 1:** Find all Eschenburg spaces with `|r| ≤ R` for some given bound `R`.  
-**Task 2:** Given a list of all such spaces, find all pairs on this list whose basic polynomial invariants agree.
+**Task 2:** Given a list of all such spaces, find all pairs on this list whose invariants `r` and `s` agree.
 
 The implementation of Task 1 is described in detail below.  Task 2 is fairly straight-forward.
 

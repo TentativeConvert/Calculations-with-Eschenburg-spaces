@@ -72,27 +72,25 @@ If the above binaries are not appropriate for your system, download/clone the co
 When compiling from scratch, some options ....
 
 
-# Implementation
+# Code base
 The code is structured as follows:
 
-      esch_space.*
-    implement 
-      class Space()
-             
-`esch_space.*` implements ....    
+      esch_space.h            implement       class Space
+      esch_space.cpp 
+ 
+All code for computing the above invariants is contained in this class.  The class all contains comparison functions that determine whether two spaces are homotopy equivalent/tangentially homotopy equivalent/homeomorphic. 
+ 
+      esch_tuples.h           implement       class SpaceTuple
+      esch_tuples.cpp                         class SpaceTupleList
+      esch_generate.cpp
 
-      esch_lists.*
-      esch_generate.*
-     implements 
-       class SpaceTuple()
-       class SpaceTupleList()
+The class `SpaceTuple` is a simple wrapper around `std::deque< Space >`.  The class `SpaceTupleList` is a wrapper around `std::deque < SpaceTuple >` with two interesting constructors:
 
-These are simple wrapper classes with interesting constructors:
+One constructor, implemented separately in `esch_generate.cpp`, first generates a list of all positively curved Eschenburg spaces with `|r|` bounded by a given integer.  (More precisely, it generates a list of parameters values `(k₁,k₂,k₃,l₁,l₂,l₃)` that specify an Eschenburg space `|r|` bounded by this integer.)  It then looks spaces on this list whose parameters `|r|` and `|s|` agree and saves a list of tuples of spaces for which this is the case.  See [docs/esch_generate.md](docs/esch_generate.md) for further details.
 
-One constructor, implemented separately in `esch_generate.cpp`, generates .... .  See [docs/esch_generate.md](docs/esch_generate.md), for details how this algorithm is implemented.
+The other constructor takes an existing list of tuples and a "filter" as input.  Possible "filters" are "homotopy class" or  "homeomorphism class", for example.  The constructor looks for (sub-)tuples of spaces in the given list of tuples that fall into the same isomorphism class according to the "filter".
 
-The other constructor takes an existing list and ....
-
+The interface of these classes is demonstrated the main routine in `esch.cpp`.
 
 ## References
 \[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20

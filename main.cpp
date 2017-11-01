@@ -3,6 +3,7 @@
 */
 #include <functional>
 #include <vector>
+#include "config.h"
 #include "esch_space.h"     // class Space
 #include "esch_tuples.h"    // class SpaceTuple
                             // = wrapper for deque< Space >
@@ -79,13 +80,11 @@ int show_usage(const char* name)
 \n									\
 \n",name);
   printf(" -------------------------------------------------------------------- ");
-  printf("\n NB: Size of data types on your system:\n");
-  printf("   int:         %3ld bit\n",sizeof(int)*8);
-  printf("   long:        %3ld bit\n",sizeof(long)*8);
-  printf("   long long:   %3ld bit\n",sizeof(long long)*8);
-  printf("   float:       %3ld bit\n",sizeof(float)*8);
-  printf("   double:      %3ld bit\n",sizeof(double)*8);
-  printf("   long double: %3ld bit\n",sizeof(long double)*8);
+  printf("\n NB: Size of data types:\n");
+  printf("   INT_P:    %3ld bit\n",sizeof(INT_p)*8);
+  printf("   INT_R:    %3ld bit\n",sizeof(INT_R)*8);
+  printf("   INT_KS:   %3ld bit\n",sizeof(INT_KS)*8);
+  printf("   FLOAT_KS: %3ld bit\n",sizeof(FLOAT_KS)*8);
   printf(" -------------------------------------------------------------------- \n");
   return 1;
 }

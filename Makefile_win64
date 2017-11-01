@@ -29,6 +29,7 @@ depend: .depend
 	$(RM) ./.depend
 	$(CXX) $(CPPFLAGS) -MM $^>>./.depend;
 
+
 clean:
 	$(RM) $(OBJS)
 

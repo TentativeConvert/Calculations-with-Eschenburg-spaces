@@ -1,3 +1,4 @@
+# Calculations with Eschenburg spaces
 
 This C++ program implements and combines a subset of the features of the following two pieces of code:
 
@@ -5,7 +6,7 @@ This C++ program implements and combines a subset of the features of the followi
 -  The Maple program for computing invariants of Eschenburg spaces, also mentioned in [\[CEZ07\]](#references) and available on [W. Ziller's homepage](https://www.math.upenn.edu/~wziller/research.html).
 
 
-# Installation
+## Installation
 
 Two precompiled binaries are available in the repository:
 
@@ -16,11 +17,11 @@ Two precompiled binaries are available in the repository:
 
 If the above binaries are not appropriate for your system, download/clone the complete repository and compile from scratch.  Call `make win` or `make nix` to compile using the supplied `Makefile`s.  You will likely need to adapt the `Makefile`s to suit your system.   Your may also need to download and install some boost libraries.
 
-# Usage
+## Usage
 
 Once [installed](#installation), the program can be run from the command line:  simply navigate to the directory in which the program is installed and call `./esch` (on linux) or `esch.exe` (on windows).  Starting the program like this, without any additional parameters, will display some short usage instructions.  
 
-### Analyse single space
+#### Analyse single space
 To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l₁,l₂,l₃)`, enter one of
 								
       ./esch [k₁,k₂,k₃,l₁,l₂,l₃]					
@@ -46,7 +47,7 @@ For more details on these invariants, consult  [\[CEZ07\]](#references).  By  [\
 With the default configuration, results should be reliable for parameters `kᵢ` and `lᵢ` of absolute value at most ...   ([see details below](#configuration)).
 
 
-### Count 'isomorphism' classes in a range
+#### Count 'isomorphism' classes in a range
 To count the number of various 'isomorphism' classes of positively curved Eschenburg spaces in a certain range, say with `|r| < 5000`, enter:						
 								
      ./esch r=5000						
@@ -64,7 +65,7 @@ Note that the files will be overwritten the next time the program is run.  If yo
 With the default configuration, results should be reliable up to parameters of ...   ([see details below](#configuration)).
 
 
-# Code base
+## Code base
 The code is structured as follows:
 
       esch_space.h            implement       class Space
@@ -84,10 +85,10 @@ The other constructor takes an existing list of tuples and a "filter" as input. 
 
 The interface of these classes is demonstrated in `esch.cpp`.
 
-## Configuration
+#### Configuration
 
 When compiling from scratch, the data types used in the computations and a few other options can be set in `config.h`.
 
 
-# References
+## References
 \[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20

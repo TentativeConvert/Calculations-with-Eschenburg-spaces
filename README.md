@@ -1,7 +1,7 @@
 
 ## Mathematical background
 
-See [CEZ07][CEZ07 paper]  ...
+See [\[CEZ07\]](#references) ...
 
 Invariants of an Eschenburg space `E` with parameters (k₁,k₂,k₃,l₁,l₂,l₃) are:
 
@@ -15,12 +15,33 @@ Invariants of an Eschenburg space `E` with parameters (k₁,k₂,k₃,l₁,l₂,
 
 ## Usage
 
-Once installed, the program can be run as follows. Start the program with ... or ...
+Once [installed](#Installation), the program can be run from the command line:  simply navigate to the directory in which the program is installed and call `./esch` (on linux) or `esch.exe` (on windows).  Starting the program like this, without any additional parameters, will display some short usage instructions.  
 
-Output will be written to ...
+### Analyse single space
+To analyse an Eschenburg space described by certain parameters, enter one of
+								
+      ./esch [75,54,-51,46,32,0]					
+      ./esch "\[75, 54, -51, 46, 32, 0\]"				
 
-Results should be exact up to  .... (see also configuration & implementation below).
+(or `esch.exe [75,54,-51,46,32,0]` on windows systems).  
+With the default configuration, results should be reliable up to parameters of ...   ([see details below](#configuration)).
 
+### Count 'isomorphism' classes in a range
+To count the number of various 'isomorphism' classes of positively curved Eschenburg spaces in a certain range, say with |r| < 5000, enter:						
+								
+     ./esch r=5000						
+
+(or `esch.exe r=5000` on windows).  Output will be written to the following files in the same directory:
+
+     list1-he.txt	      (homotopy classes)							
+     list2-the.txt        (tangential homotopy classes)
+     list3-homeo.txt      (homeomorphism classes)
+
+In addition to the counting statistics, these files will contain lists of tuples that specify the same isomorphism class.  To limit the maximum file size, the maximum number of tuples listed is controlled by the [configuration variable](#configuration) `MAX_TUPLES_PER_TUPLESIZE_PER_FILE`, which can only be set at compile time.  
+
+Note that the files will be overwritten the next time the program is run.  If you want to keep the results, make a copy of these files.
+
+With the default configuration, results should be reliable up to parameters of ...   ([see details below](#configuration)).
 
 ## Installation
 
@@ -34,12 +55,25 @@ On Windows ...
 When compiling from scratch, some options ....
 
 ## Implementation
+The code is structured as follows:
 
-see files ..., ... and ....
+      esch_space.*
+    implement 
+      class Space()
+             
+`esch_space.*` implements ....    
 
+      esch_lists.*
+      esch_generate.*
+     implements 
+       class SpaceTuple()
+       class SpaceTupleList()
 
-## Reference
-[CEZ07 paper]:  ABC
+These are simple wrapper classes with interesting constructors:
 
+One constructor, implemented separately in `esch_generate.cpp`, generates .... .  See [docs/esch_generate.md](docs/esch_generate.md), for details how this algorithm is implemented.
 
- [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20
+The other constructor takes an existing list and ....
+
+## References
+\[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20

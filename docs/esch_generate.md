@@ -1,5 +1,5 @@
 ## Aim
-The aim of this little snippet of code is to find all pairs of Eschenburg spaces `E` with bounded `|r| := |H⁴(E)|` whose basic polynomial invariants agree.  This task is subdivided into two (sub)tasks:
+The aim is to find all pairs of Eschenburg spaces `E` with bounded invariant `|r|` whose polynomial invariants `|r|` and `|s|` agree.  This quest is divided into two tasks:
 
 **Task 1:** Find all Eschenburg spaces with `|r| ≤ R` for some given bound `R`.  
 **Task 2:** Given a list of all such spaces, find all pairs on this list whose invariants `r` and `s` agree.
@@ -7,45 +7,24 @@ The aim of this little snippet of code is to find all pairs of Eschenburg spaces
 The implementation of Task 1 is described in detail below.  Task 2 is fairly straight-forward.
 
 
-## Background
-
-The *basic polynomial invariants* of an Eschenburg space `E` are:  
-
-    |r|  - the order of H⁴(E); an odd integer
-     s   - an integer in (-|r|/2, |r|/2) describing the linking form
-     p₁  - an integer in [0, |r|) describing the first Pontryagin class
-
-We say that the basic polynomial invariants of two Eschenburg spaces `E` and `E'` *agree* if
-
-     |r| = |r'|
-      s  = ±s' 
-      p₁ = p₁'
-
-(The invariant `s` changes sign under orientation-reversing homeomorphisms.)  The agreement of these basic invariants does not itself have any geometric interpretation.  However, if in addition a certain invariant s₂₂ agrees, then the spaces are tangentially homotopy equivalent; if a certain invariant s₂ agrees, they are homeomorphic [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6), Thm 2.3].  (Again, signs have to be taken into account in the definition of "agree".) 
-
-    r, s,   s₂₂    agree  ⇔  spaces homotopy equivalent
-    r, s, p₁, s₂₂  agree  ⇔  spaces tangentially homotopy equivalent
-    r, s, p₁, s₂   agree  ⇔  spaces homeomorphic
-    
-
 ## Implementation of Task 1
 The task is to find all positively curved Eschenburg spaces `E` with `|r| ≤ R`, for some given positive bound `R`.
   
-Lemma 1.4 of [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6)] shows that all positively curved Eschenburg spaces can be parametrized by quadruples `(k₁, k₂, l₁, l₂)` with
+Lemma 1.4 of [\[CEZ07\]](#reference) shows that all positively curved Eschenburg spaces can be parametrized by quadruples `(k₁, k₂, l₁, l₂)` with
 
        k₁ ≥ k₂ > l₁ ≥ l₂ ≥ 0                              (1)
 
 Moreover, these quadruples are required to satisfy a list of coprimacy conditions 
 
-      (1.1) of [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6)]                                    (2)
+      (1.1) of [\[CEZ07\]](#references)                                    (2)
 
 which we will spell out below. 
-(The conditions of [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6), (1.2)] for positive curvature are automatically satisfied in this parametrization.) 
+(The conditions of [\[CEZ07 (1.2)\]](#references) for positive curvature are automatically satisfied in this parametrization.) 
 The task is thus to find all quadruples satisfying (1), (2) and
 
       |r| ≤ R                                             (3)
 
-for some given upper bound `R`.  By [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6), proof of Prop. 1.7], such an upper bound implies `R ≥ k₁`. 
+for some given upper bound `R`.  By [\[CEZ07, proof of Prop. 1.7\]](#references), such an upper bound implies `R ≥ k₁`. 
 So there is a straight-forward way of finding all such quadruples: 
 simply iterate over all possible values of `k₁`, `k₂ `, `l₁` and `l₂` between `0`and `R`and check the conditions in each case. 
 The problem with this approach is that it is very inefficient (i.e. very slow). 
@@ -64,7 +43,7 @@ In terms of these quadrauples, conditions (1) are above are equivalent to the fo
     k₁ ≥ k₂ ≥ k₁+n-d                                      (1'c)
 
 (The condition `d ≥ n` is in fact superfluous, but it will be useful to know that it holds.) 
-The additional conditions [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6), (1.1)] that the quadruples (`d`,`n`, `k₁`, `k₂`) need to satisfy are: 
+The additional conditions [\[CEZ07 (1.1)\]](#references) that the quadruples (`d`,`n`, `k₁`, `k₂`) need to satisfy are: 
 
     (n,  d)    coprime                                    (2'a)
     (k₁, n)    coprime                                    (2'b)
@@ -124,5 +103,5 @@ To save memory, in the actual algorithm the steps are interlaced -- as soon as w
 ## Limits
 All integers are implemented using the data type `long`, which can store values up to ±2³¹ (so more than ±10⁹). The biggest value occuring is the upper bound `R` on `|r|`.  So in theory, the programme can find all Eschenburg spaces with `|r| ≤ 2³¹`.  Calculations for `|r| ≤ 100.000` should complete within a few minutes on standard machines.
 
-## Reference
-[[CEZ07](https://doi.org/10.1007/s00208-007-0102-6)] T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.* Math. Ann. **339** (2007), no. 3, pp. 3–20
+## References
+\[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20

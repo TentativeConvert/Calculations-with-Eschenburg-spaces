@@ -16,15 +16,15 @@ Lemma 1.4 of [\[CEZ07\]](#reference) shows that all positively curved Eschenburg
 
 Moreover, these quadruples are required to satisfy a list of coprimacy conditions 
 
-      (1.1) of [\[CEZ07\]](#references)                                    (2)
+      (1.1) of [\[CEZ07\]](#reference)                                    (2)
 
 which we will spell out below. 
-(The conditions of [\[CEZ07 (1.2)\]](#references) for positive curvature are automatically satisfied in this parametrization.) 
+(The conditions of [\[CEZ07 (1.2)\]](#reference) for positive curvature are automatically satisfied in this parametrization.) 
 The task is thus to find all quadruples satisfying (1), (2) and
 
       |r| ≤ R                                             (3)
 
-for some given upper bound `R`.  By [\[CEZ07, proof of Prop. 1.7\]](#references), such an upper bound implies `R ≥ k₁`. 
+for some given upper bound `R`.  By [\[CEZ07, proof of Prop. 1.7\]](#reference), such an upper bound implies `R ≥ k₁`. 
 So there is a straight-forward way of finding all such quadruples: 
 simply iterate over all possible values of `k₁`, `k₂ `, `l₁` and `l₂` between `0`and `R`and check the conditions in each case. 
 The problem with this approach is that it is very inefficient (i.e. very slow). 
@@ -43,7 +43,7 @@ In terms of these quadrauples, conditions (1) are above are equivalent to the fo
     k₁ ≥ k₂ ≥ k₁+n-d                                      (1'c)
 
 (The condition `d ≥ n` is in fact superfluous, but it will be useful to know that it holds.) 
-The additional conditions [\[CEZ07 (1.1)\]](#references) that the quadruples (`d`,`n`, `k₁`, `k₂`) need to satisfy are: 
+The additional conditions [\[CEZ07 (1.1)\]](#reference) that the quadruples (`d`,`n`, `k₁`, `k₂`) need to satisfy are: 
 
     (n,  d)    coprime                                    (2'a)
     (k₁, n)    coprime                                    (2'b)

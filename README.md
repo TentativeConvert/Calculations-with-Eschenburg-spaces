@@ -1,14 +1,7 @@
-## Installation
-
-On Linux ....
-(see also configuration below)
-
-
-On Windows ...
 
 ## Mathematical background
 
-See [[CEZ07](https://doi.org/10.1007/s00208-007-0102-6)]  ...
+See [[CEZ07]]  ...
 
 Invariants of an Eschenburg space `E` with parameters (k₁,k₂,k₃,l₁,l₂,l₃) are:
 
@@ -22,12 +15,19 @@ Invariants of an Eschenburg space `E` with parameters (k₁,k₂,k₃,l₁,l₂,
 
 ## Usage
 
-Start the program with ... or ...
+Once installed, the program can be run as follows. Start the program with ... or ...
 
 Output will be written to ...
 
 Results should be exact up to  .... (see also configuration & implementation below).
 
+
+## Installation
+
+On Linux ....
+(see also configuration below)
+
+On Windows ...
 
 ## Configuration
 
@@ -39,4 +39,4 @@ see files ..., ... and ....
 
 
 ## Reference
-[[CEZ07](https://doi.org/10.1007/s00208-007-0102-6)] T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.* Math. Ann. **339** (2007), no. 3, pp. 3–20
+[CEZ07]: [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)]  Math. Ann. **339** (2007), no. 3, pp. 3–20

@@ -103,5 +103,5 @@ To save memory, in the actual algorithm the steps are interlaced -- as soon as w
 ## Limits
 All integers are implemented using the data type `long`, which can store values up to ±2³¹ (so more than ±10⁹). The biggest value occuring is the upper bound `R` on `|r|`.  So in theory, the programme can find all Eschenburg spaces with `|r| ≤ 2³¹`.  Calculations for `|r| ≤ 100.000` should complete within a few minutes on standard machines.
 
-## References
+## Reference
 \[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20

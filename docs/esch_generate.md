@@ -16,11 +16,9 @@ Lemma 1.4 of [\[CEZ07\]](#reference) shows that all positively curved Eschenburg
 
 Moreover, these quadruples are required to satisfy a list of coprimacy conditions 
 
-      (1.1) of [\[CEZ07\]](#reference)                                    (2)
+      [CEZ07 (1.1)]                                       (2)
 
-which we will spell out below. 
-(The conditions of [\[CEZ07 (1.2)\]](#reference) for positive curvature are automatically satisfied in this parametrization.) 
-The task is thus to find all quadruples satisfying (1), (2) and
+which we will spell out below. (The conditions of [\[CEZ07 (1.2)\]](#reference) for positive curvature are automatically satisfied in this parametrization.)  The task is thus to find all quadruples satisfying (1), (2) and
 
       |r| ≤ R                                             (3)
 

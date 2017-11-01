@@ -1,11 +1,20 @@
 
-# Mathematical background
+This C++ program implements and combines a subset of the features of the following two pieces of code:
 
-See [\[CEZ07\]](#references) ...
+-  The (unpublished) C-program described by T. Chinburg, C. Escher and W. Ziller in *Topological properties of Eschenburg spaces and 3-Sasakian manifolds* ([\[CEZ07\]](#references)), which generates lists of pairs of Eschenburg spaces whose "basic polynomial invariants" (`|r|`, `|s|` and `p₁`) agree. 
+-  The Maple program for computing invariants of Eschenburg spaces, also mentioned in [\[CEZ07\]](#references) and available on [W. Ziller's homepage](https://www.math.upenn.edu/~wziller/research.html).
 
-Invariants of an Eschenburg space `E` with parameters (k₁,k₂,k₃,l₁,l₂,l₃) are:
 
+# Installation
 
+Two precompiled binaries are available in the repository:
+
+    bin_nix64/esch        -- for 64 bit linux systems
+    bin_win64/esch.exe    -- for 64 bit windows systems
+    
+(Both have been compiled on Ubuntu 14.04, using `gcc` and `mingw`, respectively.)  With a bit of luck, one of these will run on your system.  In this case, simply download the respective file to a folder of your choice.
+
+If the above binaries are not appropriate for your system, download/clone the complete repository and compile from scratch.  Call `make win` or `make nix` to compile using the supplied `Makefile`s.  You will likely need to adapt the `Makefile`s to suit your system.   Your may also need to download and install some boost libraries.
 
 # Usage
 
@@ -55,30 +64,13 @@ Note that the files will be overwritten the next time the program is run.  If yo
 With the default configuration, results should be reliable up to parameters of ...   ([see details below](#configuration)).
 
 
-# Installation
-
-Two precompiled binaries are available in the repository:
-
-    bin_nix64/esch        -- for 64 bit linux systems
-    bin_win64/esch.exe    -- for 64 bit windows systems
-    
-(Both have been compiled on Ubuntu 14.04, using `gcc` and `mingw`, respectively.)  With a bit of luck, one of these will run on your system.  In this case, simply download the respective file to a folder of your choice.
-
-If the above binaries are not appropriate for your system, download/clone the complete repository and compile from scratch.  Call `make win` or `make nix` to compile using the supplied `Makefile`s.  You will likely need to adapt the `Makefile`s to suit your system.   Your may also need to download and install some boost libraries.
-
-
-# Configuration
-
-When compiling from scratch, some options ....
-
-
 # Code base
 The code is structured as follows:
 
       esch_space.h            implement       class Space
       esch_space.cpp 
  
-All code for computing the above invariants is contained in this class.  The class all contains comparison functions that determine whether two spaces are homotopy equivalent/tangentially homotopy equivalent/homeomorphic. 
+All code for computing the above invariants is contained in this class.  The class also contains comparison functions that determine whether two spaces are homotopy equivalent/tangentially homotopy equivalent/homeomorphic. 
  
       esch_tuples.h           implement       class SpaceTuple
       esch_tuples.cpp                         class SpaceTupleList
@@ -86,11 +78,16 @@ All code for computing the above invariants is contained in this class.  The cla
 
 The class `SpaceTuple` is a simple wrapper around `std::deque< Space >`.  The class `SpaceTupleList` is a wrapper around `std::deque < SpaceTuple >` with two interesting constructors:
 
-One constructor, implemented separately in `esch_generate.cpp`, first generates a list of all positively curved Eschenburg spaces with `|r|` bounded by a given integer.  (More precisely, it generates a list of parameters values `(k₁,k₂,k₃,l₁,l₂,l₃)` that specify an Eschenburg space `|r|` bounded by this integer.)  It then looks spaces on this list whose parameters `|r|` and `|s|` agree and saves a list of tuples of spaces for which this is the case.  See [docs/esch_generate.md](docs/esch_generate.md) for further details.
+One constructor, implemented separately in `esch_generate.cpp`, first generates a list of all positively curved Eschenburg spaces with `|r|` bounded by a given integer.  (More precisely, it generates a list of parameters values `(k₁,k₂,k₃,l₁,l₂,l₃)` that specify an Eschenburg space `|r|` bounded by this integer.)  It then looks for spaces on this list whose parameters `|r|` and `|s|` agree and saves a list of tuples of such spaces.  See [docs/esch_generate.md](docs/esch_generate.md) for further details.
 
 The other constructor takes an existing list of tuples and a "filter" as input.  Possible "filters" are "homotopy class" or  "homeomorphism class", for example.  The constructor looks for (sub-)tuples of spaces in the given list of tuples that fall into the same isomorphism class according to the "filter".
 
-The interface of these classes is demonstrated the main routine in `esch.cpp`.
+The interface of these classes is demonstrated in `esch.cpp`.
 
-## References
+## Configuration
+
+When compiling from scratch, the data types used in the computations and a few other options can be set in `config.h`.
+
+
+# References
 \[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20

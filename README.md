@@ -1,7 +1,7 @@
 
 ## Mathematical background
 
-See [CEZ07][CEZ07]  ...
+See [CEZ07][CEZ07 paper]  ...
 
 Invariants of an Eschenburg space `E` with parameters (k₁,k₂,k₃,l₁,l₂,l₃) are:
 
@@ -39,4 +39,4 @@ see files ..., ... and ....
 
 
 ## Reference
-[CEZ07]: [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20
+[CEZ07 paper]: [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20

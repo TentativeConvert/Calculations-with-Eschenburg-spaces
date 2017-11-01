@@ -1,7 +1,7 @@
 
 ## Mathematical background
 
-See [CEZ07]  ...
+See [CEZ07][CEZ07]  ...
 
 Invariants of an Eschenburg space `E` with parameters (k₁,k₂,k₃,l₁,l₂,l₃) are:
 

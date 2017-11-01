@@ -1,5 +1,5 @@
 
-## Mathematical background
+# Mathematical background
 
 See [\[CEZ07\]](#references) ...
 
@@ -13,7 +13,7 @@ Invariants of an Eschenburg space `E` with parameters (k₁,k₂,k₃,l₁,l₂,
      s₂  :=  ...
      s₂₂ :=  ...
 
-## Usage
+# Usage
 
 Once [installed](#Installation), the program can be run from the command line:  simply navigate to the directory in which the program is installed and call `./esch` (on linux) or `esch.exe` (on windows).  Starting the program like this, without any additional parameters, will display some short usage instructions.  
 
@@ -21,7 +21,7 @@ Once [installed](#Installation), the program can be run from the command line:  
 To analyse an Eschenburg space described by certain parameters, enter one of
 								
       ./esch [75,54,-51,46,32,0]					
-      ./esch "\[75, 54, -51, 46, 32, 0\]"				
+      ./esch "[75, 54, -51, 46, 32, 0]"				
 
 (or `esch.exe [75,54,-51,46,32,0]` on windows systems).  
 With the default configuration, results should be reliable up to parameters of ...   ([see details below](#configuration)).
@@ -43,18 +43,18 @@ Note that the files will be overwritten the next time the program is run.  If yo
 
 With the default configuration, results should be reliable up to parameters of ...   ([see details below](#configuration)).
 
-## Installation
+# Installation
 
 On Linux ....
 (see also configuration below)
 
 On Windows ...
 
-## Configuration
+# Configuration
 
 When compiling from scratch, some options ....
 
-## Implementation
+# Implementation
 The code is structured as follows:
 
       esch_space.*

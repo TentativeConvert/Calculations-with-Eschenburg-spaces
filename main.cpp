@@ -67,7 +67,7 @@ int show_usage(const char* name)
 {
   printf("\
 \n -------   PROGRAM FOR CALCULATIONS WITH ESCHENBURG SPACES    ------- \
-\n To analyses Eschenburg space described by certain parameters, enter:	\
+\n To analyse Eschenburg space described by certain parameters, enter:	\
 \n									\
 \n       %1$s [75,54,-51,46,32,0]					\
 \n or    %1$s \"[75, 54, -51, 46, 32, 0]\"				\

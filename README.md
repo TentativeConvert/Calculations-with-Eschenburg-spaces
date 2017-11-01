@@ -87,7 +87,7 @@ The interface of these classes is demonstrated in `esch.cpp`.
 
 #### Configuration
 
-When compiling from scratch, the data types used in the computations and a few other options can be set in `config.h`.
+When compiling from scratch, the data types used in the computations and a few other options can be set in `config.h`.  See [docs/limits/limits.pdf](docs/limits/limits.pdf).
 
 
 ## References

@@ -13,9 +13,10 @@ Invariants of an Eschenburg space `E` with parameters (k₁,k₂,k₃,l₁,l₂,
      s₂  :=  ...
      s₂₂ :=  ...
 
+
 # Usage
 
-Once [installed](#Installation), the program can be run from the command line:  simply navigate to the directory in which the program is installed and call `./esch` (on linux) or `esch.exe` (on windows).  Starting the program like this, without any additional parameters, will display some short usage instructions.  
+Once [installed](#installation), the program can be run from the command line:  simply navigate to the directory in which the program is installed and call `./esch` (on linux) or `esch.exe` (on windows).  Starting the program like this, without any additional parameters, will display some short usage instructions.  
 
 ### Analyse single space
 To analyse an Eschenburg space described by certain parameters, enter one of
@@ -43,16 +44,23 @@ Note that the files will be overwritten the next time the program is run.  If yo
 
 With the default configuration, results should be reliable up to parameters of ...   ([see details below](#configuration)).
 
+
 # Installation
 
-On Linux ....
-(see also configuration below)
+Two precompiled binaries are available in the repository:
 
-On Windows ...
+    bin_nix64/esch        -- for 64 bit linux systems
+    bin_win64/esch.exe    -- for 64 bit windows systems
+    
+(Both have been compiled on Ubuntu 14.04, using `gcc` and `mingw`, respectively.)  With a bit of luck, one of these will run on your system.  In this case, simply download the respective file to a folder of your choice.
+
+If the above binaries are not appropriate for your system, download/clone the complete repository and compile from scratch.  Call `make win` or `make nix` to compile using the supplied `Makefile`s.  You will likely need to adapt the `Makefile`s to suit your system.   Your may also need to download and install some boost libraries.
+
 
 # Configuration
 
 When compiling from scratch, some options ....
+
 
 # Implementation
 The code is structured as follows:
@@ -74,6 +82,7 @@ These are simple wrapper classes with interesting constructors:
 One constructor, implemented separately in `esch_generate.cpp`, generates .... .  See [docs/esch_generate.md](docs/esch_generate.md), for details how this algorithm is implemented.
 
 The other constructor takes an existing list and ....
+
 
 ## References
 \[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20

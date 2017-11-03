@@ -50,8 +50,8 @@ The default data types specified in \verb+config.h+ and their sizes are:\footnot
 }
 
   \begin{tabular}{rp{22em}l}
-    \verb+INT_P+ & \verb+:= boost::int_t<32>::exact+ & \(32\) bit \\
-    \verb+INT_R+ & \verb+:= boost::int_t<64>::exact+ & \(64\) bit \\
+    \verb+INT_P+ & \verb+:= std::int_least32_t+ & \(\geq 32\) bit \\
+    \verb+INT_R+ & \verb+:= std::int_least64_t+ & \(\geq 64\) bit \\
     \verb+INT_KS+ & \verb+:= boost::multiprecision::int128_t+ & \(\geq 128\) bit \\
     \verb+FLOAT_KS+ & \verb+:= long double+ & \(64\) bit significand
   \end{tabular}

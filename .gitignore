@@ -2,8 +2,11 @@
 temp.*
 .depend
 
-# old stuff
+# temporary doc files
 docs/limits_old/*
+docs/*.aux
+docs/*.synctex.gz
+docs/*.log
 
 # emacs auto-save data
 *~

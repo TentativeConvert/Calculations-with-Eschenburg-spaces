@@ -16,7 +16,7 @@ Two precompiled binaries are available in the repository:
 (Both have been compiled on Ubuntu 14.04, using `gcc` and `mingw`, respectively.)  With a bit of luck, one of these will run on your system.  In this case, simply download the respective file to a folder of your choice.
 
 If the above binaries are not appropriate for your system, download/clone the complete repository and compile from scratch.  Call `make win` or `make nix` to compile using the supplied `Makefile`s.  You will likely need to adapt the `Makefile`s to suit your system.   Your may also need to download and install some boost libraries.
-This version of MinGW, the GNU C compiler for Windows, comes with precompiled boost libraries:
+There appear to be precompiled versions of MinGW, the GNU C compiler for Windows, in which the boost libraries are already included:
 [nuwen.net/mingw.html](https://nuwen.net/mingw.html)  (no warranty).
 
 

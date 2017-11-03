@@ -10,16 +10,19 @@ This C++ program implements and combines a subset of the features of the followi
 
 Two precompiled binaries are available in the repository:
 
-    bin_nix64/esch        -- for 64 bit linux systems
-    bin_win64/esch.exe    -- for 64 bit windows systems
+    bin_nix64/esch        -- for 64 bit Linux systems
+    bin_win64/esch.exe    -- for 64 bit Windows systems
     
 (Both have been compiled on Ubuntu 14.04, using `gcc` and `mingw`, respectively.)  With a bit of luck, one of these will run on your system.  In this case, simply download the respective file to a folder of your choice.
 
 If the above binaries are not appropriate for your system, download/clone the complete repository and compile from scratch.  Call `make win` or `make nix` to compile using the supplied `Makefile`s.  You will likely need to adapt the `Makefile`s to suit your system.   Your may also need to download and install some boost libraries.
+This version of MinGW, the GNU C compiler for Windows, comes with precompiled boost libraries:
+[nuwen.net/mingw.html](https://nuwen.net/mingw.html)  (no warranty).
+
 
 ## Usage
 
-Once [installed](#installation), the program can be run from the command line:  simply navigate to the directory in which the program is installed and call `./esch` (on linux) or `esch.exe` (on windows).  Starting the program like this, without any additional parameters, will display some short usage instructions.  
+Once [installed](#installation), the program can be run from the command line:  simply navigate to the directory in which the program is installed and call `./esch` (on Linux) or `esch.exe` (on Windows).  Starting the program like this, without any additional parameters, will display some short usage instructions.  
 
 #### Analyse single space
 To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l₁,l₂,l₃)`, enter one of
@@ -27,7 +30,7 @@ To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l�
       ./esch [k₁,k₂,k₃,l₁,l₂,l₃]					
       ./esch "[k₁, k₂, k₃, l₁, l₂, l₃]"				
 
-(or `esch.exe [k₁,k₂,k₃,l₁,l₂,l₃]` on windows systems).  The invariants computed are:
+(or `esch.exe [k₁,k₂,k₃,l₁,l₂,l₃]` on Windows systems).  The invariants computed are:
 
      r   := σ₂(k) - σ₂(l) ∈ ℤ
          (|r| is the order of H⁴(E))
@@ -52,7 +55,7 @@ To count the number of various 'isomorphism' classes of positively curved Eschen
 								
      ./esch r=5000						
 
-(or `esch.exe r=5000` on windows).  Output will be written to the following files in the same directory:
+(or `esch.exe r=5000` on Windows).  Output will be written to the following files in the same directory:
 
      list1-he.txt	      (homotopy classes)							
      list2-the.txt        (tangential homotopy classes)

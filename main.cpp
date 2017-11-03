@@ -3,6 +3,8 @@
 */
 #include <functional>
 #include <vector>
+#include <limits>
+#include <typeinfo>
 #include "config.h"
 #include "esch_space.h"     // class Space
 #include "esch_tuples.h"    // class SpaceTuple
@@ -80,11 +82,11 @@ int show_usage(const char* name)
 \n									\
 \n",name);
   printf(" -------------------------------------------------------------------- ");
-  printf("\n NB: Size of data types:\n");
+  printf("\n Size of data types (see config.h & docs/limits.pdf): \n");
   printf("   INT_P:    %3ld bit\n",sizeof(INT_p)*8);
   printf("   INT_R:    %3ld bit\n",sizeof(INT_R)*8);
   printf("   INT_KS:   %3ld bit\n",sizeof(INT_KS)*8);
-  printf("   FLOAT_KS: %3ld bit\n",sizeof(FLOAT_KS)*8);
+  printf("   FLOAT_KS: %3d bit significand\n",std::numeric_limits<FLOAT_KS>::digits);
   printf(" -------------------------------------------------------------------- \n");
   return 1;
 }

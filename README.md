@@ -57,7 +57,7 @@ To count the number of various 'isomorphism' classes of positively curved Eschen
 
 (or `esch.exe r=5000` on Windows).  Output will be written to the following files in the same directory:
 
-     list1-he.txt	      (homotopy classes)							
+     list1-he.txt         (homotopy classes)							
      list2-the.txt        (tangential homotopy classes)
      list3-homeo.txt      (homeomorphism classes)
 

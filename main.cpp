@@ -5,6 +5,7 @@
 #include <vector>
 #include <limits>
 #include <typeinfo>
+#include <string>
 #include "config.h"
 #include "esch_space.h"     // class Space
 #include "esch_tuples.h"    // class SpaceTuple
@@ -49,19 +50,18 @@ int analyse_space(const INT_P& k1, const INT_P& k2, const INT_P& k3,
     }
 }
 
-
 int generate_lists(const INT_R& R){
   SpaceTupleList tuples_rs(R);
   tuples_rs.compute_KS_invariants();
   
-  SpaceTupleList tuples_he(tuples_rs,Space::compareHomotopyType, "Looking for tuples of homotopy equivalent spaces ...");
-  tuples_he.print("list1-he.txt", "Found the following numbers of tuples of homotopy equivalent spaces:");
-
-  SpaceTupleList tuples_the(tuples_he,Space::compareTangentialHomotopyType, "Looking for tuples of tangentially homotopy equivalent spaces ...");
-  tuples_the.print("list2-the.txt", "Found the following numbers of tuples of tangentially homotopy equivalent spaces:");
+  SpaceTupleList tuples_he(tuples_rs,Space::compareHomotopyType, "homotopy classes");
+  tuples_he.print("list1-he.txt");
   
-  SpaceTupleList tuples_homeo(tuples_the,Space::compareHomeomorphismType, "Looking for tuples of homeomorphic spaces ...");
-  tuples_homeo.print("list3-homeo.txt", "Found the following numbers of tuples of homeomorphic spaces:");
+  SpaceTupleList tuples_the(tuples_he,Space::compareTangentialHomotopyType, "tangential homotopy classes");
+  tuples_the.print("list2-the.txt");
+  
+  SpaceTupleList tuples_homeo(tuples_the,Space::compareHomeomorphismType, "homeomorphism classes");
+  tuples_homeo.print("list3-homeo.txt");
   return 0;
 }
 

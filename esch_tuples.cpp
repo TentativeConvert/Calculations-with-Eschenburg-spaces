@@ -17,7 +17,7 @@ void SpaceTuple::print(FILE* file) const
   return;
 }
 
-void SpaceTupleList::print(const char* filename, const char* description)
+void SpaceTupleList::print(const char* filename)
 {
   FILE *file = fopen(filename, "w");
   if (file == NULL) printf("Error opening file!\n");
@@ -26,56 +26,56 @@ void SpaceTupleList::print(const char* filename, const char* description)
   std::stable_sort(this->begin(),this->end());
 
   // count total number of pairs, triples, tuples of length 3, ...:
-  // counter_[i-1] = number of tuples of length i
-  vector< std::size_t > counters_;  
+  // counter_[0] = number of singletons (already known)
+  // counter_[1] = number of pairs
+  // conuter_[2] = ...
+  size_t counter_total = singletons;
+  vector< std::size_t > counter(1);  
+  counter[0] = singletons;
   for(SpaceTuple F : *this)
     {
       std::size_t s = F.size();
-      if (s > counters_.size()) 
-	counters_.resize(s,0);
-      ++counters_[s-1];
+      if (s > counter.size()) 
+	counter.resize(s,0);
+      ++counter[s-1];
+      ++counter_total;
     }
   
   // print "statistics" to screen and to file (number of tuples of each length):
-  printf("%s\n", description);
-  fprintf(file, "%s\n", description);
-  for(std::size_t c = counters_.size(); c >= 2; --c) 
+  printf(       (">> %9lld different " + description + " in this range\n").c_str(),(long long)counter_total);
+  fprintf(file, (">> %9lld different " + description + " in this range\n").c_str(),(long long)counter_total);
+  
+  for(std::size_t c = 1; c <= counter.size(); ++c) 
     {
-      // note that std::size_t is unsigned, so can't start at counters_.size()-1!
-      if (c == 3)
-	{
-	  printf(      "  %5ld triples.\n", counters_[c-1]);
-	  fprintf(file,"  %5ld triples.\n", counters_[c-1]);
-	}
-      else if (c == 2)
-	{
-	  printf(      "  %5ld pairs.\n", counters_[c-1]);
-	  fprintf(file,"  %5ld pairs.\n", counters_[c-1]);
-	}
-      else
-	{
-	  printf(       "  %5ld tuples of length %ld.\n", counters_[c-1], (long)c);      
-	  fprintf(file, "  %5ld tuples of length %ld.\n", counters_[c-1], (long)c);
-	}
+      std::string text;
+      if (c == 1)
+	text = ">> %9lld " + description + " defined by just %ld parameter vector (k1,k2,k3,l1,l2,l3)\n";
+      else if (c >= 2)
+	text = ">> %9lld " + description + " defined by %ld different parameter vectors\n";
+      printf(text.c_str(), counter[c-1], (long long)c);
+      fprintf(file,text.c_str(), counter[c-1], (long long)c);
     }
   
   // Print tuples to file, grouped by tuple length
   printf("Writing to file ...");
-  for(std::size_t c = counters_.size(); c >= 2; --c)
+  for(std::size_t c = counter.size(); c >= 2; --c)
     {
       fprintf(file,"\n\n\n####### Tuples of length %ld #######\n",(long)c);
       // As tuples are ordered by size in DESCENDING order, 
       // start position = number of tuples of larger sizes:
       std::size_t start = 0;
-      for(std::size_t i = c; i < counters_.size(); ++i)
-	start += counters_[i];
-      for(std::size_t i = 0; i < counters_[c-1] && i < MAX_TUPLES_PER_TUPLESIZE_PER_FILE; ++i)
+      for(std::size_t i = c; i < counter.size(); ++i)
+	start += counter[i];
+      for(std::size_t i = 0; i < counter[c-1]; ++i)
 	{
 	  fprintf(file," \nTuple %ld: \n", (long)i+1);
 	  this->at(start + i).print(file);
+	  if  (i+1 >= 0.5*MAX_TUPLES_PER_TUPLESIZE_PER_FILE && i+1 < counter[c-1]-0.5*MAX_TUPLES_PER_TUPLESIZE_PER_FILE)
+	    {
+	      fprintf(file,"\n [ ... skipping some tuples of length %ld ... ] \n\n", (long)c);
+	      i = counter[c-1]-0.5*MAX_TUPLES_PER_TUPLESIZE_PER_FILE-1;
+	    }
 	}
-      if (counters_[c-1] > MAX_TUPLES_PER_TUPLESIZE_PER_FILE)
-	fprintf(file,"\n [ ... skipping %ld further tuples of length %ld ... ] \n\n", (long)(counters_[c-1]-MAX_TUPLES_PER_TUPLESIZE_PER_FILE),(long)c);
     }
   fclose(file);
   printf(" ... done.\n\n");
@@ -112,9 +112,11 @@ std::size_t SpaceTupleList::compute_KS_invariants()
 
 SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list, 
 			       std::function<Space::comp(const Space& E1, const Space& E2)> compareFunction,
-			       const char* description)
+			       std::string description)
 {
-  printf("%s\n",description);
+  this->description = description;
+  printf("%s\n",("Looking for " + description + " ...").c_str());
+  singletons = original_list.singletons;
   Feedback feedback;
   feedback.start(original_list.size());
   for(std::size_t i = 0; i < original_list.size(); ++i)
@@ -140,6 +142,8 @@ SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list,
 		new_tuple.push_back(T[j]);
 	    this->push_back(new_tuple);
 	  }
+	else if (i2 = i1+1)
+	  ++singletons;
 	i1 = i2;
       }
     }

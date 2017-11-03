@@ -104,7 +104,8 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   printf("\nLooking for tuples of spaces whose invariants r & s agree ...\n");
  
   std::size_t counter_distinct_rs_values = 0;
-  std::size_t counter_singletons = 0;
+  // std::size_t counter_singletons = 0;
+  singletons = 0;
   feedback.start((std::size_t)(R+1)/2);
 
   for(INT_R hmr = 0; hmr < (R+1)/2; ++hmr){  //hmr = "half minus r" (abgerundet)
@@ -151,13 +152,13 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
 	    this->push_back(new_tuple);
 	  }
 	else
-	  ++counter_singletons;
+	  ++singletons;
 	i1 = i2;
       }
     all_spaces[hmr].clear();  // free up memory space!
   }
   feedback.finish();
-  printf("Found %lld distinct values of (r,s) in this range;\n", (long long)counter_distinct_rs_values);
-  printf("      %lld values occur exactly once.\n\n", (long long)counter_singletons);
+  printf(">> %9lld distinct values of (r,s) in this range;\n", (long long)counter_distinct_rs_values);
+  printf(">> %9lld values occur exactly once.\n\n", (long long)singletons);
 }
 

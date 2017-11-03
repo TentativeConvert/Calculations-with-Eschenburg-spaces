@@ -1,6 +1,7 @@
 #pragma once
 
 #include "esch_space.h"
+#include <string>
 #include <deque>
 #include <functional>
 #include <cstddef> // for std::size_t
@@ -17,6 +18,9 @@ class SpaceTuple : public std::deque< class Space >
 class SpaceTupleList : public std::deque< SpaceTuple >
 {
  public:
+  std::size_t singletons;  // number of 1-tuples (1-tuples themselves are not stored)
+  std::string description;
+  
   // CONSTRUCTOR 1 (implemented in esch_generate.cpp):
   // fills list with pairs of spaces whose invariants r & s coincide
   SpaceTupleList(const INT_R& max_R);
@@ -26,9 +30,9 @@ class SpaceTupleList : public std::deque< SpaceTuple >
   // original list may be resorted, so cannot be passed as const
   SpaceTupleList(SpaceTupleList& original_list, 
 		 std::function<Space::comp(const Space& E1, const Space& E2)> compareFunction, 
-		 const char* description);
+		 std::string description);
 
   // Other methods:
   std::size_t compute_KS_invariants(); // (return value = number of spaces for which condition C fails)
-  void print(const char* filename, const char* description);
+  void print(const char* filename);
 };

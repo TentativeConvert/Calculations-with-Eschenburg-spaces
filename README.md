@@ -81,7 +81,7 @@ All code for computing the above invariants is contained in this class.  The cla
 
 The class `SpaceTuple` is a simple wrapper around `std::deque< Space >`.  The class `SpaceTupleList` is a wrapper around `std::deque < SpaceTuple >` with two interesting constructors:
 
-One constructor, implemented separately in `esch_generate.cpp`, first generates a list of all positively curved Eschenburg spaces with `|r|` bounded by a given integer.  (More precisely, it generates a list of parameters values `(k₁,k₂,k₃,l₁,l₂,l₃)` that specify an Eschenburg space `|r|` bounded by this integer.)  It then looks for spaces on this list whose parameters `|r|` and `|s|` agree and saves a list of tuples of such spaces.  See [docs/esch_generate.md](docs/esch_generate.md) for further details.
+One constructor, implemented separately in `esch_generate.cpp`, first generates a list of all positively curved Eschenburg spaces with `|r|` bounded by a given integer.  (More precisely, it generates a list of parameter values `(k₁,k₂,k₃,l₁,l₂,l₃)` that specify an Eschenburg space `|r|` bounded by this integer.)  It then looks for spaces on this list whose parameters `|r|` and `|s|` agree and saves a list of tuples of such spaces.  See [docs/esch_generate.md](docs/esch_generate.md) for further details.
 
 The other constructor takes an existing list of tuples and a "filter" as input.  Possible "filters" are "homotopy class" or  "homeomorphism class", for example.  The constructor looks for (sub-)tuples of spaces in the given list of tuples that fall into the same isomorphism class according to the "filter".
 

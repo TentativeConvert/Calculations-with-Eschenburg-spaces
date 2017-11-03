@@ -1,0 +1,38 @@
+
+* compiling for Windows from Windows
+MingGW compiler for Windows including boost libraries:
+https://nuwen.net/mingw.html
+
+* compiling for Windows from Ubuntu
+Some brief instructions are here:
+https://arrayfire.com/cross-compile-to-windows-from-linux/
+
+Install mingw:
+: sudo apt-get install mingw-w64
+ 
+Run mingw as:
+: x86_64-w64-mingw32-g++ -std=c++11 -I/usr/local/include/boost_1_65_1 -static-libgcc -static-libstdc++ -static -O3
+followed by the usual command line options for gcc, eg
+: x86_64-w64-mingw32-g++ -std=c++11 -I/usr/local/include/boost_1_65_1 -static-libgcc -static-libstdc++ -static -O3 hello.c -o hello.exe
+Note that there is no "=" between "-I" and "/usr/local...".
+
+* boost libraries on Ubuntu:
+On top115, I've removed the standard installation and instead installed manually (see below) into :
+
+: /usr/local/include/boost_1_65_1
+
+The cpp compiler therefore now needs to be called with the additional flag
+
+: -I=/usr/local/include/boost_1_65_1
+  
+(The standard #include paths for gcc include
+: /usr/local/include
+but, it seems, not the subdirectory
+: /usr/local/include/boost_1_65_1
+For a list of directories in which gcc searches, run
+: gcc -xc++ -E -v -
+(https://stackoverflow.com/a/6666338/3611932))
+
+** boost installation:
+: wget 'http://sourceforge.net/projects/boost/files/latest/download?source=files' -O boost.tar.gz
+: tar 7z -x boost.tar.gz

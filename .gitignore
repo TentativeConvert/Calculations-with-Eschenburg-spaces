@@ -2,6 +2,9 @@
 temp.*
 .depend
 
+# old stuff
+docs/limits_old
+
 # emacs auto-save data
 *~
 

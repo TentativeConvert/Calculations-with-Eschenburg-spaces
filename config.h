@@ -6,12 +6,17 @@
 // DATA TYPES
 // The following types should be large enough to work for |r| < 10^6.
 
-typedef int INT_p;  // should hold all possible values of sqrt(r) 
-typedef long INT_R;  // should hold all possible values of r
-typedef long long INT_KS; // should hold integers necessary to compute KS-invariants
+#include <boost/multiprecision/cpp_int.hpp>
+#include <boost/cstdint.hpp>
+// http://www.boost.org/doc/libs/1_65_1/libs/multiprecision/doc/html/boost_multiprecision/tut/ints/cpp_int.html
 
-//#include <boost/cstdint.hpp>
-//typedef int_fast32_t INT_p; 
+typedef boost::int_t<32>::exact INT_P;  // should hold all possible values of sqrt(r) 
+typedef boost::int_t<64>::exact INT_R; // should hold all possible values of r
+typedef boost::multiprecision::int128_t INT_KS; 
+                    // should hold integers necessary to compute KS-invariants
+
+//#
+//typedef int_fast32_t INT_P; 
 //typedef int_fast32_t INT_R; 
 //typedef int_fast64_t INT_KS;
 

@@ -46,7 +46,7 @@ void Space::print(void) const
 
 //////////////////////////////////////////////////
 
-Space::Space(array<INT_p,3> kkk, array<INT_p,3> lll){
+Space::Space(array<INT_P,3> kkk, array<INT_P,3> lll){
   k_ = kkk;
   l_ = lll;
   INT_R sigma1_k = (INT_R)k_[0] + (INT_R)k_[1] + (INT_R)k_[2];
@@ -79,8 +79,8 @@ bool Space::is_space(void) const {
 bool Space::is_positively_curved(void) const {
   // Is the space positively curved? 
   // -- Test conditions of [CEZ06] (1.2):
-  INT_p min_l = std::min(l_[0],std::min(l_[1],l_[2]));
-  INT_p max_l = std::max(l_[0],std::max(l_[1],l_[2]));
+  INT_P min_l = std::min(l_[0],std::min(l_[1],l_[2]));
+  INT_P max_l = std::max(l_[0],std::max(l_[1],l_[2]));
   if (min_l <= k_[0] && k_[0] <= max_l) return false;
   if (min_l <= k_[1] && k_[1] <= max_l) return false;
   if (min_l <= k_[2] && k_[2] <= max_l) return false;
@@ -165,7 +165,7 @@ void Space::compute_s2_from_col(int j)
     {
       int ip1 = absolute_mod(i+1,3);
       int ip2 = absolute_mod(i+2,3);
-      array<INT_p,4> params = {k_[ip1]-l_[j], k_[ip2]-l_[j], k_[ip1]-l_[jp1], k_[ip2]-l_[jp1]};
+      array<INT_P,4> params = {k_[ip1]-l_[j], k_[ip2]-l_[j], k_[ip1]-l_[jp1], k_[ip2]-l_[jp1]};
       s2_ += -lens_s2(k_[i]-l_[j], params);
     }
   s2_ = reduce_mod_ZZ(s2_);
@@ -191,7 +191,7 @@ void Space::compute_s2_from_row(int j)
       //   printf("Lens space invariant s_2 for i=%d: \n",i+1);
       int ip1 = absolute_mod(i+1,3);
       int ip2 = absolute_mod(i+2,3);
-      array<INT_p,4> params = {k_[j]-l_[ip1], k_[j]-l_[ip2], k_[jp1]-l_[ip1], k_[jp1]-l_[ip2]};
+      array<INT_P,4> params = {k_[j]-l_[ip1], k_[j]-l_[ip2], k_[jp1]-l_[ip1], k_[jp1]-l_[ip2]};
       //   printf("     parameters: %ld; %ld, %ld, %ld, %ld\n", k_[j]-l_[i], params[0], params[1], params[2], params[3]);
       s2_ += lens_s2(k_[j]-l_[i], params);
     }
@@ -202,13 +202,13 @@ void Space::compute_s2_from_row(int j)
 
 //////////////////////////////////////////////////
 // Lens space invariants:
-rational<INT_KS> Space::lens_s2(INT_p p, array<INT_p,4> param)
+rational<INT_KS> Space::lens_s2(INT_P p, array<INT_P,4> param)
 {
   //const double pi = boost::math::constants::pi<double>(); no longer needed as I'm using sin_pi now
   using boost::math::cos_pi;
   using boost::math::sin_pi;
   FLOAT_KS a = 0;
-  for(INT_p k = 1; k < abs(p); ++k)
+  for(INT_P k = 1; k < abs(p); ++k)
     {
       FLOAT_KS s = 
 	(cos_pi((FLOAT_KS)2*k/abs(p)) - 1)

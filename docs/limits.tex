@@ -1,17 +1,19 @@
 % -*- coding: utf-8-unix -*-
 \documentclass{article}
-\usepackage[bottom=2.5cm, top=2.5cm, left=4.2cm, right=4.2cm]{geometry}
+\usepackage[bottom=2.5cm, top=2.5cm, left=4.5cm, right=4.5cm]{geometry}
 \usepackage{fontspec} 
 \usepackage{polyglossia}
     \setmainlanguage[spelling=new]{british}
 \usepackage{microtype,booktabs,paralist,nicefrac,multicol}
-\usepackage{mathtools,amsthm,amsrefs}
+\usepackage{mathtools,amsthm}
+\usepackage[alphabetic,initials]{amsrefs}
 \mathtoolsset{mathic}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{hyperref}
 \hypersetup{breaklinks=true,colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,filecolor=black,menucolor=black,urlcolor=MidnightBlue}
 \urlstyle{same}
-
+\usepackage{fancyvrb}
+\VerbatimFootnotes
 
 %\swapnumbers
 %\newtheorem{thm}{Theorem}
@@ -41,26 +43,33 @@
 
 \begin{document}
 \section*{Limits}
-Consider an Eschenburg space \(E\) with parameters \((\vec k,\vec l) = (k_1,k_2,k_3,l_1,l_2,l_3)\).   We say that the \textbf{parameters are bounded by \(P\)} for some positive integer \(P\) if \(\abs{k_i}\leq P\) and \(\abs{l_i}\leq P\) for all~\(i\).  Similarly, we say that \textbf{\(r\) is bounded by \(R\)} if \(\abs{r(E)}\leq R\) for some positive integer~\(R\), where  \(\abs{r(E)} = |H^4(E)|\).  
+Consider an Eschenburg space \(E\) with parameters \((\vec k,\vec l) = (k_1,k_2,k_3,l_1,l_2,l_3)\).   We say that the \textbf{parameters are bounded by \(P\)} for some positive integer \(P\) if \(\abs{k_i}\leq P\) and \(\abs{l_i}\leq P\) for all~\(i\).  Similarly, we say that \textbf{\(r\) is bounded by \(R\)} if \(\abs{r(E)}\leq R\) for some positive integer~\(R\), where  \(\abs{r(E)} = |H^4(E)|\).  We say that \(E\) is given in \textbf{standard presentation} if the parameters satisfy the conditions of \cite{CEZ}*{Lemma~4.1}.  (All spaces generated using \verb+esch -r=XXXX+ are in standard presentation.)
 
-The default data types specified in \verb+config.h+ and their sizes on my system are:
-\begin{center}
-  \begin{tabular}{rp{10em}l}
-    \verb+INT_R+ & \texttt{:= int} & \(32\) bit \\
-    \verb+INT_P+ & \texttt{:= long} &  \(64\) bit \\
-    \verb+INT_KS+ & \texttt{:= long long} & \(64\) bit \\
-    \verb+FLOAT_KS+ & \texttt{:= long double} & \(64\) bit significand
+The default data types specified in \verb+config.h+ and their sizes are:
+
+  \begin{tabular}{rp{22em}l}
+    \verb+INT_P+ & \verb+:= boost::int_t<32>::exact+ & \(32\) bit \\
+    \verb+INT_R+ & \verb+:= boost::int_t<64>::exact+ & \(64\) bit \\
+    \verb+INT_KS+ & \verb+:= boost::multiprecision::int128_t INT_KS+ & \(\geq 128\) bit \\
+    \verb+FLOAT_KS+ & \verb+:= long double+ & \(64\) bit significand
   \end{tabular}
-\end{center}
-The implementation of the sin function \verb+boost/math/special_functions/sin_pi.hpp+
-for the data type \texttt{long double} has a relative error of less than \(1\macheps\).\footnote{
-  \mbox{\url{http://www.boost.org/doc/libs/1_65_1/libs/math/doc/html/math_toolkit/powers/sin_pi.html}}}
+
+The implementation of the \(\sin\) function used by \verb+esch+\footnote{
+  We use \verb+sin_pi+ from \verb+boost/math/special_functions/sin_pi.hpp+.%
+}
+has a relative error of less than \(1\macheps\)\footnote{
+  Here, \(\macheps\) denotes the \textbf{machine epsilon}.
+  See \url{https://en.wikipedia.org/wiki/Machine_epsilon}.%
+}
+for the data type \texttt{long double}.\footnote{
+  \mbox{\url{http://www.boost.org/doc/libs/1_65_1/libs/math/doc/html/math_toolkit/powers/sin_pi.html}}%
+}
 
 \begin{claim}\label{claim:default}
   With the above configurations, the output of the program \verb+esch+ is reliable in the following ranges:
   \begin{compactitem}
-  \item For analysing a single space with parameters bounded by \(P=140\).
-  \item For generating and analysing list of spaces in standard parametrization with \(r\) bounded by \(R=300\,000\).
+  \item For computing the invariants of an arbitrary space with parameters bounded by \(P=1500\).
+  \item For generating and analysing list of spaces in standard parametrization with \(r\) bounded by \(R=600\,000\).
   \end{compactitem}
 \end{claim}
 
@@ -76,25 +85,21 @@ More generally, we claim the following:
     \verb+FLOAT_KS+ & base-\(2\) float with significand of \(\sigKS\) bits (including sign bit)
   \end{tabular}
   
-  Suppose further that, in the of the computation of the invariant \(s_{2}(E)\), the \(\sin\)-values are computed with a relative error of at most \(A\macheps\).\footnote{
-    Here, \(\macheps\) denotes the \textbf{machine epsilon}.
-    See \url{https://en.wikipedia.org/wiki/Machine_epsilon}.
-  }
-  Then the computations of the invariants \(r(E)\), \(s(E)\), \(p_1(E)\) and \(s_2(E)\)
+  Suppose further that, in the computation of the invariant \(s_{2}(E)\), the \(\sin\)-values are computed with a relative error of at most \(A\macheps\).
+  Then the computations of the invariants \(r(E)\), \(s(E)\), \(p_1(E)\), \(s_2(E)\) and \(s_{22}(E)\)
   are exact provided each of the following inequalities is satisfied:
-  \begin{multicols}{3}
+  \begin{multicols}{2}
     \noindent\allowdisplaybreaks
   \begin{align*}
-    P & \leq 2^{\expP-1}  \label{eq:bits:PeP}\tag{$a$}     \\
-    R    & \leq 2^{\expR-1}  \label{eq:bits:ReR}\tag{$a'$}        \\
-    P^5  & \leq 2^{\expKS-7.7} \label{eq:bits:PeKS} \tag{$b$}  \\
-    RP^3 & \leq 2^{\expKS-15.1} \label{eq:bits:RPeKS} \tag{$b'$} \\
-    P^5  & \leq (2/A)^{\sigKS-9.5}\label{eq:bits:PsKS} \tag{$c$}
+    P & \leq 2^{\expP-1}  \label{eq:bits:PeP}\tag{$a$}          \\
+    R    & \leq 2^{\expR-1}  \label{eq:bits:ReR}\tag{$b$}      \\
+    RP^8 & \leq 2^{\expKS-15.3} \label{eq:bits:PeKS} \tag{$c$}   \\
+    P^5  & \leq 2^{\sigKS-10.5}\label{eq:bits:PsKS}·A^{-1} \tag{$d$}
   \end{align*}
   \end{multicols}
 \end{claim}
 
-To obtain Claim~\ref{claim:default} from Claim~\ref{claim:bits}, we will use that the bounds \(P\) and \(R\) are related as follows:
+To obtain Claim~\ref{claim:default} from Claim~\ref{claim:bits}, we will use that the bounds \(P\) and \(R\) can be related as follows:
 \begin{note}\label{lem:P-vs-R}
   For any Eschenburg space, 
   \begin{alignat*}{7}
@@ -105,87 +110,72 @@ To obtain Claim~\ref{claim:default} from Claim~\ref{claim:bits}, we will use tha
   \end{alignat*}
 \end{note}
 
-\subsection*{Verification of claim~\ref{claim:default} using claim~\ref{claim:bits}}
+\subsection*{Verification of Claim~\ref{claim:default} using Claim~\ref{claim:bits}}
 
 We first verify Note~\ref{lem:P-vs-R}.
 The first implication is clear from \(r = \sigma_2(k_1,k_2,k_3) - \sigma_2(l_1,l_2,l_3)\).
-For the second implication, note that while all parameters except \(k_3\) are bounded by \(\sqrt{R}\) in the standard representation, the parameter \(k_3\) is bounded only by \(2\sqrt{R}\).
+For the second implication, note that while all parameters except \(k_3\) are bounded by \(\sqrt{R}\) in the standard presentation, the parameter \(k_3\) is bounded only by \(2\sqrt{R}\).
 
-Now, to find the bound for \(P\) when analysing a single space, we can replace \(R\) by \(6P^2\) in all inequalities in Claim~\ref{claim:bits}. With \(\expP=32\), \(\expR=64\) and \(\expKS=64\) and \(A=1\) the standard values specified above, these inequalities become:
-\begin{multicols}{3}
+To find the bound for \(P\) when analysing a single space, we can replace \(R\) by \(6P^2\) in all inequalities in Claim~\ref{claim:bits}. With \(\expP=32\), \(\expR=64\) and \(\expKS=128\) and \(A=1\) the standard values specified above, these inequalities become:
+\begin{multicols}{2}
   \noindent\allowdisplaybreaks
   \begin{align*}
     P & \leq 2^{31}  \label{eq:bits:PeP}\tag{$a$}     \\
-    6P^2 & \leq 2^{63}  \label{eq:bits:ReR}\tag{$a'$}        \\
-    P^5  & \leq 2^{56.3} \label{eq:bits:PeKS} \tag{$b$}  \\
-    6P^5 & \leq 2^{48.9} \label{eq:bits:RPeKS} \tag{$b'$} \\
-    P^5  & \leq 2^{54.5}\label{eq:bits:PsKS} \tag{$c$}
+    6P^2 & \leq 2^{63}  \label{eq:bits:ReR}\tag{$b$}        \\
+    6P^{10} & \leq 2^{112.7} \label{eq:bits:RPeKS} \tag{$c$} \\
+    P^5  & \leq 2^{53.5}\label{eq:bits:PsKS} \tag{$d$}
   \end{align*}
 \end{multicols}
-Here, the strongest inequality is inequality \((2')\), which equates to \(P\leq 146\).
+Here, the strongest inequality is inequality \((d)\), which equates to \(P\leq 1663\).
 
 To find a bound for \(R\) when analysing spaces in standard presentation, repace \(P\) by \(2\sqrt{R}\) in all inequalities in Claim~\ref{claim:bits}.  They become:
-\begin{multicols}{3}
+\begin{multicols}{2}
   \noindent\allowdisplaybreaks
   \begin{align*}
     2\sqrt{R} & \leq 2^{31}  \label{eq:bits:PeP}\tag{$a$}     \\
     R    & \leq 2^{63}  \label{eq:bits:ReR}\tag{$a'$}        \\
-    2^5·\sqrt{R}^5  & \leq 2^{56.3} \label{eq:bits:PeKS} \tag{$b$}  \\
-    2^3 \sqrt{R}^5 & \leq 2^{48.9} \label{eq:bits:RPeKS} \tag{$b'$} \\
-    2^5\sqrt{R}^5  & \leq 2^{54.5}\label{eq:bits:PsKS} \tag{$c$}
+    2^8·R^5  & \leq 2^{112.7} \label{eq:bits:PeKS} \tag{$b$}  \\
+    2^5\sqrt{R}^5  & \leq 2^{53.5}\label{eq:bits:PsKS} \tag{$d$}
   \end{align*}
 \end{multicols}
-Again, the strongest inequality is inequality \((2')\).  It equates to \(R\leq 336\,442\).
+Again, the strongest inequality is inequality \((d)\).  It equates to \(R\leq 691\,802\).
 
 \subsection*{Preliminary inequalities I (for integer types)}
-The invariant \(s_2\) is computed by a formula of the form
+The invariants \(s_2(E)\) and \(s_{22}(E)\) are computed by a formulas of the following form \cite{CEZ}*{(2.1)}:
 \begin{align}\label{eq:s2}
-  \notag  s_2   &= (q-2)/d + \ell_1 + \ell_2 + \ell_3\\
-                &= \frac{45(q-2) + [45\ell_1] + [45\ell_2] + [45\ell_3]}{45d}
+  \notag  s_2(E)   &= (q-2)/d + \ell_1 + \ell_2 + \ell_3\\
+                   &= \frac{45(q-2) + ([45\ell_1] + [45\ell_2] + [45\ell_3])d}{45d}\\
+  s_{22}(E) &= 2 \abs{r(E)} s_2(E) 
 \end{align}  
-where \(\ell_i\) are lens space invariants such that \(45\ell_i\) is an integer.  
+Here, \(\ell_i\) are lens space invariants such that \(45\ell_i\) is an integer \cite{CEZ}*{Prop.~3.13}.  
 
 \begin{prop}\label{prop:s2-integers}
-  Suppose the parameters are bounded by \(P\) and \(r\) is bounded by \(R\).  Then the denominator and the numerator of \(\abs{s_2}\) are bounded as follows:
-  \begin{align*}
-    \abs{\text{numerator}}   &\leq 2^{6.7}·P^5\\
-    \abs{\text{denominator}} &\leq 2^{14.1}· RP^3
-  \end{align*}
-  The absolute values of the integers \(d\), \(q\) and \(45\ell_i\) appearing in \eqref{eq:s2} are bounded by the same value as the denominator of \(s_2\).
+  Suppose the parameters are bounded by \(P\) and \(r\) is bounded by \(R\).  Then the absolute values of the denominators and the numerators of \(s_2(E)\) and \(s_{22}(E)\), and the absolute values of the integers \(d\), \(q\) and \(45\ell_i\) appearing in \eqref{eq:s2}, are bounded by \(2^{15.3}RP^8\).
 \end{prop}
  
 \begin{proof}
+The integer \(d\) in \eqref{eq:s2} \(=\) \cite{CEZ}*{(2.1)} is a multiple of \(2r(E)\).  Thus, any bounds for numerator and generator of \(s_2(E)\) will also be bounds for numerator and generator of \(s_{22}(E)\).
+
 The absolute value of \(q\) in \eqref{eq:s2} is bounded by a sum of six squares of differences of parameters \((k_i-l_j)\), so 
 \begin{alignat}{7}
   \abs{q}&\leq 6(2P)^2 &&< 2^{4.6}·P^2\\
   \intertext{
   The absolute value of \(d\) is bounded by}
-  \notag 
   \abs{d} &\leq 3 · 2^4 · R · (2P)^3 &&< 2^{8.6} · RP^3
 \end{alignat}
 An upper bound for the values of  \(45\ell_i\) is estimated as \(2^{5.1}P^5\) in  Propsition~\ref{prop:45ell} below. 
 Thus, altogether we obtain the following bounds for numerator and denominator of \(s_2\):
 \begin{align*}
-  \abs{\text{numerator}} &\leq 45·2^{4.6}·P^2 + 3·2^{5.1}P^5 \approx 2^{6.7}·P^5\\
-  \abs{\text{denominator}} &\leq 45·\abs{d} \leq 2^{14.1}· R P^3\qedhere
+  \abs{\text{numerator}} &\leq 45·2^{4.6}·P^2 + 3·2^{5.1}P^5·2^{8.6}RP^3 \approx 2^{15.3}·RP^8\\
+  \abs{\text{denominator}} &\leq 45·\abs{d} \leq 2^{14.1}· R P^3
 \end{align*}
-\end{proof}
-
-\begin{proof}[Proof of the proposition]
-The proposition is immediate from the two lemmas and the estimates of upper bounds for the values of \(q\), \(d\) and \(45\ell_i\) appearing in the proof of Lemma~\ref{prop:s2-integers}.  In both cases, it is clear that for sufficiently large \(R\) and \(P\) the bound for the denominator of \(\abs{s_2}\) is the largest bound that occurs.  For Eschenburg spaces in standard presentation, this bound is 
-\(
-2^{10}·3^3·R^{5/2} \leq 2^{17,1}·R^{5/2}.
-\)
-For general Eschenburg spaces, this bound is
-\(
-    2^{8}·3^4·5·P^{5} \leq 2^{16,7}·P^5
-\).
+Clearly, the first bound is greater than the second. 
 \end{proof}
 
 \subsection*{Preliminary inequalities II (for the float type)}
 The lens invariants \(\ell_1\), \(\ell_2\), \(\ell_3\) are computed as a sum
 \begin{equation}\label{eq:ell}
-  \ell_i := \sum_{v=1}^{\abs{p_0}-1} L(\vec x^{(v)}),
+  \ell_i := \sum_{v=1}^{\abs{p}-1} L(\vec x^{(v)}),
 \end{equation}
 where each \(\vec x^{(v)}=(x_0^{(v)},\dots,x_4^{(v)})\) is a quintuple of real numbers and the function \(L\) is given by
 \begin{equation}\label{eq:L}
@@ -194,16 +184,16 @@ where each \(\vec x^{(v)}=(x_0^{(v)},\dots,x_4^{(v)})\) is a quintuple of real n
   · \textstyle\prod_{i=1}^{4} \csc(\pi x_i),
 \end{equation}
 where \(\csc(x) := 1/\sin(x)\).
-The coordinates \(x_i\) on which this function is evaluated are given by \(x_i^{(v)} = \frac{v p_i}{p}\) with each of \(p_0\), \(p_1\), \dots, \(p_4\) a difference of parameters \(k_i-l_j\).  
+The coordinates \(x_i\) on which this function is evaluated are given by \(x_0^{(v)} = \frac{v}{p}\) and \(x_i^{(v)} = \frac{vp_i}{p}\) for \(i=1,\dots, 4\), with each of \(p\), \(p_1\), \dots, \(p_4\) a difference of parameters \(k_i-l_j\).  
 
 \begin{prop}\label{prop:45ell}
-  If the parameters are bounded by  \(P\), then \(\abs{45\ell_i} \leq 2^{5.1} P^5\) for each \(i\in\{1,2,3\}\).
+  If the parameters of the given Eschenburg space are bounded by \(P\), then \(\abs{45\ell_i} \leq 2^{5.1} P^5\) for each \(i\in\{1,2,3\}\).
 \end{prop}
 \begin{proof}
-  As each of \(k_i\) and \(l_i\) is bounded by \(P\), each of the parameters \(p\), \(p_1\), \dots, \(p_4\) used to define the quintuples \(\vec x^{(v)}\) is bounded by \(2P\).  It follows that each coordinate of each \(\vec x^{(v)}\) has a distance of at least \(\nicefrac{1}{2P}\) to the nearest integer.  Thus, we can apply Lemma~\ref{lem:csc} below to each \(L(\vec x^{(v)})\) with \(\epsilon = 1/(2P)\) to obtain 
+  As each of \(k_i\) and \(l_i\) is bounded by \(P\), each of the parameters \(p\), \(p_1\), \dots, \(p_4\) used to define the quintuples \(\vec x^{(v)}\) is bounded by \(2P\).  It follows that each coordinate of each \(\vec x^{(v)}\) has a distance of at least \(\nicefrac{1}{2P}\) to the nearest integer.  Thus, we can apply Lemma~\ref{lem:csc} below to each \(\csc\)-factor of \(L(\vec x^{(v)})\) with \(\epsilon = \nicefrac{1}{2P}\) to obtain 
   \[
     \abs{L(\vec x^{(v)})}
-    \leq 2^{-5.4}(\nicefrac{1}{2P})^{-4} = 2^{-1.4}P^4\\
+    \leq 2·(2^{-1.6}·2P)^4 = 2^{-1.4}P^4\\
   \]
   Now take a \((\abs{p}-1)\)-fold sum and multiply by~\(45\), and note that \((\abs{p}-1) < 2P\) and  \(45 < 2^{5.5}\).
 \end{proof}
@@ -213,7 +203,7 @@ The coordinates \(x_i\) on which this function is evaluated are given by \(x_i^{
   \(\abs{\csc(\pi·x)} \leq 2^{-1.6} \varepsilon^{-1}\) for any real number \(x\) whose distance to the nearest integer is at least~\(\varepsilon\).
 \end{lem}
 \begin{proof}
-  It suffices to show that \(\sin(\pi·x) \geq 2^{1.6} \varepsilon\) for any real \(x\in [\varepsilon,\nicefrac{1}{2}]\), where \(\varepsilon \in (0,\nicefrac{1}{100})\) is some given lower bound.  It is known that \(\sin(\pi x) \geq \pi x·\cos(\pi x)\) for all \(x\in [0,\nicefrac{1}{2}]\), so for \(x\in [\varepsilon,\nicefrac{1}{2}]\) we find that 
+  It suffices to show that \(\sin(\pi·x) \geq 2^{1.6} \varepsilon\) for any real \(x\in [\varepsilon,\nicefrac{1}{2}]\), where \(\varepsilon \in (0,\nicefrac{1}{100})\) is some given lower bound.  As \(\tan(\pi x) \geq \pi x\) for all \(x\in [0,\nicefrac{1}{2})\), we have \(\sin(\pi x) \geq \pi x·\cos(\pi x)\) for all \(x\in [0,\nicefrac{1}{2}]\).  So for \(x\in [\varepsilon,\nicefrac{1}{2}]\) we find that 
   \[
     \sin(\pi x) \geq \sin(\pi\varepsilon) \geq \pi\varepsilon·\cos(\pi\varepsilon).
   \]
@@ -227,17 +217,42 @@ The coordinates \(x_i\) on which this function is evaluated are given by \(x_i^{
 \end{proof}
 
 \subsection*{Verification of claim~\ref{claim:bits}}
-The inequalities \((a)\), \((a')\), \((b)\) and \((b')\) follow directly from Proposition~\ref{prop:s2-integers}.  
+The inequalities \((a)\) and \((b)\) simply state that \verb+INT_P+ and \verb+INT_K+ need to be large enough to hold the values of the parameters and the value of \(r(E)\), respectively.  The data type \verb+INT_KS+ must be large enough to hold all integers used in computing \(s_2(E)\), so inequality \((c)\) follows directly from Proposition~\ref{prop:s2-integers}.  
 
-For inequality \((c)\), we first note that by assumption the \(\sin\)-values in \eqref{eq:ell}\slash\eqref{eq:L} are computed with a relative error of at most \(\eta = A\macheps\), where \(\macheps=2^{1-\sigKS}\).  (Note that one bit of the significand is used to store the sign of the number, so we only have \(\sigKS-1\) bits to store the value.) That is, the computed value of \(\sin(\dots)\) differs from the actual value by a factor of at most \(1\pm \delta\).  It follows that the computed values of \(L\) and \(\ell_i\) differ from the acutal values by a factor of approximately \((1+\delta)(1-\delta)^{-4} \approx 1 + 5\delta < 1+A·2^{3.4-\sigKS}\).  By Proposition~\ref{prop:45ell}, this leads to an absolute error of approximately \(A·2^{3.4-\sigKS}·2^{5.1}P^5 = A·2^{8.5-\sigKS}\).  We know that the exact value of \(45\ell_i\) is an integer.  To obtain the correct integer, we need this absolute error to be less than \(0.5 = 2^{-1}\).  That is, we need
-  \(
-    A·2^{8.5-\sigKS}·P^5 < 2^{-1},
-  \)
-  or, equivalently,
-  \(
-    P^5 < A^{-1}·2^{\sigKS-9.5}.
-  \)
-  This implies inequality~\((c)\).
+It remains to verify that the data type \verb+FLOAT_KS+ is sufficiently precise to compute the integer values \(45\ell_i\) appearing in~\eqref{eq:s2}.  By assumption, the \(\sin\)-values in \eqref{eq:ell}\slash\eqref{eq:L} are computed with a relative error of at most \(\eta = A\macheps\), where \(\macheps=2^{1-\sigKS}\).  (Note that one bit of the significand is used to store the sign of the number, so we only have \(\sigKS-1\) bits to store the value.) That is, the computed values of \(\sin(\pi x_i)\) may differ from the actual values by a factor of at most \(1\pm \delta\). As the coordinates \(x_i^{(v)}\) used as input to the \(\sin\)-functions may also be exact only up to a factor of \(1\pm\delta\), we find that altogether the computed values of \(\sin(\pi x_i)\) may differ from the actual values by a factor of \((1\pm \delta)^2\), and likewise for the values of \(\cos(\pi x_0)\). It follows that the computed values of \(L\) and \(\ell_i\) differ from the actual values by a factor of \((1\pm\delta)^2(1\mp\delta)^{-10} \approx 1 \pm 10\delta < 1+A·2^{4.4-\sigKS}\).  By Proposition~\ref{prop:45ell}, this leads to an absolute error for \(45\ell_i\) of at most \[
+  A·2^{4.4-\sigKS}·\abs{45\ell_i} = A·2^{4.4-\sigKS}·2^{5.1}P^5 = A·2^{9.5-\sigKS}·P^5.
+\]
+To obtain the correct integer value of \(45\ell_i\) after rounding, we need this absolute error to be less than \(0.5 = 2^{-1}\).  That is, we need
+\(
+A·2^{9.5-\sigKS}·P^5 < 2^{-1},
+\)
+or, equivalently,
+\(
+P^5 < A^{-1}·2^{\sigKS-10.5}.
+\)
+This is inequality~\((d)\).
+
+
+
+\subsection*{Reference}
+\renewcommand*{\MR}[1]{\href{http://www.ams.org/mathscinet-getitem?mr=#1}{{\sffamily ~~[MR#1]}}}
+\begin{biblist}
+  \bib{CEZ}{article}{
+    author={Chinburg, Ted},
+    author={Escher, Christine},
+    author={Ziller, Wolfgang},
+    title={Topological properties of Eschenburg spaces and 3-Sasakian
+      manifolds},
+    journal={Math. Ann.},
+    volume={339},
+    date={2007},
+    number={1},
+    pages={3--20},
+    issn={0025-5831},
+    review={\MR{2317760}},
+  }
+\end{biblist}
+
 \end{document}
 
 %%% Local Variables: 
@@ -245,3 +260,4 @@ For inequality \((c)\), we first note that by assumption the \(\sin\)-values in 
 %%% mode: latex
 %%% TeX-engine: xetex
 %%% End: 
+

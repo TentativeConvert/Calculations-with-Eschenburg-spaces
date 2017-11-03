@@ -17,10 +17,10 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
 
   std::size_t c_spaces = 0; // counter
   struct miniSpace {
-    INT_p d;
-    INT_p n;
-    INT_p k1;
-    INT_p k2;
+    INT_P d;
+    INT_P n;
+    INT_P k1;
+    INT_P k2;
     INT_R r() const { return -(k1*d + n*d + n*k2); };
     INT_R unreduced_s() const { return -(k1*k2*(n+d)); };
   };
@@ -30,39 +30,39 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   // (see https://stackoverflow.com/a/216731/3611932)  
   
   // Step (a)
-  INT_p D = (INT_p)(sqrt(R-3/4) - 1/2) + 1; 
+  INT_P D = (INT_P)(sqrt(R-3/4) - 1/2) + 1; 
                          // + 1 because result of sqrt is rounded down
                          // sqrt(integer) returns double, which has 53 bit significand
-  INT_p old_n = 0;	 // first pair in Farey sequence is 0/1
-  INT_p old_d = 1;	 // -- only used to start the algorithm
-  INT_p n = 1;		 // second pair in Farey sequence is 1/D
-  INT_p d = D;		 //
+  INT_P old_n = 0;	 // first pair in Farey sequence is 0/1
+  INT_P old_d = 1;	 // -- only used to start the algorithm
+  INT_P n = 1;		 // second pair in Farey sequence is 1/D
+  INT_P d = D;		 //
   while (n <= D)
     {
       if(d == 101) feedback.update_percent((int)(n*100/101));
       // Step (b.1) 
-      INT_p K1	= (INT_p)((R-n*n)/d - n) + 1 ; // + 1 to guard against rounding errors
-      INT_p K1_ = min(d+n-1, K1);
-      for(INT_p k1_ = d; k1_ <= K1_; ++k1_)
+      INT_P K1	= (INT_P)((R-n*n)/d - n) + 1 ; // + 1 to guard against rounding errors
+      INT_P K1_ = min(d+n-1, K1);
+      for(INT_P k1_ = d; k1_ <= K1_; ++k1_)
 	{
 	  if(gcd(k1_,n) != 1) continue; // i.e. try next k1_
 	  
 	  // Step (b.2)
-	  for(INT_p k1 = k1_; k1 <= K1; k1+=n)
+	  for(INT_P k1 = k1_; k1 <= K1; k1+=n)
 	    {
 	      // Step (c.1)
-	      INT_p K2 = min((INT_p)((R-k1*d)/n - d + 1), k1); // + 1 to guard against rounding errors 
-	      INT_p K2_ = min(k1+n-1, K2);
-	      for(INT_p k2_ = k1+n-d; k2_ <= K2_; ++k2_)
+	      INT_P K2 = min((INT_P)((R-k1*d)/n - d + 1), k1); // + 1 to guard against rounding errors 
+	      INT_P K2_ = min(k1+n-1, K2);
+	      for(INT_P k2_ = k1+n-d; k2_ <= K2_; ++k2_)
 		{
 		  if(gcd(k2_,d) != 1) continue; // i.e. try next k2_
 		  
 		  // Step (c.2)
-		  for(INT_p k2 = k2_; k2 <= K2; k2+=d)
+		  for(INT_P k2 = k2_; k2 <= K2; k2+=d)
 		    {
 		      // Step (d)
-		      INT_p l1 = k2 - n;
-		      INT_p l2 = k1 - d;
+		      INT_P l1 = k2 - n;
+		      INT_P l2 = k1 - d;
 
 		      // Check conditions (2'd):
 		      if (gcd(k2,    k1-l1) != 1) continue;
@@ -87,9 +87,9 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
 	    }
 	}
       // Step (a) continued -- generate next Farey pair:
-      INT_p k = (INT_p)((D + old_d) / d);
-      INT_p new_n = k*n - old_n;
-      INT_p new_d = k*d - old_d;
+      INT_P k = (INT_P)((D + old_d) / d);
+      INT_P new_n = k*n - old_n;
+      INT_P new_d = k*d - old_d;
       old_n = n;  
       old_d = d;
       n = new_n;  

@@ -13,8 +13,8 @@
                             // = wrapper for deque< Space_tuples >
 int show_usage(const char* name);
 int generate_lists(const INT_R& R);
-int analyse_space(const INT_p& k1, const INT_p& k2, const INT_p& k3, 
-		  const INT_p &l1, const INT_p& l2, const INT_p& l3);
+int analyse_space(const INT_P& k1, const INT_P& k2, const INT_P& k3, 
+		  const INT_P &l1, const INT_P& l2, const INT_P& l3);
 
 
 int main(int argc, char* argv[])
@@ -26,14 +26,14 @@ int main(int argc, char* argv[])
       return generate_lists((INT_R)R);
     else if (sscanf(argv[1],"[%lld,%lld,%lld,%lld,%lld,%lld]",
 		    &k1,&k2,&k3,&l1,&l2,&l3) == 6)
-      return analyse_space((INT_p)k1,(INT_p)k2,(INT_p)k3,(INT_p)l1,(INT_p)l2,(INT_p)l3);
+      return analyse_space((INT_P)k1,(INT_P)k2,(INT_P)k3,(INT_P)l1,(INT_P)l2,(INT_P)l3);
   }
   return show_usage(argv[0]);
 }
 
 
-int analyse_space(const INT_p& k1, const INT_p& k2, const INT_p& k3, 
-		  const INT_p &l1, const INT_p& l2, const INT_p& l3)
+int analyse_space(const INT_P& k1, const INT_P& k2, const INT_P& k3, 
+		  const INT_P &l1, const INT_P& l2, const INT_P& l3)
 {
   Space E({k1,k2,k3},{l1,l2,l3});
   if (E.is_space())
@@ -83,7 +83,7 @@ int show_usage(const char* name)
 \n",name);
   printf(" -------------------------------------------------------------------- ");
   printf("\n Size of data types (see config.h & docs/limits.pdf): \n");
-  printf("   INT_P:    %3ld bit\n",sizeof(INT_p)*8);
+  printf("   INT_P:    %3ld bit\n",sizeof(INT_P)*8);
   printf("   INT_R:    %3ld bit\n",sizeof(INT_R)*8);
   printf("   INT_KS:   %3ld bit\n",sizeof(INT_KS)*8);
   printf("   FLOAT_KS: %3d bit significand\n",std::numeric_limits<FLOAT_KS>::digits);

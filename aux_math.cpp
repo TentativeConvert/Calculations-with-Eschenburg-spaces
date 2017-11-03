@@ -12,6 +12,16 @@ INT_R signed_mod (INT_R a, INT_R base)
     remainder += base;
   return remainder;
 }
+INT_KS signed_mod (INT_KS a, INT_KS base) // exact copy of function above, for bigger integers
+{
+  INT_KS remainder = a % base;
+  if(2*remainder > base)  // remainder > base/2, in "integer language"
+    remainder -= base;
+  else if(2*remainder <= -base) // remainder < -base/2, in "integer language"
+    remainder += base;
+  return remainder;
+}
+
 long absolute_mod (long a, long base)
 {
   long remainder = a % base;
@@ -25,8 +35,8 @@ rational<INT_KS> reduce_mod_ZZ(const rational<INT_KS>& q)
   // Input:   q  in QQ 
   // Output:  q' in (-1/2, 1/2] in QQ such that 
   //          q' = q in QQ/ZZ.
-  int q_n = q.numerator();
-  int q_d = q.denominator();
+  INT_KS q_n = q.numerator();
+  INT_KS q_d = q.denominator();
   if(q_d < 0) // probaby unnecessary, but depends on implementation of boost::rational
     {
       q_n = -q_n;

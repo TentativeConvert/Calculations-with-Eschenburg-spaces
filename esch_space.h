@@ -5,8 +5,8 @@
 
 class Space {
  private:
-  std::array<INT_p,3> k_;
-  std::array<INT_p,3> l_;
+  std::array<INT_P,3> k_;
+  std::array<INT_P,3> l_;
   INT_R r_;  // = r(k,l); it can be positive or negative.
             // (in [CEZ07], "r := |r(k,l)|")
   INT_R s_;  // = s(k,l) modulo |r(k,l)|
@@ -28,11 +28,11 @@ class Space {
   int gcdA(int i, int j, int ii, int jj);
   void compute_s2_from_row(int j);
   void compute_s2_from_col(int j);
-  boost::rational<INT_KS> lens_s2(INT_p p, std::array<INT_p,4> param);
+  boost::rational<INT_KS> lens_s2(INT_P p, std::array<INT_P,4> param);
 
 public:
   // Constructor:
-  Space(std::array<INT_p,3> kkk, std::array<INT_p,3>);
+  Space(std::array<INT_P,3> kkk, std::array<INT_P,3>);
 
   // Methods that change class members:
   bool test_condition_C(); 
@@ -41,8 +41,8 @@ public:
   // Getters that don't change class members:
   bool is_space(void) const;
   bool is_positively_curved(void) const;
-  const std::array<INT_p,3>& k() const { return k_; }
-  const std::array<INT_p,3>& l() const { return k_; }
+  const std::array<INT_P,3>& k() const { return k_; }
+  const std::array<INT_P,3>& l() const { return k_; }
   const INT_R& r() const { return r_; }
   const INT_R& s() const { return s_; }
   const INT_R& p1() const { return p1_; }

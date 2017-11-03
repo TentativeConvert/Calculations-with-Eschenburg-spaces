@@ -44,7 +44,7 @@ For more details on these invariants, consult  [\[CEZ07\]](#references).  By  [\
     |r|, |s|, |s₂₂|, sign(s·s₂₂), p₁  agree   ⇔  spaces are tangentially homotopy equivalent
     |r|, |s|, |s₂|,  sign(s·s₂),  p₁  agree   ⇔  spaces are homeomorphic
     
-With the default configuration, results should be reliable for parameters `kᵢ` and `lᵢ` of absolute values up to 1500 (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
+With the default configuration, results should be reliable for parameters `kᵢ` and `lᵢ` of absolute values up to `1500` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
 
 #### Count 'isomorphism' classes in a range
@@ -62,7 +62,7 @@ In addition to the counting statistics, these files will contain lists of tuples
 
 Note that the files will be overwritten the next time the program is run.  If you want to keep the results, make a copy of these files.
 
-With the default configuration, results should be reliable up to values of r ≤ 600.000 (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
+With the default configuration, results should be reliable up to values of `|r| ≤ 600.000` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
 ## Code base
 The code is structured as follows:

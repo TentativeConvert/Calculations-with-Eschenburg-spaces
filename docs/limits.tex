@@ -1,0 +1,279 @@
+% -*- coding: utf-8-unix -*-
+\documentclass{article}
+\usepackage[bottom=2.5cm, top=2.5cm, left=4.5cm, right=4.5cm]{geometry}
+\usepackage{fontspec} 
+\usepackage{polyglossia}
+    \setmainlanguage[spelling=new]{british}
+\usepackage{microtype,booktabs,xcolor,paralist,nicefrac,multicol}
+\usepackage{mathtools,amsthm,amsrefs}
+\usepackage{hyperref}
+\mathtoolsset{mathic}
+
+\swapnumbers
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{note}[thm]{Note}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{claim}[thm]{Claim}
+
+
+\newcommand{\abs}[1]{\left|#1\right|}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\macheps}{\epsilon} % machine epsilon
+
+
+\usepackage{tabularx}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\begin{document}
+\section*{Limits}
+In the following we consider an Eschenburg space \(E\) with parameters \((\vec k,\vec l) = (k_1,k_2,k_3,l_1,l_2,l_3)\).   We say that the \textbf{parameters are bounded by \(P\)} for some positive integer \(P\) if \(\abs{k_i}\leq P\) and \(\abs{l_i}\leq P\) for all~\(i\).  Similarly, we say that \textbf{\(r\) is bounded by \(R\)} if \(\abs{r(E)}\leq R\) for some positive integer~\(R\), where  \(\abs{r(E)} = |H^4(E)|\).
+
+\begin{lem}\label{lem:P-vs-R}
+  For any Eschenburg space, 
+  \begin{alignat}{7}
+    &\text{parameters bounded by } P &&\quad\Rightarrow\quad r \text{ bounded by } R = 6 P^2\\
+    \intertext{%
+    For an Eschenburg space in standard presentation,}
+    &\text{parameters bounded by } P = 2R^{1/2} &&\quad\Leftarrow\quad r \text{ bounded by } R 
+  \end{alignat}
+\end{lem}
+
+
+\begin{claim}\label{claim:bits}
+  Suppose \(r\) is bounded by \(R\) and the parameters are bounded by \(P\).
+  Suppose further that the data types used meet the following minimum requirements:
+  \begin{center}
+    \begin{tabular}{rp{\linewidth-5em}}
+      \verb+INT_R+ & signed integer with capacity of \(e_R\) bits \\
+      \verb+INT_P+ & signed integer with capacity of  \(e_P\) bits \\
+      \verb+INT_KS+ & signed integer with capacity of  \(e_{KS}\) bits \\
+      \verb+FLOAT_KS+ & base-\(2\) float with significand of \(s_{KS}\) bits (including sign bit)
+    \end{tabular}
+  \end{center}
+  Suppose further that, in the of the computation of the invariant \(s_{2}(E)\), the \(\sin\)-values are computed with a relative error of at most \(A\macheps\).\footnote{
+    Here, \(\macheps\) denotes the \textbf{machine epsilon}.
+    See \url{https://en.wikipedia.org/wiki/Machine_epsilon}.
+  }
+  Then the computations of the invariants \(r(E)\), \(s(E)\), \(p_1(E)\) and \(s_2(E)\)
+  are exact provided each of the following inequalities is satisfied:
+  \begin{multicols}{3}
+    \noindent\allowdisplaybreaks
+  \begin{align*}
+    P & \leq 2^{e_P-1}\\
+    R & \leq 2^{e_R-1}\\
+    P^5 &\leq 2^{e_{KS}-7.7}\\
+    RP^3 &\leq 2^{e_{KS}-15.1} \\
+    P^5 &\leq (2/A)^{s_{KS}-9.5}
+  \end{align*}
+  \end{multicols}
+\end{claim}
+
+
+\begin{eg}
+  The default data types specified in \verb+config.h+ and their sizes on my system are:
+  \begin{center}
+    \begin{tabular}{rp{10em}l}
+      \verb+INT_R+ & \texttt{:= int} & \(32\) bit \\
+      \verb+INT_P+ & \texttt{:= long} &  \(64\) bit \\
+      \verb+INT_KS+ & \texttt{:= long long} & \(64\) bit \\
+      \verb+FLOAT_KS+ & \texttt{:= long double} & \(64\) bit significand
+    \end{tabular}
+  \end{center}
+  The implementation of the sin function \verb+boost/math/special_functions/sin_pi.hpp+
+  for the data type \texttt{long double} has a relative error of less than \(1\macheps\).\footnote{%
+    \url{http://www.boost.org/doc/libs/1_65_1/libs/math/doc/html/math_toolkit/powers/sin_pi.html}}
+  Thus, by the above claim and Lemma~\ref{lem:P-vs-R}, computations are reliable in the following ranges:
+  \begin{compactitem}
+  \item For analysing a single space with parameters bounded by \(P=146\).
+  \item For generating and analysing list of spaces in standard parametrization with \(r\) bounded by \(R=336\,442\).
+  \end{compactitem}
+\end{eg}
+
+\begin{proof}[Verification of Claim~\ref{claim:bits} for \(s_{22}\)]
+  The \(\sin\)-values in \eqref{eq:ell}\slash\eqref{eq:L} are computed with a relative error of \(\eta = A\macheps\), where by assumption \(\macheps=2^{1-s_{KS}}\).  (Note that one bit of the significand is used to store the sign of the number, so we only have \(s_{KS}-1\) bits to store the value.) That is, the computed value of \(\sin(\dots)\) differs from the actual value by a factor of at most \(1\pm \delta\).  It follows that the computed values of \(L\) and \(\ell_i\) differ from the acutal values by a factor of approximately \((1+\delta)(1-\delta)^{-4} \approx 1 + 5\delta < 1+A·2^{3.4-s_{KS}}\).  By Proposition~\ref{prop:45ell}, this leads to an absolute error of approximately \(A·2^{3.4-s_{KS}}·2^{5.1}P^5 = A·2^{8.5-s_{KS}}\).  We know that the exact value of \(45\ell_i\) is an integer.  To obtain the correct integer, we need this absolute error to be less than \(0.5 = 2^{-1}\).  That is, we need
+  \(
+    A·2^{8.5-s_{KS}}·P^5 < 2^{-1},
+  \)
+  or, equivalently,
+  \(
+    P^5 < A^{-1}·2^{s_{KS}-9.5}.
+  \)
+  This gives the above result.
+  \end{proof}
+
+
+\subsection{Verification of the claim for the integer data types}
+The invariant \(s_2\) is computed by a formula of the form
+\begin{align}\label{eq:s2}
+  \notag  s_2   &= (q-2)/d + \ell_1 + \ell_2 + \ell_3\\
+                &= \frac{45(q-2) + [45\ell_1] + [45\ell_2] + [45\ell_3]}{45d}
+\end{align}  
+where \(\ell_i\) are lens space invariants such that \(45\ell_i\) is an integer.  
+
+\begin{lem}\label{lem:s2}
+  Suppose the parameters are bounded by \(P\) and \(r\) is bounded by \(R\).  Then the denominator and the numerator of \(\abs{s_2}\) are bounded as follows:
+  \begin{align*}
+    \abs{\text{numerator}}   &\leq 2^{6.7}·P^5\\
+    \abs{\text{denominator}} &\leq 2^{14.1}· RP^3
+  \end{align*}
+  The absolute values of the integers \(d\), \(q\) and \(45\ell_i\) appearing in \eqref{eq:s2} are bounded by the same value as the denominator of \(s_2\).
+\end{lem}
+ 
+\begin{proof}
+The absolute value of \(q\) in \eqref{eq:s2} is bounded by a sum of six squares of differences of parameters \((k_i-l_j)\), so 
+\begin{alignat}{7}
+  \abs{q}&\leq 6(2P)^2 &&< 2^{4.6}·P^2\\
+  \intertext{
+  The absolute value of \(d\) is bounded by}
+  \notag 
+  \abs{d} &\leq 3 · 2^4 · R · (2P)^3 &&< 2^{8.6} · RP^3
+\end{alignat}
+An upper bound for the values of  \(45\ell_i\) is estimated as \(2^{5.1}P^5\) in  Propsition~\ref{prop:45ell} below. 
+Thus, altogether we obtain the following bounds for numerator and denominator of \(s_2\):
+\begin{align*}
+  \abs{\text{numerator}} &\leq 45·2^{4.6}·P^2 + 3·2^{5.1}P^5 \approx 2^{6.7}·P^5\\
+  \abs{\text{denominator}} &\leq 45·\abs{d} \leq 2^{14.1}· R P^3\qedhere
+\end{align*}
+\end{proof}
+
+\begin{proof}[Proof of Lemma~\ref{lem:P-vs-R}]
+The first implication is clear from \(r = \sigma_2(k_1,k_2,k_3) - \sigma_2(l_1,l_2,l_3)\).
+For the second implication, note that while all parameters except \(k_3\) are bounded by \(\sqrt{R}\) in the standard representation, the parameter \(k_3\) is bounded only by \(2\sqrt{R}\).
+\end{proof}
+
+
+\begin{proof}[Proof of the proposition]
+The proposition is immediate from the two lemmas and the estimates of upper bounds for the values of \(q\), \(d\) and \(45\ell_i\) appearing in the proof of Lemma~\ref{lem:s2}.  In both cases, it is clear that for sufficiently large \(R\) and \(P\) the bound for the denominator of \(\abs{s_2}\) is the largest bound that occurs.  For Eschenburg spaces in standard presentation, this bound is 
+\(
+2^{10}·3^3·R^{5/2} \leq 2^{17,1}·R^{5/2}.
+\)
+For general Eschenburg spaces, this bound is
+\(
+    2^{8}·3^4·5·P^{5} \leq 2^{16,7}·P^5
+\).
+\end{proof}
+
+
+\subsection{Preliminary estimates for the float type}
+
+The lens invariants \(\ell_1\), \dots, \(\ell_n\) are computed as a sum
+\begin{equation}\label{eq:ell}
+  \ell_i := \sum_{v=1}^{\abs{p}-1} L(\vec x^{(v)}),
+\end{equation}
+where the coordinates of \(\vec x^{(v)}\) have the form \(\frac{v p_i}{p}\) and each of \(p\), \(p_1\), \dots, \(p_4\) is a difference of parameters \(k_i-l_j\).  The function \(L\) appearing in this sum is given by 
+\begin{equation}\label{eq:L}
+  L(x_0,x_1,x_2,x_3,x_4) 
+  := (\cos(\pi x_0)-1)
+  · \textstyle\prod_{i=1}^{4} \csc(\pi x_i),
+\end{equation}
+where \(\csc(x) := 1/\sin(x)\).
+
+\begin{lem}
+  Let \(\epsilon>0\) be sufficiently small (\(\leq \nicefrac{1}{100}\)).  Then
+  \(\abs{\csc(\pi·x)} \leq 2^{-1.6} \epsilon^{-1}\) for any real number \(x\) whose distance to the nearest integer is at least~\(\epsilon\).
+\end{lem}
+\begin{proof}
+  It suffices to show that \(\sin(\pi·x) \geq 2^{1.6} \epsilon\) for any real \(x\in [\epsilon,\nicefrac{1}{2}]\), where \(\epsilon \in (0,\nicefrac{1}{100})\) is some given lower bound.  It is known that \(\sin(\pi x) \geq \pi x·\cos(\pi x)\) for all \(x\in [0,\nicefrac{1}{2}]\), so for \(x\in [\epsilon,\nicefrac{1}{2}]\) we find that 
+  \[
+    \sin(\pi x) \geq \sin(\pi\epsilon) \geq \pi\epsilon·cos(\pi\epsilon).
+  \]
+  If \(\epsilon\) is sufficiently small, then \(\pi·\cos(\pi\epsilon)\) is close to \(\pi\).
+  The result is obtained by explicitly calculating this value for \(\epsilon = \nicefrac{1}{100}\).
+% cos(\pi/10) = 2^{−0,072397019}
+% \pi         = 2^{ 1,651496129}
+%
+% So \pi (cos(\pi/10)) > 2^{1,6} 
+%
+\end{proof}
+
+\begin{lem}\label{L-bounds}
+  Let \(\epsilon\) be as above.  Suppose all coordinates of \(\vec x = (x_0,x_1,x_2,x_3,x_4)\) have a distance of a least \(\epsilon\) to the nearest integer. Then
+  \(
+  \abs{L(\vec x)} \leq 2^{-5.4}\epsilon^{-4}
+  \).
+  
+  Moreover, for any \(\vec y\) satisfying the same assumptions and contained in a \(\delta\)-cube around \(\vec x\),
+  \(
+  \abs{L(\vec x) - L(\vec y)} \leq  2^{-5.6}\epsilon^{-5}\delta
+  \)
+  % 
+  % for any \(\vec y\) in a \(\delta\)-cube around \(\vec x\), i.\,e.\ for any \(\vec y\) satisfying  \(\abs{x_i - y_i} \leq \epsilon\) for all~\(i\).
+\end{lem}
+
+\begin{proof}
+  The previous lemma implies that \(\abs{L(\vec x)} \leq 2\cdot (2^{-1.6}\epsilon^{-1})^4\), so the first claim is immediate. For the second claim, we use the multivariate mean value theorem.  Assuming that the absolute values of the partial derivates \(\partial_{x_i} L\) are bounded on the given \(\delta\)-cube by some bound \(U'\), the theorem implies that 
+  \[
+    \abs{L(\vec x)-L(\vec y)} \leq 5·U'·\delta.
+  \]
+  for all \(\vec y\) in the cube.  The derivatives of \(L\) are easily computed using the fact that \(\partial_x \csc(\pi x)  = -\pi \cos(\pi x) \csc(\pi x)^2\).  One easily sees that if \(\abs{\csc(\vec y)}\leq U\) on the cube, then \(\abs{\partial_{x_i} L(\vec y)} \leq \pi U^5\) on the cube.  So we can take \(U' := \pi U^5\) with \(U\) the upper bound from the previous lemma.  This gives
+  \[
+    \abs{L(\vec x)-L(\vec y)} 
+    \leq 5\pi·(2^{-1.6}\epsilon^{-1})^5·\delta 
+    \leq 2^{-5.6}\epsilon^{-5}\delta,
+    %
+    % 5\pi = 2^{3,973424224} <= 2^4
+    % 
+  \]
+  as claimed.
+\end{proof}
+
+\begin{prop}\label{prop:45ell}
+  Suppose the parameters are bounded by \(P\).  
+  Then \(\abs{45\ell_i} \leq 2^{5.1} P^5\).
+  \end{prop}
+\begin{proof}
+  As each of \(k_i\) and \(l_i\) is bounded by \(P\), each of the parameters \(p\), \(p_1\), \dots, \(p_4\) used to define the quintuples \(\vec x^{(v)}\) is bounded by \(2P\).  It follows that each coordinate of each \(\vec x^{(v)}\) has a distance of at least \(\nicefrac{1}{2P}\) to the nearest integer, and hence each coordinate of each \(\vec y^{(v)}\) has a distance of a least \(\nicefrac{1}{2P}-\delta\) to the nearest integer.   Thus, we can apply the previous lemma to each \(L(\vec x^{(v)})\) with \(\epsilon = 1/(2P)-\delta\) to obtain:
+  \begin{align*}
+    \abs{L(\vec y^{(v)})}
+    &\leq 2^{-5.4}(\nicefrac{1}{2P}-\delta)^{-4} = 2^{-1.4}P^4·(1-2P\delta)^{-4}\\
+    \abs{L(\vec x^{(v)}) - L(\vec y^{(v)})}
+    &\leq 2^{-5.6} (\nicefrac{1}{2P}-\delta)^{-5}\delta = 2^{-0.6}P^5·\delta·(1-2P\delta)^{-5}
+  \end{align*}
+  Now take a \((\abs{p}-1)\)-fold sum, multiply by~\(45\) and note that \((\abs{p}-1) < 2P\).
+    %
+    % 45 < 2^{5,49185309}
+    %
+\end{proof}
+
+
+
+
+
+{\color{gray}
+\begin{table}[b]
+  \begin{center}
+  \begin{tabular}{rrrrr} 
+    \toprule
+    data type  & bits    & \text{range}    & standard \(R\)  & general \(P\)   \\
+    \midrule                               
+    int / long & \(32\)  & \(\pm 2^{31}\)  & \(47\)          & \(7\)           \\ 
+    long long  & \(64\)  & \(\pm 2^{63}\)  & \(336\,442\)    & \(613\)         \\
+    ??         & \(128\) & \(\pm 2^{127}\) & \(1,7·10^{13}\) & \(4\,372\,418\) \\
+    \bottomrule
+  \end{tabular}
+  % 
+  % log_2(y) = ln(y)/ln(2)
+  % 
+  % 2^{17,1}·R^{5/2} <=  2^x
+  % <=>                R <= 2^{2/5 (x-17,1)}
+  % 
+  % 2^{16,7}·P^5     <=  2^x 
+  % <=>                P <= 2^{1/5 (x-16,7)}
+  % 
+  \caption{Different data types and the resulting bounds \(R\) on \(\abs{r}\) (for spaces in standard presentation) and \(P\) on the parameters (for any presentation), according to the above proposition.  (The values in the first line of the table may not actually be ``sufficiently large'' for the proposition to apply.)}
+\end{center}
+\end{table}
+}
+
+
+\end{document}
+
+%%% Local Variables: 
+%%% coding: utf-8
+%%% mode: latex
+%%% TeX-engine: xetex
+%%% End: 

@@ -14,14 +14,14 @@ const boost::rational<INT_KS> Space::KS_UNCOMPUTABLE = boost::rational<INT_KS>(1
 
 void Space::print(FILE* file) const 
 {
-  fprintf(file, " [%4ld,%4ld,%4ld, %4ld,%4ld,%4ld] -> r = %5ld, s = %5ld, p1 = %5ld",
+  fprintf(file, " [%4ld,%4ld,%4ld, %4ld,%4ld,%4ld] -> r = %5ld,  s = %5ld,  p1 = %5ld",
 	  (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2],(long)r_, (long)s_, (long)p1_);
   if (s2_ == KS_UNKNOWN)
     fprintf(file, "\n");
   else if (s2_ == KS_UNCOMPUTABLE)
     fprintf(file, "  |!| WARNING: Condition C not satisfied |!|\n");
   else
-    fprintf(file, ", s22 = %ld/%ld, s2 = %ld/%ld\n", (long)s22_.numerator(), (long)s22_.denominator(), (long)s2_.numerator(), (long)s2_.denominator());
+    fprintf(file, ",  s22 = %3lld/%lld,  s2 = %5lld/%lld\n", (long long)s22_.numerator(), (long long)s22_.denominator(), (long long)s2_.numerator(), (long long)s2_.denominator());
 }
 
 void Space::print(void) const 
@@ -30,11 +30,11 @@ void Space::print(void) const
     {
       printf("\nInvariants of the Eschenburg space with parameters [%ld,%ld,%ld, %ld,%ld,%ld]:\n", 
 	     (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2]);
-      printf("  r = %ld, s = %ld, p1 = %ld\n",(long)r_, (long)s_, (long)p1_);      
+      printf("  r = %ld,  s = %ld,  p1 = %ld\n",(long)r_, (long)s_, (long)p1_);      
       if (s2_ == KS_UNCOMPUTABLE)
 	printf("! Condition C is not satisfied !\n");
       else
-	printf("  s22 = %ld/%ld, s2 = %ld/%ld\n", (long)s22_.numerator(), (long)s22_.denominator(), (long)s2_.numerator(), (long)s2_.denominator());
+	printf("  s22 = %lld/%lld,  s2 = %lld/%lld\n", (long long)s22_.numerator(), (long long)s22_.denominator(), (long long)s2_.numerator(), (long long)s2_.denominator());
       if (is_positively_curved())
 	printf("  The space is positively curved.\n\n");
       else

@@ -13,11 +13,8 @@ class SpaceTuple : public std::deque< class Space >
   std::size_t compute_KS_invariants(); // return value as for test_condition_C()
   void print(FILE* file) const;
 
-//bool operator<(const SpaceTuple& otherfam) const {return (this->size() > otherfam.size());}
-  friend bool operator<(const SpaceTuple& T1, const SpaceTuple& T2) {return (T1.size() > T2.size());}
+  friend bool operator<(const SpaceTuple& T1, const SpaceTuple& T2);
   friend bool operator>(const SpaceTuple& T1, const SpaceTuple& T2) {return T2 < T1;}
-  friend bool sort(const SpaceTuple& T1, const SpaceTuple& E2,
-	  std::function<Space::comp(const Space& E1, const Space& E2)> compareFunction);
 };
 
 

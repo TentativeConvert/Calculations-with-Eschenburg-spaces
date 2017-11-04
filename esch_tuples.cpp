@@ -22,7 +22,7 @@ void SpaceTupleList::print(const char* filename)
   FILE *file = fopen(filename, "w");
   if (file == NULL) printf("Error opening file!\n");
   
-  // tuples should already by sorted by size, in descending order, but let's make sure:
+  //// sort tuples by size, in descending order:
   printf("Sorting and counting ...\r");
   std::stable_sort(this->begin(),this->end());
 
@@ -62,7 +62,7 @@ void SpaceTupleList::print(const char* filename)
   for(std::size_t c = counter.size(); c >= 2; --c)
     {
       fprintf(file,"\n\n\n###################### Tuples of length %ld ######################\n",(long)c);
-      // As tuples are ordered by size in DESCENDING order, 
+      // As tuples are ordered by size in DESCENDING ORDER,
       // start position = number of tuples of larger sizes:
       std::size_t start = 0;
       for(std::size_t i = c; i < counter.size(); ++i)
@@ -144,18 +144,22 @@ std::size_t SpaceTupleList::test_condition_C()
   return failures;
 }
 
-bool sort(const SpaceTuple& T1, const SpaceTuple& T2,
-	  std::function<Space::comp(const Space& E1, const Space& E2)> compareFunction)
-{
-  if (T1 > T2) return true; // comparison by size
-  if (T1 < T2) return false;
-  if (!(T1.empty() || T2.empty()))
+bool operator<(const SpaceTuple& T1, const SpaceTuple& T2) {
+  if (T1.size() > T2.size()) return true;// sort tuple sizes in descending order!
+  if (T1.size() < T2.size()) return false;
+  if (!(T1.empty()) && !(T2.empty()))
     {
-      return (compareFunction(T1[0],T2[0]) == Space::comp::GREATER);
+      if (abs(T1[0].r()) < abs(T2[0].r())) return true;
+      if (abs(T1[0].r()) > abs(T2[0].r())) return false;
+      if (abs(T1[0].s()) < abs(T2[0].s())) return true;
+      if (abs(T1[0].s()) > abs(T2[0].s())) return false;
+      if (T1[0].s() < T2[0].s()) return true;
+      if (T1[0].s() > T2[0].s()) return false;
+      if (T1[0].p1() < T2[0].p1()) return true;
+      if (T1[0].p1() > T2[0].p1()) return false;
     }
   return false;
 }
-
 
 SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list, 
 			       std::function<Space::comp(const Space& E1, const Space& E2)> compareFunction,
@@ -195,11 +199,4 @@ SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list,
       }
     }
   feedback.finish();
-  printf("Sorting ...\r");
-  // sort tuples by size, in DESCENDING ORDER, and by compareFunction
-  std::stable_sort(this->begin(),this->end(),[&compareFunction](const SpaceTuple& T1, const SpaceTuple& T2) -> bool
-	    {
-	      return sort(T1,T2,compareFunction);
-	    } );
-  printf("Done.      \r");
 }

@@ -65,7 +65,7 @@ Space::Space(array<INT_P,3> kkk, array<INT_P,3> lll){
 
 bool Space::is_space(void) const {
   // Is it an Eschenburg space? 
-  // -- Test conditions of [CEZ06] (1.1):
+  // -- Test conditions of [CEZ07] (1.1):
   using boost::math::gcd;
   if(gcd(k_[0] - l_[0], k_[1] - l_[1]) > 1) return false;
   if(gcd(k_[0] - l_[0], k_[1] - l_[2]) > 1) return false;
@@ -78,7 +78,7 @@ bool Space::is_space(void) const {
 
 bool Space::is_positively_curved(void) const {
   // Is the space positively curved? 
-  // -- Test conditions of [CEZ06] (1.2):
+  // -- Test conditions of [CEZ07] (1.2):
   INT_P min_l = std::min(l_[0],std::min(l_[1],l_[2]));
   INT_P max_l = std::max(l_[0],std::max(l_[1],l_[2]));
   if (min_l <= k_[0] && k_[0] <= max_l) return false;
@@ -112,10 +112,10 @@ bool Space::compute_KS_invariants() // compute s2 & s22
 
 bool Space::test_condition_C(void) // check condition C & find good column or row
 {
-  // see "condition C" in [CEZ06]
-  if (good_col_or_row == -1) // condition has not yet been checked
+  // see "condition C" in [CEZ07]
+  if (good_col_or_row == GOOD_CoR_UNKNOWN) // condition has not yet been checked
     {
-      good_col_or_row = 6;  // if values stays 6, condition C is not satisfied
+      good_col_or_row = GOOD_CoR_NONEXISTENT; // if value stays, condition C is not satisfied
       for(int i = 0; i < 3; ++i)
 	{
 	  if(gcdA(i,0,i,1) == 1 && gcdA(i,0,i,2) == 1 && gcdA(i,1,i,2) == 1)
@@ -130,7 +130,7 @@ bool Space::test_condition_C(void) // check condition C & find good column or ro
 	    }
 	}
     }
-  return (good_col_or_row < 6);
+  return (good_col_or_row != GOOD_CoR_NONEXISTENT);
 }
 
 int Space::gcdA(int i, int j, int ii, int jj) // helper function for testing condition C
@@ -144,7 +144,7 @@ int Space::gcdA(int i, int j, int ii, int jj) // helper function for testing con
 
 void Space::compute_s2_from_col(int j)
 {
-  // see [CEZ06] (2.1):
+  // see [CEZ07] (2.1):
   //
   //     s2  = (q-2)/d + SUM, 
   //     s22 = 2|r|s2

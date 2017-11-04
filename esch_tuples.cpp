@@ -22,7 +22,8 @@ void SpaceTupleList::print(const char* filename)
   FILE *file = fopen(filename, "w");
   if (file == NULL) printf("Error opening file!\n");
   
-  // sort tuples by size, in DESCENDING ORDER:
+  // tuples should already by sorted by size, in descending order, but let's make sure:
+  printf("Sorting and counting ...\r");
   std::stable_sort(this->begin(),this->end());
 
   // count total number of pairs, triples, tuples of length 3, ...:
@@ -57,10 +58,10 @@ void SpaceTupleList::print(const char* filename)
     }
   
   // Print tuples to file, grouped by tuple length
-  printf("Writing to file ...");
+  printf("Writing to file %s ...",filename);
   for(std::size_t c = counter.size(); c >= 2; --c)
     {
-      fprintf(file,"\n\n\n####### Tuples of length %ld #######\n",(long)c);
+      fprintf(file,"\n\n\n###################### Tuples of length %ld ######################\n",(long)c);
       // As tuples are ordered by size in DESCENDING order, 
       // start position = number of tuples of larger sizes:
       std::size_t start = 0;
@@ -70,12 +71,13 @@ void SpaceTupleList::print(const char* filename)
 	{
 	  fprintf(file," \nTuple %ld: \n", (long)i+1);
 	  this->at(start + i).print(file);
-	  if  (i+1 >= 0.5*MAX_TUPLES_PER_TUPLESIZE_PER_FILE && i+1 < counter[c-1]-0.5*MAX_TUPLES_PER_TUPLESIZE_PER_FILE)
+	  if  (i+11 >= MAX_TUPLES_PER_TUPLESIZE_PER_FILE && i+11 < counter[c-1])
 	    {
-	      fprintf(file,"\n [ ... skipping some tuples of length %ld ... ] \n\n", (long)c);
-	      i = counter[c-1]-0.5*MAX_TUPLES_PER_TUPLESIZE_PER_FILE-1;
+	      fprintf(file,"\n .\n .\n . skipping some tuples of length %ld \n .\n .\n",(long)c);
+	      i = counter[c-1]-11;
 	    }
 	}
+      fprintf(file,"\n\n\n");
     }
   fclose(file);
   printf(" ... done.\n\n");
@@ -88,12 +90,23 @@ std::size_t SpaceTuple::compute_KS_invariants()
   for(Space& E : *this)
     if (! E.compute_KS_invariants())
       ++failures;
+  return failures;
+}
+
+std::size_t SpaceTuple::test_condition_C()
+// (return value = number of spaces for which condition C fails)
+{
+  std::size_t failures = 0;
+  for(Space& E : *this)
+    if (! E.test_condition_C())
+      ++failures;
+  return failures;
 }
 
 std::size_t SpaceTupleList::compute_KS_invariants()
 // (return value = number of spaces for which condition C fails)
 {
-  printf("Computing Kreck-Stolz-invariants s2 and s22 ...\n");
+  printf("Computing Kreck-Stolz-invariants s2 and s22 for non-singletons ...\n");
   std::size_t failures = 0;
   Feedback feedback;
   feedback.start(this->size());
@@ -107,8 +120,42 @@ std::size_t SpaceTupleList::compute_KS_invariants()
   if(failures == 0) 
     printf("All spaces satisfy condition C.\n\n");
   else
-    printf("\nWARNING: Condition C fails for %ld spaces\n\n",(long)failures);
+    printf("\nWARNING: Condition C fails for %ld non-singletons.\n\n",(long)failures);
+  return failures;
 }
+
+std::size_t SpaceTupleList::test_condition_C()
+// (return value = number of spaces for which condition C fails)
+{
+  printf("Checking conditin C for non-singletons ...\n");
+  std::size_t failures = 0;
+  Feedback feedback;
+  feedback.start(this->size());
+  for(std::size_t i = 0; i < this->size(); ++i)
+    {
+      feedback.update(i);
+      failures += this->at(i).test_condition_C();
+    }
+  feedback.finish();
+  if(failures == 0) 
+    printf("All non-singletons satisfy condition C.\n\n");
+  else
+    printf("\nWARNING: Condition C fails for %ld non-singletons.\n\n",(long)failures);
+  return failures;
+}
+
+bool sort(const SpaceTuple& T1, const SpaceTuple& T2,
+	  std::function<Space::comp(const Space& E1, const Space& E2)> compareFunction)
+{
+  if (T1 > T2) return true; // comparison by size
+  if (T1 < T2) return false;
+  if (!(T1.empty() || T2.empty()))
+    {
+      return (compareFunction(T1[0],T2[0]) == Space::comp::GREATER);
+    }
+  return false;
+}
+
 
 SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list, 
 			       std::function<Space::comp(const Space& E1, const Space& E2)> compareFunction,
@@ -148,4 +195,11 @@ SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list,
       }
     }
   feedback.finish();
+  printf("Sorting ...\r");
+  // sort tuples by size, in DESCENDING ORDER, and by compareFunction
+  std::stable_sort(this->begin(),this->end(),[&compareFunction](const SpaceTuple& T1, const SpaceTuple& T2) -> bool
+	    {
+	      return sort(T1,T2,compareFunction);
+	    } );
+  printf("Done.      \r");
 }

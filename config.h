@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_TUPLES_PER_TUPLESIZE_PER_FILE 200
+#define MAX_TUPLES_PER_TUPLESIZE_PER_FILE 110
 
 //////////////////////////////////////////////////
 // DATA TYPES

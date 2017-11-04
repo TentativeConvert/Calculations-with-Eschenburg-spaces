@@ -9,11 +9,19 @@
 class SpaceTuple : public std::deque< class Space >
 {
  public:
-  std::size_t compute_KS_invariants(); // (return value = number of spaces for which condition C fails)
-
+  std::size_t test_condition_C(); // return value = number of spaces for which condition C fails
+  std::size_t compute_KS_invariants(); // return value as for test_condition_C()
   void print(FILE* file) const;
-  bool operator<(const SpaceTuple& otherfam) const {return (this->size() > otherfam.size());}
+
+//bool operator<(const SpaceTuple& otherfam) const {return (this->size() > otherfam.size());}
+  friend bool operator<(const SpaceTuple& T1, const SpaceTuple& T2) {return (T1.size() > T2.size());}
+  friend bool operator>(const SpaceTuple& T1, const SpaceTuple& T2) {return T2 < T1;}
+  friend bool sort(const SpaceTuple& T1, const SpaceTuple& E2,
+	  std::function<Space::comp(const Space& E1, const Space& E2)> compareFunction);
 };
+
+
+
 
 class SpaceTupleList : public std::deque< SpaceTuple >
 {
@@ -33,6 +41,7 @@ class SpaceTupleList : public std::deque< SpaceTuple >
 		 std::string description);
 
   // Other methods:
-  std::size_t compute_KS_invariants(); // (return value = number of spaces for which condition C fails)
+  std::size_t test_condition_C();// return value = number of spaces for which condition C fails
+  std::size_t compute_KS_invariants();// return value of as for test_condition_C()
   void print(const char* filename);
 };

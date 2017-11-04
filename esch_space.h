@@ -56,7 +56,7 @@ public:
   void print(void) const;
 
   // static methods:
-  enum class comp {EQUAL, SMALLER, GREATER};
+  enum class comp {EQUAL, MAYBE_EQUAL, SMALLER, GREATER};  // MAYBE_EQUAL is return when KS-invariants are unknown/uncomputable
   static comp compareBasicType(const Space& E1, const Space& E2);
   static comp compareHomotopyType(const Space& E1, const Space& E2);
   static comp compareTangentialHomotopyType(const Space& E1, const Space& E2);

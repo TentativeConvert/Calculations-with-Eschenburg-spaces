@@ -55,7 +55,6 @@ int generate_lists(const INT_R& R){
   tuples_rs.compute_KS_invariants();
   
   SpaceTupleList tuples_he(tuples_rs,Space::compareHomotopyType, "homotopy classes");
-  tuples_he.test_condition_C();
   tuples_he.print("list1-he.txt");
   
   SpaceTupleList tuples_the(tuples_he,Space::compareTangentialHomotopyType, "tangential homotopy classes");

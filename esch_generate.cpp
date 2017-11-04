@@ -96,7 +96,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
       d = new_d;
     }
   feedback.finish();
-  printf("Found %ld spaces in this range.\n", c_spaces);
+  printf(">> %9lld spaces in this range.\n", (long long)c_spaces);
  
   //////////////////////////////////////////////////
   // List of spaces (all_spaces) is now complete.

@@ -41,11 +41,28 @@ void SpaceTupleList::print(const char* filename)
       ++counter[s-1];
       ++counter_total;
     }
-  
+  size_t counter_C_failures = test_condition_C();
+    
   // print "statistics" to screen and to file (number of tuples of each length):
-  printf(       (">> %9lld different " + description + " in this range\n").c_str(),(long long)counter_total);
-  fprintf(file, (">> %9lld different " + description + " in this range\n").c_str(),(long long)counter_total);
-  
+  if (counter_C_failures == 0)
+    {
+      std::string text = ">> %9lld different " + description + " in this range (no problem with condition C)\n";
+      printf(       text.c_str(),(long long)counter_total);
+      fprintf(file, text.c_str(),(long long)counter_total);
+    }
+  else
+    {
+      std::string text_screen = ">> %9lld to %lld different " + description + " in this range\n";
+      std::string text_file = text_screen;
+      text_screen += "!  condition C fails for %lld non-singletons  !\n";
+      text_file += "\n!! The count is imprecise because condition C fails for %lld non-singleton parameter vectors.          \n";
+      text_file += "In the statistics and the lists below, the " + description + " of these non-singleton parameter vectors\n";
+      text_file += "are (probably incorrectly) identified with " + description + " defined by other parameter vectors.     \n";
+      text_file += "So the actual number of singletons may be higher than the number displayed, while\n";
+      text_file += "   the actual number of pairs/triples/... may be smaller.\n\n";
+      printf(        text_screen.c_str(), (long long)counter_total,(long long)(counter_total+counter_C_failures),(long long)(counter_C_failures));
+      fprintf(file,  text_file.c_str(), (long long)counter_total,(long long)(counter_total+counter_C_failures),(long long)(counter_C_failures));
+    }
   for(std::size_t c = 1; c <= counter.size(); ++c) 
     {
       std::string text;
@@ -61,7 +78,7 @@ void SpaceTupleList::print(const char* filename)
   printf("Writing to file %s ...",filename);
   for(std::size_t c = counter.size(); c >= 2; --c)
     {
-      fprintf(file,"\n\n\n###################### Tuples of length %ld ######################\n",(long)c);
+      fprintf(file,"\n\n\n############################################ Tuples of length %ld ############################################\n",(long)c);
       // As tuples are ordered by size in DESCENDING ORDER,
       // start position = number of tuples of larger sizes:
       std::size_t start = 0;
@@ -127,20 +144,9 @@ std::size_t SpaceTupleList::compute_KS_invariants()
 std::size_t SpaceTupleList::test_condition_C()
 // (return value = number of spaces for which condition C fails)
 {
-  printf("Checking conditin C for non-singletons ...\n");
   std::size_t failures = 0;
-  Feedback feedback;
-  feedback.start(this->size());
   for(std::size_t i = 0; i < this->size(); ++i)
-    {
-      feedback.update(i);
       failures += this->at(i).test_condition_C();
-    }
-  feedback.finish();
-  if(failures == 0) 
-    printf("All non-singletons satisfy condition C.\n\n");
-  else
-    printf("\nWARNING: Condition C fails for %ld non-singletons.\n\n",(long)failures);
   return failures;
 }
 
@@ -148,16 +154,7 @@ bool operator<(const SpaceTuple& T1, const SpaceTuple& T2) {
   if (T1.size() > T2.size()) return true;// sort tuple sizes in descending order!
   if (T1.size() < T2.size()) return false;
   if (!(T1.empty()) && !(T2.empty()))
-    {
-      if (abs(T1[0].r()) < abs(T2[0].r())) return true;
-      if (abs(T1[0].r()) > abs(T2[0].r())) return false;
-      if (abs(T1[0].s()) < abs(T2[0].s())) return true;
-      if (abs(T1[0].s()) > abs(T2[0].s())) return false;
-      if (T1[0].s() < T2[0].s()) return true;
-      if (T1[0].s() > T2[0].s()) return false;
-      if (T1[0].p1() < T2[0].p1()) return true;
-      if (T1[0].p1() > T2[0].p1()) return false;
-    }
+    if (Space::compareBasicType(T1[0],T2[0]) == Space::comp::SMALLER) return true;
   return false;
 }
 
@@ -183,14 +180,15 @@ SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list,
       for(std::size_t i1 = 0; i1 < T.size(); )// i1 is incremented indirectly via i2
       {
 	std::size_t i2 = i1+1;
-	while (i2 < T.size() && compareFunction(T[i1],T[i2]) == Space::comp::EQUAL)
+	while (i2 < T.size() && compareFunction(T[i1],T[i2]) != Space::comp::GREATER)  
+	  // As list is sorted, != GREATER here means == EQUAL or == MAYBE_EQUAL 
 	  ++i2;
 	if(i2 > i1+1)
 	  {
 	    //all_spaces with indexes i1,...,i2 define spaces with the same invariants
             SpaceTuple new_tuple;
 	    for(std::size_t j = i1; j < i2; ++j)
-		new_tuple.push_back(T[j]);
+	      new_tuple.push_back(T[j]);
 	    this->push_back(new_tuple);
 	  }
 	else if (i2 = i1+1)

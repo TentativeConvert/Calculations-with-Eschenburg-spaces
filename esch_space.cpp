@@ -21,7 +21,7 @@ void Space::print(FILE* file) const
   else if (s2_ == KS_UNCOMPUTABLE)
     fprintf(file, "  |!| WARNING: Condition C not satisfied |!|\n");
   else
-    fprintf(file, ",  s22 = %3lld/%lld,  s2 = %5lld/%lld\n", (long long)s22_.numerator(), (long long)s22_.denominator(), (long long)s2_.numerator(), (long long)s2_.denominator());
+    fprintf(file, ",  s22 = %3lld/%lld,  s2 = %7lld/%lld\n", (long long)s22_.numerator(), (long long)s22_.denominator(), (long long)s2_.numerator(), (long long)s2_.denominator());
 }
 
 void Space::print(void) const 
@@ -233,6 +233,10 @@ rational<INT_KS> Space::lens_s2(INT_P p, array<INT_P,4> param)
 
 Space::comp Space::compareBasicType(const Space& E1, const Space& E2)
 {
+  if (abs(E1.r_) > abs(E2.r_)) return comp::GREATER;
+  if (abs(E1.r_) < abs(E2.r_)) return comp::SMALLER;
+  if (abs(E1.s_) > abs(E2.s_)) return comp::GREATER;
+  if (abs(E1.s_) < abs(E2.s_)) return comp::SMALLER;
   if (abs(E1.p1_) > abs(E2.p1_)) return comp::GREATER;
   if (abs(E1.p1_) < abs(E2.p1_)) return comp::SMALLER;
   return comp::EQUAL;
@@ -240,7 +244,7 @@ Space::comp Space::compareBasicType(const Space& E1, const Space& E2)
 
 Space::comp Space::compareHomotopyType(const Space& E1, const Space& E2)
 { 
-  if (abs(E1.s22_) > abs(E2.s22_)) return comp::GREATER;
+  /*if (abs(E1.s22_) > abs(E2.s22_)) return comp::GREATER;
   if (abs(E1.s22_) < abs(E2.s22_)) return comp::SMALLER;
   if (sign(E1.s22_)*sign(E1.s_) > sign(E2.s22_)*sign(E2.s_)) return comp::GREATER;
   if (sign(E1.s22_)*sign(E1.s_) < sign(E2.s22_)*sign(E2.s_)) return comp::SMALLER;
@@ -248,21 +252,36 @@ Space::comp Space::compareHomotopyType(const Space& E1, const Space& E2)
   if (abs(E1.s_) < abs(E2.s_)) return comp::SMALLER;
   if (abs(E1.r_) > abs(E2.r_)) return comp::GREATER;
   if (abs(E1.r_) < abs(E2.r_)) return comp::SMALLER;
+  return comp::EQUAL;*/
+  if (abs(E1.r_) > abs(E2.r_)) return comp::GREATER;
+  if (abs(E1.r_) < abs(E2.r_)) return comp::SMALLER;
+  if (abs(E1.s_) > abs(E2.s_)) return comp::GREATER;
+  if (abs(E1.s_) < abs(E2.s_)) return comp::SMALLER;
+  if (E1.s22_ == KS_UNKNOWN || E1.s22_ == KS_UNCOMPUTABLE
+      || E2.s22_ == KS_UNKNOWN || E2.s22_ == KS_UNCOMPUTABLE)
+    return comp::MAYBE_EQUAL;
+  if (abs(E1.s22_) > abs(E2.s22_)) return comp::GREATER;
+  if (abs(E1.s22_) < abs(E2.s22_)) return comp::SMALLER;
+  if (sign(E1.s22_)*sign(E1.s_) > sign(E2.s22_)*sign(E2.s_)) return comp::GREATER;
+  if (sign(E1.s22_)*sign(E1.s_) < sign(E2.s22_)*sign(E2.s_)) return comp::SMALLER;
   return comp::EQUAL;
 }
 
 Space::comp Space::compareTangentialHomotopyType(const Space& E1, const Space& E2)
 {
-  if (E1.p1_ > E2.p1_) return comp::GREATER;
-  if (E1.p1_ < E2.p1_) return comp::SMALLER;
+  // returns MAYBE_EQUAL only if |r|,|s|, p1 agree and KS-invariants unknown/uncomputable
+  comp basic = compareBasicType(E1,E2);
+  if (basic != comp::EQUAL) return basic;
   return compareHomotopyType(E1,E2);
 }
 
 Space::comp Space::compareHomeomorphismType(const Space& E1, const Space& E2)
 {
+  comp homotopy = compareHomotopyType(E1,E2);
+  if (homotopy != comp::EQUAL) return homotopy;
   if (abs(E1.s2_) > abs(E2.s2_)) return comp::GREATER;
   if (abs(E1.s2_) < abs(E2.s2_)) return comp::SMALLER;
   if (sign(E1.s2_)*sign(E1.s_) > sign(E2.s2_)*sign(E2.s_)) return comp::GREATER;
   if (sign(E1.s2_)*sign(E1.s_) < sign(E2.s2_)*sign(E2.s_)) return comp::SMALLER;
-  return compareHomotopyType(E1,E2);
+  return comp::EQUAL;
 }

@@ -46,8 +46,10 @@ For more details on these invariants, consult  [\[CEZ07\]](#references).  By  [\
     |r|, |s|, |s₂₂|, sign(s·s₂₂)      agree   ⇔  spaces are homotopy equivalent
     |r|, |s|, |s₂₂|, sign(s·s₂₂), p₁  agree   ⇔  spaces are tangentially homotopy equivalent
     |r|, |s|, |s₂|,  sign(s·s₂),  p₁  agree   ⇔  spaces are homeomorphic
+
+Note, however, that formulas for computing the invariants `s₂` and `s₂₂` are only known when the parameters `(k₁,k₂,k₃,l₁,l₂,l₃)` satisfy a certain `Condition C` [\[CEZ07, §2\]](#references).  'Most' Eschenburg spaces satisfy this condition.  For Eschenburg spaces that do no satisfy this condition, no homeomorphism classification seems to be known.
     
-With the default configuration, results should be reliable for parameters `kᵢ` and `lᵢ` of absolute values up to `1500` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
+With the default configuration, the output of the program should be reliable for parameters `kᵢ` and `lᵢ` of absolute values up to `1500` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
 
 #### Count 'isomorphism' classes in a range

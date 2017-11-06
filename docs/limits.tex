@@ -45,24 +45,26 @@
 \section*{Limits}
 Consider an Eschenburg space \(E\) with parameters \((k_1,k_2,k_3,l_1,l_2,l_3)\).   We say that the \textbf{parameters are bounded by \(P\)} if \(\abs{k_i}\leq P\) and \(\abs{l_i}\leq P\) for all~\(i\) for some positive integer \(P\).  Similarly, we say that \textbf{\(r\) is bounded by \(R\)} if \(\abs{r(E)}\leq R\) for some positive integer~\(R\), where  \(\abs{r(E)} = |H^4(E)|\).  We say that \(E\) is given in \textbf{standard presentation} if the parameters satisfy the conditions of \cite{CEZ}*{Lemma~1.4}.  (All spaces generated using \verb+esch -r=XXXX+ are in standard presentation.)
 
-The default data types specified in \verb+config.h+ and their sizes are:\footnote{
+The default data types specified in \verb+config.h+ and their sizes are:%
+\footnote{
+  \url{http://en.cppreference.com/w/cpp/types/integer}
+}\textsuperscript{,}\footnote{
   \mbox{\url{http://www.boost.org/doc/libs/1_65_1/libs/multiprecision/doc/html/boost_multiprecision/tut/ints/cpp_int.html}}%
 }
 
-  \begin{tabular}{rp{22em}l}
+  \begin{tabular}{rp{18em}l}
     \verb+INT_P+ & \verb+:= std::int_least32_t+ & \(\geq 32\) bit \\
     \verb+INT_R+ & \verb+:= std::int_least64_t+ & \(\geq 64\) bit \\
     \verb+INT_KS+ & \verb+:= boost::multiprecision::int128_t+ & \(\geq 128\) bit \\
     \verb+FLOAT_KS+ & \verb+:= long double+ & \(64\) bit significand
   \end{tabular}
 
-The implementation of the \(\sin\) function used by \verb+esch+\footnote{
-  We use \verb+sin_pi+ from \verb+boost/math/special_functions/sin_pi.hpp+.%
+The implementation of the function \verb+boost::math::sin_pi+\footnote{
+  from \verb+boost/math/special_functions/sin_pi.hpp+%
 }
-has a relative error of less than \(1\macheps\)\footnote{\label{footnote:macheps}%
-  Here, \(\macheps\) denotes the \textbf{machine epsilon}.
-  See \url{https://en.wikipedia.org/wiki/Machine_epsilon}.%
-}
+used by \verb+esch+ has a relative error of less than \(1\macheps\) (where \(\macheps\) denotes the \textbf{machine epsilon}\footnote{\label{footnote:macheps}%
+  \url{https://en.wikipedia.org/wiki/Machine_epsilon}
+})
 for the data type \texttt{long double}.\footnote{
   \mbox{\url{http://www.boost.org/doc/libs/1_65_1/libs/math/doc/html/math_toolkit/powers/sin_pi.html}}%
 }
@@ -87,11 +89,11 @@ More generally, we claim the following:
     \verb+FLOAT_KS+ & base-\(2\) float with significand of \(\sigKS\) bits (including sign bit)
   \end{tabular}
   
-  Suppose further that, in the computation of the invariant \(s_{2}(E)\), the \(\sin\)-values are computed with a relative error of at most \(A\macheps\).\footnote{
-    See footnote \ref{footnote:macheps}.
+  Suppose further that, in the computation of the invariant \(s_{2}(E)\), the values of the function \(x\mapsto\sin(\pi x)\) are computed with a relative error of at most \(A\macheps\).\footnote{
+    see footnote \ref{footnote:macheps}
   }
-  Then the computations of the invariants \(r(E)\), \(s(E)\), \(p_1(E)\), \(s_2(E)\) and \(s_{22}(E)\)
-  are exact provided each of the following inequalities is satisfied:
+  Then the computated values of the invariants \(r(E)\), \(s(E)\), \(p_1(E)\), \(s_2(E)\) and \(s_{22}(E)\)
+  are correct provided each of the following inequalities is satisfied:
   \begin{multicols}{2}
     \noindent\allowdisplaybreaks
   \begin{align*}

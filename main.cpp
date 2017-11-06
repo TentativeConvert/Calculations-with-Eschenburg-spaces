@@ -12,7 +12,7 @@
                             // = wrapper for deque< Space >
                             // class SpaceTupleList
                             // = wrapper for deque< Space_tuples >
-int show_usage(const char* name);
+int show_usage(std::string myname);
 int generate_lists(const INT_R& R);
 int analyse_space(const INT_P& k1, const INT_P& k2, const INT_P& k3, 
 		  const INT_P &l1, const INT_P& l2, const INT_P& l3);
@@ -66,21 +66,25 @@ int generate_lists(const INT_R& R){
 }
 
 
-int show_usage(const char* name)
+int show_usage(std::string myname)
 {
+  int len = myname.length();
+  if (len > 30)
+    myname.replace(8,len-26,"...");
+  const char* name = myname.c_str();
   printf("\
 \n -------   PROGRAM FOR CALCULATIONS WITH ESCHENBURG SPACES    ------- \
 \n To analyse Eschenburg space described by certain parameters, enter:	\
 \n									\
-\n       %1$s [75,54,-51,46,32,0]					\
-\n or    %1$s \"[75, 54, -51, 46, 32, 0]\"				\
+\n       %s [75,54,-51,46,32,0]					\
+\n or    %s \"[75, 54, -51, 46, 32, 0]\"				\
 \n									\
 \n To generate various lists of positively curved Eschenburg spaces	\
 \n with |r| < 5000, enter:						\
 \n									\
-\n        %1$s r=5000							\
+\n        %s r=5000							\
 \n									\
-\n",name);
+\n",name,name,name); // using %1$s instead of %s does not work on Windows!
   printf(" -------------------------------------------------------------------- ");
   printf("\n Size of data types (see config.h & docs/limits.pdf): \n");
   printf("   INT_P:    %3ld bit\n",sizeof(INT_P)*8);

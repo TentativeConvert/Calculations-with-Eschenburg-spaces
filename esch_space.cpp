@@ -19,7 +19,7 @@ void Space::print(FILE* file) const
   if (s2_ == KS_UNKNOWN)
     fprintf(file, "\n");
   else if (s2_ == KS_UNCOMPUTABLE)
-    fprintf(file, "  |!| WARNING: Condition C not satisfied |!|\n");
+    fprintf(file, "  |!| WARNING: condition C not satisfied |!|\n");
   else
     fprintf(file, ",  s22 = %3lld/%lld,  s2 = %7lld/%lld\n", (long long)s22_.numerator(), (long long)s22_.denominator(), (long long)s2_.numerator(), (long long)s2_.denominator());
 }

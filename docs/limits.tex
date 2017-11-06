@@ -43,7 +43,7 @@
 
 \begin{document}
 \section*{Limits}
-Consider an Eschenburg space \(E\) with parameters \((k_1,k_2,k_3,l_1,l_2,l_3)\).   We say that the \textbf{parameters are bounded by \(P\)} if \(\abs{k_i}\leq P\) and \(\abs{l_i}\leq P\) for all~\(i\) for some positive integer \(P\).  Similarly, we say that \textbf{\(r\) is bounded by \(R\)} if \(\abs{r(E)}\leq R\) for some positive integer~\(R\), where  \(\abs{r(E)} = |H^4(E)|\).  We say that \(E\) is given in \textbf{standard presentation} if the parameters satisfy the conditions of \cite{CEZ}*{Lemma~4.1}.  (All spaces generated using \verb+esch -r=XXXX+ are in standard presentation.)
+Consider an Eschenburg space \(E\) with parameters \((k_1,k_2,k_3,l_1,l_2,l_3)\).   We say that the \textbf{parameters are bounded by \(P\)} if \(\abs{k_i}\leq P\) and \(\abs{l_i}\leq P\) for all~\(i\) for some positive integer \(P\).  Similarly, we say that \textbf{\(r\) is bounded by \(R\)} if \(\abs{r(E)}\leq R\) for some positive integer~\(R\), where  \(\abs{r(E)} = |H^4(E)|\).  We say that \(E\) is given in \textbf{standard presentation} if the parameters satisfy the conditions of \cite{CEZ}*{Lemma~1.4}.  (All spaces generated using \verb+esch -r=XXXX+ are in standard presentation.)
 
 The default data types specified in \verb+config.h+ and their sizes are:\footnote{
   \mbox{\url{http://www.boost.org/doc/libs/1_65_1/libs/multiprecision/doc/html/boost_multiprecision/tut/ints/cpp_int.html}}%
@@ -59,7 +59,7 @@ The default data types specified in \verb+config.h+ and their sizes are:\footnot
 The implementation of the \(\sin\) function used by \verb+esch+\footnote{
   We use \verb+sin_pi+ from \verb+boost/math/special_functions/sin_pi.hpp+.%
 }
-has a relative error of less than \(1\macheps\)\footnote{
+has a relative error of less than \(1\macheps\)\footnote{\label{footnote:macheps}%
   Here, \(\macheps\) denotes the \textbf{machine epsilon}.
   See \url{https://en.wikipedia.org/wiki/Machine_epsilon}.%
 }
@@ -87,7 +87,9 @@ More generally, we claim the following:
     \verb+FLOAT_KS+ & base-\(2\) float with significand of \(\sigKS\) bits (including sign bit)
   \end{tabular}
   
-  Suppose further that, in the computation of the invariant \(s_{2}(E)\), the \(\sin\)-values are computed with a relative error of at most \(A\macheps\).
+  Suppose further that, in the computation of the invariant \(s_{2}(E)\), the \(\sin\)-values are computed with a relative error of at most \(A\macheps\).\footnote{
+    See footnote \ref{footnote:macheps}.
+  }
   Then the computations of the invariants \(r(E)\), \(s(E)\), \(p_1(E)\), \(s_2(E)\) and \(s_{22}(E)\)
   are exact provided each of the following inequalities is satisfied:
   \begin{multicols}{2}
@@ -143,7 +145,7 @@ To find a bound for \(R\) when analysing spaces in standard presentation, repace
 Again, the strongest inequality is inequality \((d)\).  It equates to \(R\leq 691\,802\).
 
 \subsection*{Preliminary inequalities I (for integer types)}
-The invariants \(s_2(E)\) and \(s_{22}(E)\) are computed by a formulas of the following form \cite{CEZ}*{(2.1)}:
+The invariants \(s_2(E)\) and \(s_{22}(E)\) are computed by formulas of the following form \cite{CEZ}*{(2.1)}:
 \begin{align}\label{eq:s2}
   \notag  s_2(E)   &= (q-2)/d + \ell_1 + \ell_2 + \ell_3\\
                    &= \frac{45(q-2) + ([45\ell_1] + [45\ell_2] + [45\ell_3])d}{45d}\\
@@ -156,7 +158,7 @@ Here, \(\ell_i\) are lens space invariants such that \(45\ell_i\) is an integer 
 \end{prop}
  
 \begin{proof}
-The integer \(d\) in \eqref{eq:s2} \(=\) \cite{CEZ}*{(2.1)} is a multiple of \(2r(E)\).  Thus, any bounds for numerator and generator of \(s_2(E)\) will also be bounds for numerator and generator of \(s_{22}(E)\).
+The integer \(d\) in \eqref{eq:s2} \(=\) \cite{CEZ}*{(2.1)} is a multiple of \(2r(E)\).  Thus, any bounds for numerator and denominator of \(s_2(E)\) will also be bounds for numerator and denominator of \(s_{22}(E)\).
 
 The absolute value of \(q\) in \eqref{eq:s2} is bounded by a sum of six squares of differences of parameters \((k_i-l_j)\), so 
 \begin{alignat}{7}
@@ -192,7 +194,7 @@ The coordinates \(x_i\) on which this function is evaluated are given by \(x_0^{
   If the parameters of the given Eschenburg space are bounded by \(P\), then \(\abs{45\ell_i} \leq 2^{5.1} P^5\) for each \(i\in\{1,2,3\}\).
 \end{prop}
 \begin{proof}
-  As each of \(k_i\) and \(l_i\) is bounded by \(P\), each of the parameters \(p\), \(p_1\), \dots, \(p_4\) used to define the quintuples \(\vec x^{(v)}\) is bounded by \(2P\).  It follows that each coordinate of each \(\vec x^{(v)}\) has a distance of at least \(\nicefrac{1}{2P}\) to the nearest integer.  Thus, we can apply Lemma~\ref{lem:csc} below to each \(\csc\)-factor of \(L(\vec x^{(v)})\) with \(\epsilon = \nicefrac{1}{2P}\) to obtain 
+  As each of \(k_i\) and \(l_i\) is bounded by \(P\), each of the parameters \(p\), \(p_1\), \dots, \(p_4\) used to define the quintuples \(\vec x^{(v)}\) is bounded by \(2P\).  It follows that each coordinate of each \(\vec x^{(v)}\) has a distance of at least \(\nicefrac{1}{2P}\) to the nearest integer.  Thus, we can apply Lemma~\ref{lem:csc} below to each \(\csc\)-factor of \(L(\vec x^{(v)})\) with \(\varepsilon = \nicefrac{1}{2P}\) to obtain 
   \[
     \abs{L(\vec x^{(v)})}
     \leq 2·(2^{-1.6}·2P)^4 = 2^{-1.4}P^4\\

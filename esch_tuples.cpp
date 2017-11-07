@@ -1,4 +1,3 @@
-#include "config.h"      // defines MAX_TUPLES_PER_TUPLESIZE_PER_FILE
 #include "esch_tuples.h"
 using std::deque;
 #include <vector>
@@ -17,7 +16,7 @@ void SpaceTuple::print(FILE* file) const
   return;
 }
 
-void SpaceTupleList::print(const char* filename)
+void SpaceTupleList::print(const char* filename, const size_t& max_tuples)
 {
   FILE *file = fopen(filename, "w");
   if (file == NULL) printf("Error opening file!\n");
@@ -88,7 +87,7 @@ void SpaceTupleList::print(const char* filename)
 	{
 	  fprintf(file," \nTuple %ld: \n", (long)i+1);
 	  this->at(start + i).print(file);
-	  if  (i+11 >= MAX_TUPLES_PER_TUPLESIZE_PER_FILE && i+11 < counter[c-1])
+	  if  (i+11 >= max_tuples && i+11 < counter[c-1])
 	    {
 	      fprintf(file,"\n .\n .\n . skipping some tuples of length %ld \n .\n .\n",(long)c);
 	      i = counter[c-1]-11;
@@ -185,7 +184,7 @@ SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list,
 	while (i2 < T.size())
 	  {
 	    Space::comp c = compareFunction(T[i1],T[i2]);
-	    if(c == Space::comp::EQUAL || c == Space::comp::MAYBE_EQUAL)  
+	    if(c == Space::comp::EQUAL || c == Space::comp::MAYBE_EQUAL || c == Space::comp::MAYBE_GREATER)  
 	      ++i2;
 	    else break;
 	  }

@@ -13,7 +13,7 @@
                             // class SpaceTupleList
                             // = wrapper for deque< Space_tuples >
 int show_usage(std::string myname);
-int generate_lists(const INT_R& R);
+int generate_lists(const INT_R& R, const size_t& max_tuples = DEFAULT_MAX_TUPLES_PER_TUPLE_SIZE_PER_FILE);
 int analyse_space(const INT_P& k1, const INT_P& k2, const INT_P& k3, 
 		  const INT_P &l1, const INT_P& l2, const INT_P& l3);
 
@@ -22,11 +22,14 @@ int main(int argc, char* argv[])
 {
   long long R;
   long long k1, k2, k3, l1, l2, l3;
-  if (argc == 2) {
-    if (sscanf(argv[1],"r=%lld",&R) == 1)
+  long long max_tuples;
+  if (argc >= 2) {
+    if (sscanf(argv[1],"r=%lld",&R) == 1 && argc == 2)
       return generate_lists((INT_R)R);
+    else if (sscanf(argv[1],"r=%lld",&R) == 1 && sscanf(argv[2],"print=%lld",&max_tuples) == 1 && argc == 3)
+      return generate_lists((INT_R)R,(size_t)max_tuples);	
     else if (sscanf(argv[1],"[%lld,%lld,%lld,%lld,%lld,%lld]",
-		    &k1,&k2,&k3,&l1,&l2,&l3) == 6)
+		    &k1,&k2,&k3,&l1,&l2,&l3) == 6 && argc == 2)
       return analyse_space((INT_P)k1,(INT_P)k2,(INT_P)k3,(INT_P)l1,(INT_P)l2,(INT_P)l3);
   }
   return show_usage(argv[0]);
@@ -50,18 +53,18 @@ int analyse_space(const INT_P& k1, const INT_P& k2, const INT_P& k3,
     }
 }
 
-int generate_lists(const INT_R& R){
+int generate_lists(const INT_R& R, const size_t& max_tuples){
   SpaceTupleList tuples_rs(R);
   tuples_rs.compute_KS_invariants();
   
   SpaceTupleList tuples_he(tuples_rs,Space::compareHomotopyType, "homotopy classes");
-  tuples_he.print("list1-he.txt");
+  tuples_he.print("list1-he.txt", max_tuples);
   
   SpaceTupleList tuples_the(tuples_he,Space::compareTangentialHomotopyType, "tangential homotopy classes");
-  tuples_the.print("list2-the.txt");
+  tuples_the.print("list2-the.txt", max_tuples);
   
   SpaceTupleList tuples_homeo(tuples_the,Space::compareHomeomorphismType, "homeomorphism classes");
-  tuples_homeo.print("list3-homeo.txt");
+  tuples_homeo.print("list3-homeo.txt", max_tuples);
   return 0;
 }
 

@@ -40,5 +40,5 @@ class SpaceTupleList : public std::deque< SpaceTuple >
   // Other methods:
   std::size_t test_condition_C();// return value = number of spaces for which condition C fails
   std::size_t compute_KS_invariants();// return value of as for test_condition_C()
-  void print(const char* filename);
+  void print(const char* filename, const size_t& max_tuples);
 };

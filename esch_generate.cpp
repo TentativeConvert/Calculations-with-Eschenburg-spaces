@@ -24,6 +24,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
     //INT_R r() const { return -(k1*d + n*d + n*k2); };
     INT_R unreduced_s() const { return -(k1*k2*(n+d)); };
     int_least8_t Sigma() const { return (int_least8_t)signed_mod(k1+k2-n-d, 3); };
+    int_least8_t Milgram() const { return (int_least8_t)absolute_mod(k1 + k2 -n-d + k1*k2 -k1*n-k1*d -k2*n-k2*d, 2); };
   };
   deque< deque< struct tinySpace > > all_spaces((INT_R)((R+1)/2)); 
   // deque of deque of spaces that we find: one deque for each value of |r| <= R
@@ -122,13 +123,16 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
       INT_P k2;
       INT_R s;
       int_least8_t Sigma; // only values are +1, 0, -1
-      bool operator<(const miniSpace& otherpair) const {
-	if (abs(s) > abs(otherpair.s)) return false;
-	if (abs(s) < abs(otherpair.s)) return true;
-	if (abs(Sigma) > abs(otherpair.Sigma)) return false;
-	if (abs(Sigma) < abs(otherpair.Sigma)) return true;
-	if (sign(s)*sign(Sigma) > sign(otherpair.s)*sign(otherpair.Sigma)) return false;
-	if (sign(s)*sign(Sigma) < sign(otherpair.s)*sign(otherpair.Sigma)) return true;
+      int_least8_t Milgram; // only values are 1, 0
+      bool operator<(const miniSpace& otherspace) const {
+	if (abs(s) > abs(otherspace.s)) return false;
+	if (abs(s) < abs(otherspace.s)) return true;
+	if (abs(Sigma) > abs(otherspace.Sigma)) return false;
+	if (abs(Sigma) < abs(otherspace.Sigma)) return true;
+	if (sign(s)*sign(Sigma) > sign(otherspace.s)*sign(otherspace.Sigma)) return false;
+	if (sign(s)*sign(Sigma) < sign(otherspace.s)*sign(otherspace.Sigma)) return true;
+	if (Milgram > otherspace.Milgram) return false;
+	if (Milgram < otherspace.Milgram) return true;
 	return false;
       }
     };
@@ -142,6 +146,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
       r_spaces[i].k2 = E.k2;
       r_spaces[i].s =  signed_mod(E.unreduced_s(),mr);
       r_spaces[i].Sigma = E.Sigma();
+      r_spaces[i].Milgram = E.Milgram();
     }
     std::sort(r_spaces.begin(),r_spaces.end());
     // Our list of paris (r_spaces) is now sorted.
@@ -153,6 +158,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
 	       && abs(r_spaces[i1].s) == abs(r_spaces[i2].s)
 	       && abs(r_spaces[i1].Sigma) == abs(r_spaces[i2].Sigma)
 	       && sign(r_spaces[i1].s)*sign(r_spaces[i1].Sigma) == sign(r_spaces[i2].s)*sign(r_spaces[i2].Sigma)
+	       && r_spaces[i1].Milgram == r_spaces[i2].Milgram
 	       )
 	  ++i2;
 	++counter_distinct_rs_values;

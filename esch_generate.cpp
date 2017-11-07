@@ -16,15 +16,16 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   feedback.start(100);
 
   std::size_t c_spaces = 0; // counter
-  struct miniSpace {
+  struct tinySpace {
     INT_P d;
     INT_P n;
     INT_P k1;
     INT_P k2;
-    INT_R r() const { return -(k1*d + n*d + n*k2); };
+    //INT_R r() const { return -(k1*d + n*d + n*k2); };
     INT_R unreduced_s() const { return -(k1*k2*(n+d)); };
+    int_least8_t Sigma() const { return (int_least8_t)signed_mod(k1+k2-n-d, 3); };
   };
-  deque< deque< struct miniSpace > > all_spaces((INT_R)((R+1)/2)); 
+  deque< deque< struct tinySpace > > all_spaces((INT_R)((R+1)/2)); 
   // deque of deque of spaces that we find: one deque for each value of |r| <= R
   // allocated dynamically, so size is only limited by OS/hardware 
   // (see https://stackoverflow.com/a/216731/3611932)  
@@ -78,7 +79,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
 		      // If we get this far, we've found a positively curved Eschenburg space with |r| < R.
 		      // Add it to our list:
 		      ++c_spaces;
-		      miniSpace new_mini = {d, n, k1, k2};
+		      tinySpace new_mini = {d, n, k1, k2};
 		      //  0 < mr <= R   and   mr is odd
 		      //  0 <= (mr-1)/2 <= (R-1)/2
 		      all_spaces[(INT_R)((mr-1)/2)].push_back(new_mini);
@@ -100,8 +101,8 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
  
   //////////////////////////////////////////////////
   // List of spaces (all_spaces) is now complete.
-  // Now look for tuples of spaces whose invariants r & s agree!
-  printf("\nLooking for tuples of spaces whose invariants r & s agree ...\n");
+  // Now look for tuples of spaces whose invariants |r| & |s| agree!
+  printf("\nLooking for spaces whose homotopy invariants |r|, |s|, |Sigma| and sign(s)*sign(Sigma) agree ...\n");
  
   std::size_t counter_distinct_rs_values = 0;
   // std::size_t counter_singletons = 0;
@@ -111,44 +112,60 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   for(INT_R hmr = 0; hmr < (R+1)/2; ++hmr){  //hmr = "half minus r" (abgerundet)
     feedback.update((std::size_t)hmr);
     //------------------------------------------------
-    // Sort spaces in all_spaces[hmr] by their s-invariant.
-    //
-    // To speed up sorting, we make a list (vector) of pairs (index, s),
-    // where s is the s-invariant of the space all_spaces[hmr][index].
-    // Then we only sort this list of pairs.
-    struct i_s_pair {
-      std::size_t i; INT_R abs_s;  
-      bool operator<(const i_s_pair& otherpair) const {return (abs_s < otherpair.abs_s);}
+    // Sort spaces in all_spaces[hmr] by their invariants |s| and |Sigma|.
+    // To speed up sorting, turn the deque all_spaces[hmr] into a list r_spaces.
+    struct miniSpace {
+      // slightly higher memory usage than tinySpace: two more variables (s & Sigma)
+      INT_P d;
+      INT_P n;
+      INT_P k1;
+      INT_P k2;
+      INT_R s;
+      int_least8_t Sigma; // only values are +1, 0, -1
+      bool operator<(const miniSpace& otherpair) const {
+	if (abs(s) > abs(otherpair.s)) return false;
+	if (abs(s) < abs(otherpair.s)) return true;
+	if (abs(Sigma) > abs(otherpair.Sigma)) return false;
+	if (abs(Sigma) < abs(otherpair.Sigma)) return true;
+	if (sign(s)*sign(Sigma) > sign(otherpair.s)*sign(otherpair.Sigma)) return false;
+	if (sign(s)*sign(Sigma) < sign(otherpair.s)*sign(otherpair.Sigma)) return true;
+	return false;
+      }
     };
-    vector< struct i_s_pair > i_s_pairs(all_spaces[hmr].size());
+    vector< struct miniSpace > r_spaces(all_spaces[hmr].size());
     INT_R mr = 2*hmr+1;    
     for(std::size_t i = 0; i < all_spaces[hmr].size(); ++i){
-      i_s_pairs[i].i = i;
-      i_s_pairs[i].abs_s = abs(signed_mod(all_spaces[hmr][i].unreduced_s(), mr));
+      const tinySpace& E = all_spaces[hmr][i];
+      r_spaces[i].d =  E.d;
+      r_spaces[i].n =  E.n;
+      r_spaces[i].k1 = E.k1;
+      r_spaces[i].k2 = E.k2;
+      r_spaces[i].s =  signed_mod(E.unreduced_s(),mr);
+      r_spaces[i].Sigma = E.Sigma();
     }
-    std::sort(i_s_pairs.begin(),i_s_pairs.end());
-    // Our list of paris (i_s_pairs) is now sorted.
+    std::sort(r_spaces.begin(),r_spaces.end());
+    // Our list of paris (r_spaces) is now sorted.
     // Now find spaces where s-values match.
-    for(std::size_t i1 = 0; i1 < i_s_pairs.size(); )// i1 is incremented indirectly via i2
+    for(std::size_t i1 = 0; i1 < r_spaces.size(); )// i1 is incremented indirectly via i2
       {
 	std::size_t i2 = i1+1;
-	while (i2 < i_s_pairs.size() 
-	       && i_s_pairs[i1].abs_s == i_s_pairs[i2].abs_s)
+	while (i2 < r_spaces.size() 
+	       && abs(r_spaces[i1].s) == abs(r_spaces[i2].s)
+	       && abs(r_spaces[i1].Sigma) == abs(r_spaces[i2].Sigma)
+	       && sign(r_spaces[i1].s)*sign(r_spaces[i1].Sigma) == sign(r_spaces[i2].s)*sign(r_spaces[i2].Sigma)
+	       )
 	  ++i2;
 	++counter_distinct_rs_values;
 	if(i2 > i1+1)
 	  {
-	    //all_spaces with indexes i1,...,i2 define spaces with the same invariants
+	    //r_spaces[i1], ..., r_spaces[i2] are spaces with the same invariants
             SpaceTuple new_tuple;
 	    for(std::size_t j = i1; j < i2; ++j)
 	      {
-		miniSpace& e = all_spaces[hmr][i_s_pairs[j].i];
-		//Space E;
-		//E.setParameters({e.k1, e.k2, -e.n-e.d},{e.k2-e.n, e.k1-e.d, 0});
+		miniSpace& e = r_spaces[j];
 		Space E({e.k1, e.k2, -e.n-e.d},{e.k2-e.n, e.k1-e.d, 0});
 		new_tuple.push_back(E);
 	      }
-	    //tuples_rs.push_back(new_tuple); //xxx
 	    this->push_back(new_tuple);
 	  }
 	else

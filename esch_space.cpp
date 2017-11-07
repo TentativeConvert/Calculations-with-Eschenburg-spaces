@@ -67,6 +67,7 @@ bool Space::is_space(void) const {
   // Is it an Eschenburg space? 
   // -- Test conditions of [CEZ07] (1.1):
   using boost::math::gcd;
+  if(k_[0]+k_[1]+k_[2] != l_[0]+l_[1]+l_[2]) return false;
   if(gcd(k_[0] - l_[0], k_[1] - l_[1]) > 1) return false;
   if(gcd(k_[0] - l_[0], k_[1] - l_[2]) > 1) return false;
   if(gcd(k_[0] - l_[2], k_[1] - l_[0]) > 1) return false;
@@ -244,22 +245,19 @@ Space::comp Space::compareBasicType(const Space& E1, const Space& E2)
 
 Space::comp Space::compareHomotopyType(const Space& E1, const Space& E2)
 { 
-  /*if (abs(E1.s22_) > abs(E2.s22_)) return comp::GREATER;
-  if (abs(E1.s22_) < abs(E2.s22_)) return comp::SMALLER;
-  if (sign(E1.s22_)*sign(E1.s_) > sign(E2.s22_)*sign(E2.s_)) return comp::GREATER;
-  if (sign(E1.s22_)*sign(E1.s_) < sign(E2.s22_)*sign(E2.s_)) return comp::SMALLER;
-  if (abs(E1.s_) > abs(E2.s_)) return comp::GREATER;
-  if (abs(E1.s_) < abs(E2.s_)) return comp::SMALLER;
-  if (abs(E1.r_) > abs(E2.r_)) return comp::GREATER;
-  if (abs(E1.r_) < abs(E2.r_)) return comp::SMALLER;
-  return comp::EQUAL;*/
   if (abs(E1.r_) > abs(E2.r_)) return comp::GREATER;
   if (abs(E1.r_) < abs(E2.r_)) return comp::SMALLER;
   if (abs(E1.s_) > abs(E2.s_)) return comp::GREATER;
   if (abs(E1.s_) < abs(E2.s_)) return comp::SMALLER;
-  if (E1.s22_ == KS_UNKNOWN || E1.s22_ == KS_UNCOMPUTABLE
-      || E2.s22_ == KS_UNKNOWN || E2.s22_ == KS_UNCOMPUTABLE)
-    return comp::MAYBE_EQUAL;
+  // If both KS-invariants are unkown, return MAYBE_EQUAL;
+  // otherwise, the unknown KS-invariant is   MAYBE_GREATER 
+  // than the known one.			
+  if (E1.s22_ == KS_UNKNOWN || E1.s22_ == KS_UNCOMPUTABLE)
+    if (E2.s22_ == KS_UNKNOWN || E2.s22_ == KS_UNCOMPUTABLE)
+      return comp::MAYBE_EQUAL;
+    else return comp::MAYBE_GREATER;
+  if (E2.s22_ == KS_UNKNOWN || E2.s22_ == KS_UNCOMPUTABLE)
+    return comp::MAYBE_SMALLER;
   if (abs(E1.s22_) > abs(E2.s22_)) return comp::GREATER;
   if (abs(E1.s22_) < abs(E2.s22_)) return comp::SMALLER;
   if (sign(E1.s22_)*sign(E1.s_) > sign(E2.s22_)*sign(E2.s_)) return comp::GREATER;

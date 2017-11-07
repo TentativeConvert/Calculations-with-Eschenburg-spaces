@@ -46,7 +46,17 @@ rational<INT_KS> reduce_mod_ZZ(const rational<INT_KS>& q)
   return rational<INT_KS>(q_n,q_d);
 }
 
-int sign(const long &i){
+int sign(const INT_P &i){
+  if (i > 0) return 1;
+  if (i < 0) return -1;
+  return 0;
+}
+int sign(const INT_R &i){
+  if (i > 0) return 1;
+  if (i < 0) return -1;
+  return 0;
+}
+int sign(const INT_KS &i){
   if (i > 0) return 1;
   if (i < 0) return -1;
   return 0;

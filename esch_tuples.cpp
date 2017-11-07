@@ -153,8 +153,10 @@ std::size_t SpaceTupleList::test_condition_C()
 bool operator<(const SpaceTuple& T1, const SpaceTuple& T2) {
   if (T1.size() > T2.size()) return true;// sort tuple sizes in descending order!
   if (T1.size() < T2.size()) return false;
-  if (!(T1.empty()) && !(T2.empty()))
-    if (Space::compareBasicType(T1[0],T2[0]) == Space::comp::SMALLER) return true;
+  if (!(T1.empty()) && !(T2.empty())){
+    Space::comp basic = Space::compareBasicType(T1[0],T2[0]);
+    if (basic == Space::comp::SMALLER || basic == Space::comp::MAYBE_SMALLER) return true;
+  }
   return false;
 }
 
@@ -173,16 +175,20 @@ SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list,
       SpaceTuple& T = original_list[i];
 
       std::stable_sort(T.begin(),T.end(),[&compareFunction](const Space& E1, const Space& E2) -> bool
-	   {
-	     return (compareFunction(E1,E2) == Space::comp::GREATER);
-	   } );
-
+		       {
+			 Space::comp c = compareFunction(E1,E2);
+			 return (c == Space::comp::GREATER || c == Space::comp::MAYBE_GREATER);
+		       } );
       for(std::size_t i1 = 0; i1 < T.size(); )// i1 is incremented indirectly via i2
       {
 	std::size_t i2 = i1+1;
-	while (i2 < T.size() && compareFunction(T[i1],T[i2]) != Space::comp::GREATER)  
-	  // As list is sorted, != GREATER here means == EQUAL or == MAYBE_EQUAL 
-	  ++i2;
+	while (i2 < T.size())
+	  {
+	    Space::comp c = compareFunction(T[i1],T[i2]);
+	    if(c == Space::comp::EQUAL || c == Space::comp::MAYBE_EQUAL)  
+	      ++i2;
+	    else break;
+	  }
 	if(i2 > i1+1)
 	  {
 	    //all_spaces with indexes i1,...,i2 define spaces with the same invariants

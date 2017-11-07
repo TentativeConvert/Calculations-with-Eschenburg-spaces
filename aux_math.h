@@ -14,7 +14,10 @@ using boost::math::gcd; //*
 INT_KS square(INT_KS a);
 INT_R signed_mod (INT_R a, INT_R base);
 long absolute_mod (long a, long base);
-int sign(const long &i);
+//int absolute_mod (int a, int base); perhaps not needed
+int sign(const INT_P &i);
+int sign(const INT_R &i);
+int sign(const INT_KS &i);
 
 // rationals:
 #include <boost/rational.hpp>

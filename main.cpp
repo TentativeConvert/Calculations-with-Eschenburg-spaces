@@ -82,12 +82,19 @@ int show_usage(std::string myname)
 \n       %s [75,54,-51,46,32,0]					\
 \n or    %s \"[75, 54, -51, 46, 32, 0]\"				\
 \n									\
-\n To generate various lists of positively curved Eschenburg spaces	\
-\n with |r| < 5000, enter:						\
+\n To generate various lists of tuples of positively curved Eschenburg	\
+\n spaces with |r| < 5000, enter:					\
 \n									\
 \n        %s r=5000							\
 \n									\
-\n",name,name,name); // using %1$s instead of %s does not work on Windows!
+\n To limit the size of the output files, only a certain number of	\
+\n tuples is written to each file by default.  This number can be	\
+\n changed with the 'print=XXXX' option, e.g.:				\
+\n									\
+\n        %s r=5000 print=10000						\
+\n									\
+\n									\
+\n",name,name,name,name); // using %1$s instead of %s does not work on Windows!
   printf(" -------------------------------------------------------------------- ");
   printf("\n Size of data types (see config.h & docs/limits.pdf): \n");
   printf("   INT_P:    %3ld bit\n",sizeof(INT_P)*8);

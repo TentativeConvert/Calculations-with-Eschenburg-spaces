@@ -64,11 +64,14 @@ To count the number of various 'isomorphism' classes of positively curved Eschen
      list3-homeo.txt      (homeomorphism classes)
 
 In addition to the counting statistics, these files will contain lists of tuples that specify the same isomorphism class.  
-See the examples files in the folder [bin_nix64](bin_nix64).  Note that the files will be overwritten the next time the program is run.  If you want to keep the results, make a copy of these files.
+See the examples files in the folder [bin_nix64](bin_nix64).  Note that the files will be overwritten the next time the program is run.  If you want to keep the results, make a copy of these files.  To limit the maximum file size, the maximum number of tuples listed in each file can be controlled with the command-line option `print = XXX`, e.g.
 
-To limit the maximum file size, the maximum number of tuples listed is controlled by the [configuration variable](#configuration) `MAX_TUPLES_PER_TUPLESIZE_PER_FILE`, which can only be set at compile time.  
+     ./esch r=5000 print=10000						
 
-With the default configuration, results should be reliable up to values of `|r| ≤ 600.000` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
+The default value is controlled by the [configuration variable](#configuration) `DEFAULT_MAX_TUPLES_PER_TUPLE_SIZE_PER_FILE`, which can only be set at compile time (current value is `1010`).
+
+With the default configuration for the data types used, results should be reliable up to values of `|r| ≤ 600.000` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
+
 
 ## Code base
 The code is structured as follows:

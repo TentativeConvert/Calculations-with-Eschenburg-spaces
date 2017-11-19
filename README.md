@@ -32,7 +32,7 @@ To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l�
 
 (or `esch.exe [k₁,k₂,k₃,l₁,l₂,l₃]` on Windows systems).  The "invariants" computed are:
 
-|        | range             | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | meaning   |
+|        | range             | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | definition/interpretation   |
 | ----- | ----------------- | ------- |  --------------- | ----------------------------------------------------------- |
 | `r`      | ∈ ℤ               | r(k,l) | –             | σ₂(k) - σ₂(l) |                                           |   
 | (  `❘r❘` | ∈ ℕ               | r      | L₂            | order of H⁴(E)  )                                         |   

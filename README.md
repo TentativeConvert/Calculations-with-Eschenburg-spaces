@@ -43,9 +43,7 @@ To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l�
      s₂  ∈ ℚ/ℤ normalized to lie in the range (-1/2, 1/2]
      s₂₂ ∈ ℚ/ℤ normalized to lie in the range (-1/2, 1/2]
 
-For all invariants , consult  [\[CEZ07\]](#references).  
-
-By  [\[CEZ07, Thm 2.3\]](#references), they classify positively curved Eschenburg spaces up to homotopy equivalence and homeomorphism as follows:
+Our notation for the invariants `r`, `s`, `p₁`, `s₂` and `s₂₂` follows [\[CEZ07\]](#references).  The homomopty invariants invariants `M₁` and `M₂` are defined in [\[Mil00\]](#references), where they are called ... .  By  [\[CEZ07, Thm 2.3\]](#references), they classify positively curved Eschenburg spaces up to homotopy equivalence and homeomorphism as follows:
 
     |r|, |s|, |s₂₂|, sign(s·s₂₂)      agree   ⇔  spaces are homotopy equivalent
     |r|, |s|, |s₂₂|, sign(s·s₂₂), p₁  agree   ⇔  spaces are tangentially homotopy equivalent

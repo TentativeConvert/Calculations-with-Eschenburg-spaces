@@ -34,14 +34,18 @@ To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l�
 
      r   := σ₂(k) - σ₂(l) ∈ ℤ
          (|r| is the order of H⁴(E))
-     s   := σ₃(k) - σ₃(l) ∈ ℤ/|r|, normalized to lie in the range (-|r|/2, |r|/2)
+     s   := σ₃(k) - σ₃(l) ∈ ℤ/|r|, represented by an integer ∈ {-|r|/2, ..., |r|/2}
          (s determines the linking form)
+     M₁  := σ₁(1)          ∈ ℤ/3,  represented by an integer ∈ {-1, 0, 1}
+     M₂  := σ₁(l) + ο₂(l)  ∈ ℤ/2,  represented by an integer ∈ {0, 1}
      p₁  ∈ ℤ/|r|, normalized to be an integer in [0, |r|) 
          (p₁ is the first Pontryagin class)
      s₂  ∈ ℚ/ℤ normalized to lie in the range (-1/2, 1/2]
      s₂₂ ∈ ℚ/ℤ normalized to lie in the range (-1/2, 1/2]
 
-For more details on these invariants, consult  [\[CEZ07\]](#references).  By  [\[CEZ07, Thm 2.3\]](#references), they classify positively curved Eschenburg spaces up to homotopy equivalence and homeomorphism as follows:
+For all invariants , consult  [\[CEZ07\]](#references).  
+
+By  [\[CEZ07, Thm 2.3\]](#references), they classify positively curved Eschenburg spaces up to homotopy equivalence and homeomorphism as follows:
 
     |r|, |s|, |s₂₂|, sign(s·s₂₂)      agree   ⇔  spaces are homotopy equivalent
     |r|, |s|, |s₂₂|, sign(s·s₂₂), p₁  agree   ⇔  spaces are tangentially homotopy equivalent
@@ -99,10 +103,9 @@ When compiling from scratch, the data types used in the computations and a few o
 
 
 ## References
-\[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6) Math. Ann. **339** (2007), no. 3, pp. 3–20.
-
-\[Mil00\] [R. J. Milgram: *The classification of Aloff-Wallach manifolds and their generalizations.*](https://mathscinet.ams.org/mathscinet-getitem?mr=1747543) Surveys on surgery theory, Vol. 1, 379–407, Ann. of Math. Stud., 145, Princeton Univ. Press, Princeton, NJ, 2000. 
-
+\[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6) Math. Ann. **339** (2007), no. 3, pp. 3–20. <br>
+\[Kru05\] [B. Kruggel: *Homeomorphism and diffeomorphism classification of Eschenburg spaces.*](https://doi.org/10.1093/qmath/hah031) Quart. J. Math. Oxford Ser. (2) **56**, 553–577 (2005) <br>
+\[Mil00\] [R. J. Milgram: *The classification of Aloff-Wallach manifolds and their generalizations.*](https://mathscinet.ams.org/mathscinet-getitem?mr=1747543) Surveys on surgery theory, Vol. 1, 379–407, Ann. of Math. Stud., 145, Princeton Univ. Press, Princeton, NJ, 2000. <br>
 \[Sha02\] [K. Shankar: *Strong inhomogeneity of Eschenburg spaces.*](https://doi.org/10.1307/mmj/1022636754) Michigan Math. J. **50** (2002), no. 1, pp. 125–141. 
 
 

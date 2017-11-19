@@ -99,4 +99,10 @@ When compiling from scratch, the data types used in the computations and a few o
 
 
 ## References
-\[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6)  Math. Ann. **339** (2007), no. 3, pp. 3–20
+\[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6) Math. Ann. **339** (2007), no. 3, pp. 3–20.
+
+\[Mil00\] [R. J. Milgram: *The classification of Aloff-Wallach manifolds and their generalizations.*](https://mathscinet.ams.org/mathscinet-getitem?mr=1747543) Surveys on surgery theory, Vol. 1, 379–407, Ann. of Math. Stud., 145, Princeton Univ. Press, Princeton, NJ, 2000. 
+
+\[Sha02\] [K. Shankar: *Strong inhomogeneity of Eschenburg spaces.*](https://doi:10.1307/mmj/1022636754) Michigan Math. J. **50** (2002), no. 1, pp. 125–141. 
+
+

@@ -24,7 +24,7 @@ There appear to be precompiled versions of MinGW, the GNU C compiler for Windows
 
 Once [installed](#installation), the program can be run from the command line:  simply navigate to the directory in which the program is installed and call `./esch` (on Linux) or `esch.exe` (on Windows).  Starting the program like this, without any additional parameters, will display some short usage instructions.  
 
-#### Analyse single space
+### Analyse single space
 To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l₁,l₂,l₃)`, enter one of
 								
       ./esch [k₁,k₂,k₃,l₁,l₂,l₃]					
@@ -54,7 +54,7 @@ Note, however, that formulas for computing the invariants `s₂` and `s₂₂` a
 With the default configuration, the output of the program should be reliable for parameters `kᵢ` and `lᵢ` of absolute values up to `1500` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
 
-#### Count 'isomorphism' classes in a range
+### Count 'isomorphism' classes in a range
 To count the number of various 'isomorphism' classes of positively curved Eschenburg spaces in a certain range, say with `|r| < 5000`, enter:						
 								
      ./esch r=5000						

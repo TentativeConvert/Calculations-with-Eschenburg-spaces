@@ -34,7 +34,7 @@ To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l�
 
 |       | range                       | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | definition/interpretation                     |
 | ----- | --------------------------- | ------------------------- |  ---- | ------------------------------------------------------------------- |
-| `❘r❘` | ∈ ℕ                         | r = \|r(k,l)\|    | L₂    | \|σ₂(k) - σ₂(l)\| = order of H⁴(E)                          |                          
+| `\|r\|` | ∈ ℕ                         | r = \|r(k,l)\|    | L₂    | \|σ₂(k) - σ₂(l)\| = order of H⁴(E)                          |                          
 | `s`   | ∈ {0, ...,\|r\|/2}  | s                         | L₃    | representative of σ₃(k) - σ₃(l) ∈ ℤ/\|r\|                   |   
 | `M₁`  | ∈ {-1, 0, 1}                | –                         | r     | representative of σ₁(l)         ∈ ℤ/3                               | 
 | `M₂`  | ∈ {0, 1}                    | –                         | 3σ₂'  | representative of ο₁(l) + ο₂(l) ∈ ℤ/2                               | 
@@ -51,13 +51,13 @@ The table below summarizes which invariants need to agree in order for two Esche
 
 | invariants … agree  |⇔| spaces agree up to …  | References    |
 | ------------------- | --- | ----------------- | ------------ | 
-| `❘r❘`, `s`, `M₁`, `M₂`       <br> (or `❘r❘`, `s`, `s₂₂`)       |⇔| oriented homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
-| `❘r❘`, `s`, `M₁`, `M₂`, `p₁` <br> (or `❘r❘`, `s`, `s₂₂`, `p₁`) |⇔| oriented tangential homotopy equivalence |                           |
-| `❘r❘`, `s`, `s₂`, `p₁` <br> (& condition C)                        |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
+| `\|r\|`, `s`, `M₁`, `M₂`       <br> (or `\|r\|`, `s`, `s₂₂`)       |⇔| oriented homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
+| `\|r\|`, `s`, `M₁`, `M₂`, `p₁` <br> (or `\|r\|`, `s`, `s₂₂`, `p₁`) |⇔| oriented tangential homotopy equivalence |                           |
+| `\|r\|`, `s`, `s₂`, `p₁` <br> (& condition C)                        |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
 |   |   |   |    |
-| `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s)·sign(M₁)`       <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s)·sign(s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references) <br> [\[Kru98\]](#references) |
-| `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s)·sign(M₁)`, `p₁` <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s)·sign(s₂₂)`, `p₁`)  |⇔| tangential homotopy equivalence |   |
-| `❘r❘`, `❘s❘`, `❘s₂❘`,  `sign(s)·sign(s₂)`, `p₁` <br> (& condition C)                                        |⇔| homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
+| `\|r\|`, `\|s\|`, `\|M₁\|`, `M₂`,  `sign(s)·sign(M₁)`       <br> (or `\|r\|`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references) <br> [\[Kru98\]](#references) |
+| `\|r\|`, `\|s\|`, `\|M₁\|`, `M₂`,  `sign(s)·sign(M₁)`, `p₁` <br> (or `\|r\|`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`, `p₁`)  |⇔| tangential homotopy equivalence |   |
+| `\|r\|`, `\|s\|`, `\|s₂\|`,  `sign(s)·sign(s₂)`, `p₁` <br> (& condition C)                                        |⇔| homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
 
 In the second half of the table, the `sign` of an invariant is defined as one of the values `+1, 0, -1` in the evident way.  The sign of `s₂` is `0` if and only if `s₂ = 0` or `s₂ = 1/2`, and likewise for `s₂₂`.   The homeomorphism classification of [\[Kru05\]](#references) works only for spaces that satisfy "condition C".  It seems that no homeomorphism classification  is known for spaces that do not satisfy this condition.
     

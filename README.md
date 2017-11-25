@@ -45,7 +45,7 @@ To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l�
 Here, the left column denotes the notation for the various invariants used by the program; 
 the third and fourth columns indicate the notation used in the litarature. 
 Evidently, we are trying to follow the notation [\[CEZ07\]](#references)  as closely as possible. 
-By , they classify positively curved Eschenburg spaces up to homotopy equivalence and homeomorphism as follows:
+The table below summarizes which invariants need to agree in order for two Eschenburg spaces to have the same homotopy type/homeomorphsim type/etc.  For example, the first line says that, according to [\[Mil00\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, `M₁` and `M₂` agree.  Alternatively, in the classification of [\[Kru98\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, and `s₂₂` agree.  Note however that the invariants `s₂` and `s₂₂` can only be computed when the parameters `(k,l)` satsify a certain (weak) condition called "Condition C". It seems that for spaces that do not satisfy this "condition C", no homeomorphism classification is known.
 
 | invariants … agree  |⇔| spaces agree up to …  | Reference    |
 | ------------------- | --- | ----------------- | ------------ | 

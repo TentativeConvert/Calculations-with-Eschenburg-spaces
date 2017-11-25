@@ -49,8 +49,7 @@ By [\[CEZ07, Thm 2.3\]](#references), they classify positively curved Eschenburg
 
 |     |     |     | Reference    |
 | --- | --- | --- | ------------ | 
-| `❘r❘`, `s`, `M₁`, `M₂`   agree  |⇔| spaces orientedly homotopy equivalent               | [\[Mil00\]](#references)  |    
-| `❘r❘`, `s`, `s₂₂` agree         |⇔| spaces orientedly homotopy equivalent               | [\[Kru98\]](#references)  |
+| `❘r❘`, `s`, `M₁`, `M₂`   agree <br> (or `❘r❘`, `s`, `s₂₂` agree)  |⇔| spaces orientedly homotopy equivalent  | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |    
 | `❘r❘`, `s`, `M₁`, `M₂`, `p₁` agree <br> (or `❘r❘`, `s`, `s₂₂`, `p₁`)  |⇔| spaces tangentially orientedly homotopy equivalent |                           |
 | `❘r❘`, `s`, `s₂`, `p₁`    agree |⇔| spaces orientedly homeomorphic                      |                           | 
 |   |   |   |    |

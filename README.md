@@ -25,7 +25,7 @@ There appear to be precompiled versions of MinGW, the GNU C compiler for Windows
 Once [installed](#installation), the program can be run from the command line:  simply navigate to the directory in which the program is installed and call `./esch` (on Linux) or `esch.exe` (on Windows).  Starting the program like this, without any additional parameters, will display some short usage instructions.  
 
 ### Analyse single space
-To analyse the Eschenburg space `E` described by parameters (**k**,**l**) = (`k₁`,`k₂`,`k₃`,`l₁`,`l₂`,`l₃`), enter one of
+To analyse the Eschenburg space `E` described by parameters (k,l) = (`k₁`,`k₂`,`k₃`,`l₁`,`l₂`,`l₃`), enter one of
 								
       ./esch [k₁,k₂,k₃,l₁,l₂,l₃]					
       ./esch "[k₁, k₂, k₃, l₁, l₂, l₃]"				
@@ -34,10 +34,10 @@ To analyse the Eschenburg space `E` described by parameters (**k**,**l**) = (`k�
 
 |         | range                       | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | definition/interpretation                    |
 | ------- | --------------------------- | ------------------------- | ---- | ------------------------------------------------------------------- |
-| `\|r\|` | ∈ ℕ                        | r = \|r(**k**,**l**)\|    | L₂   | \|σ₂(**k**) - σ₂(**l**)\| = order of H⁴(E)	           |			   
-| `s`	  | ∈ {0, ..., `\|r\|`/2}	| s			    | L₃   | representative of σ₃(**k**) - σ₃(**l**) ∈ ℤ/`\|r\|`  |   
-| `M₁`	  | ∈ {-1, 0, 1}		| –			    | r	   | representative of σ₁(**l**)	         ∈ ℤ/3        | 
-| `M₂`	  | ∈ {0, 1}			| –			    | 3σ₂' | representative of ο₁(**l**) + ο₂(**l**) ∈ ℤ/2        | 
+| `\|r\|` | ∈ ℕ                        | r = \|r(k,l)\|            | L₂   | \|σ₂(k) - σ₂(l)\| = order of H⁴(E)	           |			   
+| `s`	  | ∈ {0, ..., `\|r\|`/2}	| s			    | L₃   | representative of σ₃(k) - σ₃(l) ∈ ℤ/`\|r\|`  |   
+| `M₁`	  | ∈ {-1, 0, 1}		| –			    | r	   | representative of σ₁(l)	         ∈ ℤ/3        | 
+| `M₂`	  | ∈ {0, 1}			| –			    | 3σ₂' | representative of ο₁(l) + ο₂(l) ∈ ℤ/2        | 
 | `p₁`	  | ∈ {0, ..., `\|r\|`-1}       | p₁			    | –	   | representative of first Pontryagin class ∈	 H⁴(E) = ℤ/`\|r\|`  | 
 | `s₂`	  | ∈ (-1/2, 1/2]		| s₂			    | –	   | representative of KS-invariant s₂ ∈ ℚ/ℤ	 | 
 | `s₂₂`	  | ∈ (-1/2, 1/2]		| s₂₂			    | –	   | representative of KS-invariant s₂₂ ∈ ℚ/ℤ	 | 

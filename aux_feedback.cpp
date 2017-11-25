@@ -34,3 +34,9 @@ void Feedback::finish() const
   update_percent(100);
   printf("\n");
 }
+
+void Feedback::message(std::string m)
+{
+  printf("%s", m.c_str());
+  fflush(stdout);
+}

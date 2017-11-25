@@ -9,7 +9,7 @@
 class SpaceTuple : public std::deque< class Space >
 {
  public:
-  std::size_t test_condition_C(); // return value = number of spaces for which condition C fails
+  std::size_t test_condition_C();      // return value = number of spaces for which condition C fails
   std::size_t compute_KS_invariants(); // return value as for test_condition_C()
   void print(FILE* file) const;
 
@@ -23,8 +23,11 @@ class SpaceTuple : public std::deque< class Space >
 class SpaceTupleList : public std::deque< SpaceTuple >
 {
  public:
-  std::size_t singletons;  // number of 1-tuples (1-tuples themselves are not stored)
   std::string description;
+  std::size_t singletons;      // number of 1-tuples (1-tuples themselves are not stored)
+  std::size_t indeterminacies; // number of spaces whose homotopy type cannot be determined because condition C fails
+                               // (even if condition C fails, other invariants may suffice to distinguish space from all other spaces;
+                               //  in this case, the space does NOT count as an indeterminacy)
   
   // CONSTRUCTOR 1 (implemented in esch_generate.cpp):
   // fills list with pairs of spaces whose invariants r & s coincide

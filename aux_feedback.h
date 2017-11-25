@@ -1,6 +1,7 @@
 #pragma once
 #include "config.h"
 #include <cstddef> // for std::size_t
+#include <cstring>
 
 #ifdef CHRONO_AVAILABLE
 #include <chrono>
@@ -15,6 +16,7 @@ class Feedback
   std::size_t step_size_;
   
  public:
+  void message(std::string m);
   void start(std::size_t max);
   void update(std::size_t progress) const;    // passes progress/max to update_percent
   void update_percent(int percent) const; 

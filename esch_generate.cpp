@@ -12,6 +12,9 @@ using std::vector;
 SpaceTupleList::SpaceTupleList(const INT_R& R)
 {
   printf("\nLooking for Eschenburg spaces with |r| <= %ld ... \n", (long)R);
+  this->indeterminacies=0;
+  this->description="homotopy classes";
+
   Feedback feedback;
   feedback.start(100);
 
@@ -23,8 +26,8 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
     INT_P k2;
     //INT_R r() const { return -(k1*d + n*d + n*k2); };
     INT_R unreduced_s() const { return -(k1*k2*(n+d)); };
-    int_least8_t Sigma() const { return (int_least8_t)signed_mod(k1+k2-n-d, 3); };
-    int_least8_t Milgram() const { return (int_least8_t)absolute_mod(k1 + k2 -n-d + k1*k2 -k1*n-k1*d -k2*n-k2*d, 2); };
+    int_least8_t M1() const { return (int_least8_t)signed_mod(-k1-k2+n+d, 3); };
+    int_least8_t M2() const { return (int_least8_t)absolute_mod(k1 + k2 -n-d + k1*k2 -k1*n-k1*d -k2*n-k2*d, 2); };
   };
   deque< deque< struct tinySpace > > all_spaces((INT_R)((R+1)/2)); 
   // deque of deque of spaces that we find: one deque for each value of |r| <= R
@@ -103,7 +106,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   //////////////////////////////////////////////////
   // List of spaces (all_spaces) is now complete.
   // Now look for tuples of spaces whose invariants |r| & |s| agree!
-  printf("\nLooking for spaces whose homotopy invariants |r|, |s|, |Sigma| and sign(s)*sign(Sigma) agree ...\n");
+  printf("\nLooking for spaces whose homotopy invariants |r|, |s|, |M1| and sign(s)*sign(M1) agree ...\n");
  
   std::size_t counter_distinct_rs_values = 0;
   // std::size_t counter_singletons = 0;
@@ -113,26 +116,26 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   for(INT_R hmr = 0; hmr < (R+1)/2; ++hmr){  //hmr = "half minus r" (abgerundet)
     feedback.update((std::size_t)hmr);
     //------------------------------------------------
-    // Sort spaces in all_spaces[hmr] by their invariants |s| and |Sigma|.
+    // Sort spaces in all_spaces[hmr] by their invariants |s| and |M1|.
     // To speed up sorting, turn the deque all_spaces[hmr] into a list r_spaces.
     struct miniSpace {
-      // slightly higher memory usage than tinySpace: two more variables (s & Sigma)
+      // slightly higher memory usage than tinySpace: two more variables (s & M1)
       INT_P d;
       INT_P n;
       INT_P k1;
       INT_P k2;
       INT_R s;
-      int_least8_t Sigma; // only values are +1, 0, -1
-      int_least8_t Milgram; // only values are 1, 0
+      int_least8_t M1; // only values are +1, 0, -1
+      int_least8_t M2; // only values are 1, 0
       bool operator<(const miniSpace& otherspace) const {
 	if (abs(s) > abs(otherspace.s)) return false;
 	if (abs(s) < abs(otherspace.s)) return true;
-	if (abs(Sigma) > abs(otherspace.Sigma)) return false;
-	if (abs(Sigma) < abs(otherspace.Sigma)) return true;
-	if (sign(s)*sign(Sigma) > sign(otherspace.s)*sign(otherspace.Sigma)) return false;
-	if (sign(s)*sign(Sigma) < sign(otherspace.s)*sign(otherspace.Sigma)) return true;
-	if (Milgram > otherspace.Milgram) return false;
-	if (Milgram < otherspace.Milgram) return true;
+	if (abs(M1) > abs(otherspace.M1)) return false;
+	if (abs(M1) < abs(otherspace.M1)) return true;
+	if (sign(s)*sign(M1) > sign(otherspace.s)*sign(otherspace.M1)) return false;
+	if (sign(s)*sign(M1) < sign(otherspace.s)*sign(otherspace.M1)) return true;
+	if (M2 > otherspace.M2) return false;
+	if (M2 < otherspace.M2) return true;
 	return false;
       }
     };
@@ -145,8 +148,8 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
       r_spaces[i].k1 = E.k1;
       r_spaces[i].k2 = E.k2;
       r_spaces[i].s =  signed_mod(E.unreduced_s(),mr);
-      r_spaces[i].Sigma = E.Sigma();
-      r_spaces[i].Milgram = E.Milgram();
+      r_spaces[i].M1 = E.M1();
+      r_spaces[i].M2 = E.M2();
     }
     std::sort(r_spaces.begin(),r_spaces.end());
     // Our list of paris (r_spaces) is now sorted.
@@ -156,9 +159,9 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
 	std::size_t i2 = i1+1;
 	while (i2 < r_spaces.size() 
 	       && abs(r_spaces[i1].s) == abs(r_spaces[i2].s)
-	       && abs(r_spaces[i1].Sigma) == abs(r_spaces[i2].Sigma)
-	       && sign(r_spaces[i1].s)*sign(r_spaces[i1].Sigma) == sign(r_spaces[i2].s)*sign(r_spaces[i2].Sigma)
-	       && r_spaces[i1].Milgram == r_spaces[i2].Milgram
+	       && abs(r_spaces[i1].M1) == abs(r_spaces[i2].M1)
+	       && sign(r_spaces[i1].s)*sign(r_spaces[i1].M1) == sign(r_spaces[i2].s)*sign(r_spaces[i2].M1)
+	       && r_spaces[i1].M2 == r_spaces[i2].M2
 	       )
 	  ++i2;
 	++counter_distinct_rs_values;

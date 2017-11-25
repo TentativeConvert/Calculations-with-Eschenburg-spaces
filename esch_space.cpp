@@ -8,14 +8,13 @@ const boost::rational<INT_KS> Space::KS_UNCOMPUTABLE = boost::rational<INT_KS>(1
 #include <boost/math/special_functions/round.hpp>
 #include <boost/math/special_functions/sin_pi.hpp>
 #include <boost/math/special_functions/cos_pi.hpp>
-//#include <boost/multiprecision/cpp_dec_float.hpp> -- now in config.h
 
 //////////////////////////////////////////////////
 
 void Space::print(FILE* file) const 
 {
-  fprintf(file, " [%4ld,%4ld,%4ld, %4ld,%4ld,%4ld] -> r = %5ld,  s = %5ld,  p1 = %5ld",
-	  (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2],(long)r_, (long)s_, (long)p1_);
+  fprintf(file, " [%4ld,%4ld,%4ld, %4ld,%4ld,%4ld] -> |r| = %5ld,  s = %7ld,  M1 = %2d,  M2 = %d,  p1 = %5ld",
+	  (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2],(long)(abs(r_)), (long)s_, (int)(M1_), (int)(M2_), (long)p1_);
   if (s2_ == KS_UNKNOWN)
     fprintf(file, "\n");
   else if (s2_ == KS_UNCOMPUTABLE)
@@ -30,7 +29,7 @@ void Space::print(void) const
     {
       printf("\nInvariants of the Eschenburg space with parameters [%ld,%ld,%ld, %ld,%ld,%ld]:\n", 
 	     (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2]);
-      printf("  r = %ld,  s = %ld,  p1 = %ld\n",(long)r_, (long)s_, (long)p1_);      
+      printf("  |r| = %ld,  s = %7ld,  M1 = %2d,  M2 = %d,  p1 = %ld\n",(long)(abs(r_)), (long)s_, (int)(M1_), (int)(M2_), (long)p1_);
       if (s2_ == KS_UNCOMPUTABLE)
 	printf("! Condition C is not satisfied !\n");
       else
@@ -57,6 +56,8 @@ Space::Space(array<INT_P,3> kkk, array<INT_P,3> lll){
   INT_R sigma3_l = (INT_R)l_[0]*(INT_R)l_[1]*(INT_R)l_[2];
   r_ = sigma2_k - sigma2_l;
   s_ = signed_mod(sigma3_k-sigma3_l, abs(r_))*sign(r_);
+  M1_ = signed_mod(-sigma1_l,3);
+  M2_ = absolute_mod(sigma1_l + sigma2_l,2);
   p1_ = absolute_mod(2*sigma1_k*sigma1_k - 6*sigma2_k, abs(r_));
   good_col_or_row = GOOD_CoR_UNKNOWN; 
   s2_ =  KS_UNKNOWN;
@@ -205,7 +206,6 @@ void Space::compute_s2_from_row(int j)
 // Lens space invariants:
 rational<INT_KS> Space::lens_s2(INT_P p, array<INT_P,4> param)
 {
-  //const double pi = boost::math::constants::pi<double>(); no longer needed as I'm using sin_pi now
   using boost::math::cos_pi;
   using boost::math::sin_pi;
   FLOAT_KS a = 0;
@@ -243,7 +243,23 @@ Space::comp Space::compareBasicType(const Space& E1, const Space& E2)
   return comp::EQUAL;
 }
 
+
 Space::comp Space::compareHomotopyType(const Space& E1, const Space& E2)
+{ 
+  if (abs(E1.r_ ) > abs(E2.r_ ))  return comp::GREATER;
+  if (abs(E1.r_ ) < abs(E2.r_ ))  return comp::SMALLER;
+  if (abs(E1.s_ ) > abs(E2.s_ ))  return comp::GREATER;
+  if (abs(E1.s_ ) < abs(E2.s_ )) return comp::SMALLER;
+  if (abs(E1.M1_) > abs(E2.M1_)) return comp::GREATER;
+  if (abs(E1.M1_) < abs(E2.M1_)) return comp::SMALLER;
+  if (    E1.M2_  >     E2.M2_ ) return comp::GREATER;
+  if (	  E1.M2_  <     E2.M2_ ) return comp::SMALLER;
+  if (sign(E1.M1_)*sign(E1.s_) > sign(E2.M1_)*sign(E2.s_)) return comp::GREATER;
+  if (sign(E1.M1_)*sign(E1.s_) < sign(E2.M1_)*sign(E2.s_)) return comp::SMALLER;
+  return comp::EQUAL;
+}
+
+Space::comp Space::compareHomotopyType_using_KS(const Space& E1, const Space& E2)
 { 
   if (abs(E1.r_) > abs(E2.r_)) return comp::GREATER;
   if (abs(E1.r_) < abs(E2.r_)) return comp::SMALLER;

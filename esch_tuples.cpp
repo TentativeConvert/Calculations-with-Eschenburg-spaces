@@ -18,13 +18,14 @@ void SpaceTuple::print(FILE* file) const
 
 void SpaceTupleList::print(const char* filename, const size_t& max_tuples)
 {
+  Feedback feedback;
   FILE *file = fopen(filename, "w");
-  if (file == NULL) printf("Error opening file!\n");
-  
+  if (file == NULL) feedback.message("Error opening file!\n");
+    
   //// sort tuples by size, in descending order:
-  printf("Sorting and counting ...\r");
+  feedback.message("Sorting ...\r");
   std::stable_sort(this->begin(),this->end());
-
+  feedback.message("Counting ...\r");
   // count total number of pairs, triples, tuples of length 3, ...:
   // counter_[0] = number of singletons (already known)
   // counter_[1] = number of pairs
@@ -40,10 +41,10 @@ void SpaceTupleList::print(const char* filename, const size_t& max_tuples)
       ++counter[s-1];
       ++counter_total;
     }
-  size_t counter_C_failures = test_condition_C();
+  //size_t counter_C_failures = test_condition_C();
     
   // print "statistics" to screen and to file (number of tuples of each length):
-  if (counter_C_failures == 0)
+  if (this->indeterminacies == 0)
     {
       std::string text = ">> %9lld different " + description + " in this range (no problem with condition C)\n";
       printf(       text.c_str(),(long long)counter_total);
@@ -53,14 +54,15 @@ void SpaceTupleList::print(const char* filename, const size_t& max_tuples)
     {
       std::string text_screen = ">> %9lld to %lld different " + description + " in this range\n";
       std::string text_file = text_screen;
-      text_screen += "!  condition C fails for %lld non-singletons  !\n";
-      text_file += "\n!! The count is imprecise because condition C fails for %lld non-singleton parameter vectors.          \n";
-      text_file += "In the statistics and the lists below, the " + description + " of these non-singleton parameter vectors\n";
-      text_file += "are (probably incorrectly) identified with " + description + " defined by other parameter vectors.     \n";
+      text_screen += "!  failure of condition C leads to %lld indeterminacies  !\n";
+      text_file += "\n!! The count is imprecise because, for some spaces, condition C fails, and the";
+      text_file += "\n!! computable parameters do not suffice to determine their " + description + ". \n\n";
+      text_file += "In the statistics and the lists below, the " + description + " of these spaces\n";
+      text_file += "are (probably incorrectly) identified with " + description + " of other spaces.\n";
       text_file += "So the actual number of singletons may be higher than the number displayed, while\n";
       text_file += "   the actual number of pairs/triples/... may be smaller.\n\n";
-      printf(        text_screen.c_str(), (long long)counter_total,(long long)(counter_total+counter_C_failures),(long long)(counter_C_failures));
-      fprintf(file,  text_file.c_str(), (long long)counter_total,(long long)(counter_total+counter_C_failures),(long long)(counter_C_failures));
+      printf(        text_screen.c_str(), (long long)counter_total,(long long)(counter_total+this->indeterminacies),(long long)(this->indeterminacies));
+      fprintf(file,  text_file.c_str(),   (long long)counter_total,(long long)(counter_total+this->indeterminacies),(long long)(this->indeterminacies));
     }
   for(std::size_t c = 1; c <= counter.size(); ++c) 
     {
@@ -163,9 +165,11 @@ SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list,
 			       std::function<Space::comp(const Space& E1, const Space& E2)> compareFunction,
 			       std::string description)
 {
-  this->description = description;
   printf("%s\n",("Looking for " + description + " ...").c_str());
-  singletons = original_list.singletons;
+  this->description = description;
+  this->indeterminacies = 0;
+  this->singletons = original_list.singletons;
+
   Feedback feedback;
   feedback.start(original_list.size());
   for(std::size_t i = 0; i < original_list.size(); ++i)
@@ -184,8 +188,13 @@ SpaceTupleList::SpaceTupleList(SpaceTupleList& original_list,
 	while (i2 < T.size())
 	  {
 	    Space::comp c = compareFunction(T[i1],T[i2]);
-	    if(c == Space::comp::EQUAL || c == Space::comp::MAYBE_EQUAL || c == Space::comp::MAYBE_GREATER)  
+	    if(c == Space::comp::EQUAL)
 	      ++i2;
+	    else if (c == Space::comp::MAYBE_EQUAL || c == Space::comp::MAYBE_GREATER) 
+	      {
+		++i2;
+		++(this->indeterminacies);
+	      }
 	    else break;
 	  }
 	if(i2 > i1+1)

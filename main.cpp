@@ -7,6 +7,7 @@
 #include <typeinfo>
 #include <string>
 #include "config.h"
+#include "aux_feedback.h"
 #include "esch_space.h"     // class Space
 #include "esch_tuples.h"    // class SpaceTuple
                             // = wrapper for deque< Space >
@@ -54,17 +55,19 @@ int analyse_space(const INT_P& k1, const INT_P& k2, const INT_P& k3,
 }
 
 int generate_lists(const INT_R& R, const size_t& max_tuples){
-  SpaceTupleList tuples_rs(R);
-  tuples_rs.compute_KS_invariants();
-  
-  SpaceTupleList tuples_he(tuples_rs,Space::compareHomotopyType, "homotopy classes");
+  Feedback feedback;
+  SpaceTupleList tuples_he(R);
+  //SpaceTupleList tuples_he2(tuples_he,Space::compareHomotopyType, "homotopy classes");
   tuples_he.print("list1-he.txt", max_tuples);
-  
+    
   SpaceTupleList tuples_the(tuples_he,Space::compareTangentialHomotopyType, "tangential homotopy classes");
+  tuples_he.clear();
+  tuples_the.compute_KS_invariants();
   tuples_the.print("list2-the.txt", max_tuples);
   
   SpaceTupleList tuples_homeo(tuples_the,Space::compareHomeomorphismType, "homeomorphism classes");
   tuples_homeo.print("list3-homeo.txt", max_tuples);
+  feedback.message("Closing: please wait while memory is being recovered ...\r");
   return 0;
 }
 

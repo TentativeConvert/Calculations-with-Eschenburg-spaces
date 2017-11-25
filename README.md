@@ -45,17 +45,17 @@ To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l�
 Here, the left column denotes the notation for the various invariants used by the program; 
 the third and fourth columns indicate the notation used in the litarature. 
 Evidently, we are trying to follow the notation [\[CEZ07\]](#references)  as closely as possible. 
-By [\[CEZ07, Thm 2.3\]](#references), they classify positively curved Eschenburg spaces up to homotopy equivalence and homeomorphism as follows:
+By , they classify positively curved Eschenburg spaces up to homotopy equivalence and homeomorphism as follows:
 
 | invariants … agree  |⇔| spaces agree up to …  | Reference    |
 | ------------------- | --- | ----------------- | ------------ | 
 | `❘r❘`, `s`, `M₁`, `M₂`       <br> (or `❘r❘`, `s`, `s₂₂`)       |⇔| oriented homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
 | `❘r❘`, `s`, `M₁`, `M₂`, `p₁` <br> (or `❘r❘`, `s`, `s₂₂`, `p₁`) |⇔| oriented tangential homotopy equivalence |                           |
-| `❘r❘`, `s`, `s₂`, `p₁`  (& condition C)                        |⇔| oriented homeomorphism                   |                           | 
+| `❘r❘`, `s`, `s₂`, `p₁`  (& condition C)                        |⇔| oriented homeomorphism                   | [\[Kru05\]](#references), [\[CEZ07, Thm 2.3\]](#references)  | 
 |   |   |   |    |
-| `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s·M₁)`       <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s·s₂₂)`)        |⇔| homotopy equivalence            |   |
+| `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s·M₁)`       <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s·s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
 | `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s·M₁)`, `p₁` <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s·s₂₂)`, `p₁`)  |⇔| tangential homotopy equivalence |   |
-| `❘r❘`, `❘s❘`, `❘s₂❘`,  `sign(s·s₂)`, `p₁` (& condition C)                                             |⇔| homeomorphism                   |   |
+| `❘r❘`, `❘s❘`, `❘s₂❘`,  `sign(s·s₂)`, `p₁` (& condition C)                                             |⇔| homeomorphism                   | [\[Kru05\]](#references), [\[CEZ07, Thm 2.3\]](#references)  | 
 
 Note, however, that formulas for computing the invariants `s₂` and `s₂₂` are only known when the parameters `(k₁,k₂,k₃,l₁,l₂,l₃)` satisfy a certain `Condition C` [\[CEZ07, §2\]](#references).  'Most' Eschenburg spaces satisfy this condition.  For Eschenburg spaces that do no satisfy this condition, no homeomorphism classification seems to be known.
     

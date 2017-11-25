@@ -49,11 +49,11 @@ Note that the invariants `s₂` and `s₂₂` can only be computed when the para
 
 The table below summarizes which invariants need to agree in order for two Eschenburg spaces to have the same homotopy type/homeomorphism type etc.  For example, the first line says that, according to [\[Mil00\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, `M₁` and `M₂` agree.  Alternatively, in the classification of [\[Kru98\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, and `s₂₂` agree.  
 
-| invariants … agree  |⇔| spaces agree up to …  | Reference    |
+| invariants … agree  |⇔| spaces agree up to …  | References    |
 | ------------------- | --- | ----------------- | ------------ | 
 | `❘r❘`, `s`, `M₁`, `M₂`       <br> (or `❘r❘`, `s`, `s₂₂`)       |⇔| oriented homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
 | `❘r❘`, `s`, `M₁`, `M₂`, `p₁` <br> (or `❘r❘`, `s`, `s₂₂`, `p₁`) |⇔| oriented tangential homotopy equivalence |                           |
-| `❘r❘`, `s`, `s₂`, `p₁`  (& condition C)                        |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br> [\[CEZ07, Thm 2.3\]](#references)  | 
+| `❘r❘`, `s`, `s₂`, `p₁` <br> (& condition C)                        |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br> [\[CEZ07, Thm 2.3\]](#references)  | 
 |   |   |   |    |
 | `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s)·sign(M₁)`       <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s)·sign(s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
 | `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s)·sign(M₁)`, `p₁` <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s)·sign(s₂₂)`, `p₁`)  |⇔| tangential homotopy equivalence |   |

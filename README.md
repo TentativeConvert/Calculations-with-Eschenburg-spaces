@@ -34,11 +34,11 @@ To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l�
 
 |       | range                       | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | definition/interpretation                     |
 | ----- | --------------------------- | ------------------------- |  ---- | ------------------------------------------------------------------- |
-| `❘r❘` | ∈ ℕ                         | r = &#124;r(k,l)&#124;    | L₂    | &#124;σ₂(k) - σ₂(l)&#124; = order of H⁴(E)                          |                          
-| `s`   | ∈ {0, ...,&#124;r&#124;/2}  | s                         | L₃    | representative of σ₃(k) - σ₃(l) ∈ ℤ/&#124;r&#124;                   |   
+| `❘r❘` | ∈ ℕ                         | r = \|r(k,l)\|    | L₂    | \|σ₂(k) - σ₂(l)\| = order of H⁴(E)                          |                          
+| `s`   | ∈ {0, ...,\|r\|/2}  | s                         | L₃    | representative of σ₃(k) - σ₃(l) ∈ ℤ/\|r\|                   |   
 | `M₁`  | ∈ {-1, 0, 1}                | –                         | r     | representative of σ₁(l)         ∈ ℤ/3                               | 
 | `M₂`  | ∈ {0, 1}                    | –                         | 3σ₂'  | representative of ο₁(l) + ο₂(l) ∈ ℤ/2                               | 
-| `p₁`  | ∈ {0, ..., &#124;r&#124;-1} | p₁                        | –     | representative of first Pontryagin class ∈  H⁴(E) = ℤ/&#124;r&#124; | 
+| `p₁`  | ∈ {0, ..., \|r\|-1} | p₁                        | –     | representative of first Pontryagin class ∈  H⁴(E) = ℤ/\|r\| | 
 | `s₂`  | ∈ (-1/2, 1/2]               | s₂                        | –     | representative of KS-invariant s₂ ∈ ℚ/ℤ                             | 
 | `s₂₂` | ∈ (-1/2, 1/2]               | s₂₂                       | –     | representative of KS-invariant s₂₂ ∈ ℚ/ℤ                            | 
 

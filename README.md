@@ -45,7 +45,9 @@ To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l�
 Here, the left column denotes the notation for the various invariants used by the program; 
 the third and fourth columns indicate the notation used in the litarature. 
 Evidently, we are trying to follow the notation [\[CEZ07\]](#references)  as closely as possible. 
-The table below summarizes which invariants need to agree in order for two Eschenburg spaces to have the same homotopy type/homeomorphsim type/etc.  For example, the first line says that, according to [\[Mil00\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, `M₁` and `M₂` agree.  Alternatively, in the classification of [\[Kru98\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, and `s₂₂` agree.  Note however that the invariants `s₂` and `s₂₂` can only be computed when the parameters `(k,l)` satsify a certain (weak) condition called "Condition C". It seems that for spaces that do not satisfy this "condition C", no homeomorphism classification is known.
+Note that the invariants `s₂` and `s₂₂` can only be computed when the parameters  `(k₁,k₂,k₃,l₁,l₂,l₃)`  satsify a certain (weak) condition called "condition C" [\[CEZ07, §2\]](#references).
+
+The table below summarizes which invariants need to agree in order for two Eschenburg spaces to have the same homotopy type/homeomorphism type etc.  For example, the first line says that, according to [\[Mil00\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, `M₁` and `M₂` agree.  Alternatively, in the classification of [\[Kru98\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, and `s₂₂` agree.  
 
 | invariants … agree  |⇔| spaces agree up to …  | Reference    |
 | ------------------- | --- | ----------------- | ------------ | 
@@ -53,11 +55,11 @@ The table below summarizes which invariants need to agree in order for two Esche
 | `❘r❘`, `s`, `M₁`, `M₂`, `p₁` <br> (or `❘r❘`, `s`, `s₂₂`, `p₁`) |⇔| oriented tangential homotopy equivalence |                           |
 | `❘r❘`, `s`, `s₂`, `p₁`  (& condition C)                        |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br> [\[CEZ07, Thm 2.3\]](#references)  | 
 |   |   |   |    |
-| `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s·M₁)`       <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s·s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
-| `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s·M₁)`, `p₁` <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s·s₂₂)`, `p₁`)  |⇔| tangential homotopy equivalence |   |
-| `❘r❘`, `❘s❘`, `❘s₂❘`,  `sign(s·s₂)`, `p₁` <br> (& condition C)                                        |⇔| homeomorphism                   | [\[Kru05\]](#references) <br> [\[CEZ07, Thm 2.3\]](#references)  | 
+| `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s)·sign(M₁)`       <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s)·sign(s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
+| `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s)·sign(M₁)`, `p₁` <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s)·sign(s₂₂)`, `p₁`)  |⇔| tangential homotopy equivalence |   |
+| `❘r❘`, `❘s❘`, `❘s₂❘`,  `sign(s)·sign(s₂)`, `p₁` <br> (& condition C)                                        |⇔| homeomorphism                   | [\[Kru05\]](#references) <br> [\[CEZ07, Thm 2.3\]](#references)  | 
 
-Note, however, that formulas for computing the invariants `s₂` and `s₂₂` are only known when the parameters `(k₁,k₂,k₃,l₁,l₂,l₃)` satisfy a certain `Condition C` [\[CEZ07, §2\]](#references).  'Most' Eschenburg spaces satisfy this condition.  For Eschenburg spaces that do no satisfy this condition, no homeomorphism classification seems to be known.
+In the second half of the table, the `sign` of an invariant is defined as one of the values `+1, 0, -1` in the evident way.  The sign of `s₂` is `0` if and only if `s₂ = 0` or `s₂ = 1/2`, and likewise for `s₂₂`.   The homeomorphism classification of [\[Kru05\]](#references) works only for spaces that satisfy "condition C".  It seems that no homeomorphism classification  is known for spaces that do not satisfy this condition.
     
 With the default configuration, the output of the program should be reliable for parameters `kᵢ` and `lᵢ` of absolute values up to `1500` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
@@ -69,10 +71,12 @@ To count the number of various 'isomorphism' classes of positively curved Eschen
 
 (or `esch.exe r=5000` on Windows).  Output will be written to the following files in the same directory:
 
-     list1-he.txt         (homotopy classes)							
-     list2-the.txt        (tangential homotopy classes)
-     list3-homeo.txt      (homeomorphism classes)
-
+| file name             |                             |
+| --------------------- | --------------------------- | 
+|  `list1-he.txt`       | homotopy classes            |
+|  `list2-the.txt`      | tangential homotopy classes |
+|  `list3-homeo.txt`    | homeomorphism classes       |
+     
 In addition to the counting statistics, these files will contain lists of tuples that specify the same isomorphism class.  
 See the examples files in the folder [bin_nix64](bin_nix64).  Note that the files will be overwritten the next time the program is run.  If you want to keep the results, make a copy of these files.  To limit the maximum file size, the maximum number of tuples listed in each file can be controlled with the command-line option `print = XXX`, e.g.
 

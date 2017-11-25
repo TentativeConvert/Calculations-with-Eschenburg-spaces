@@ -51,11 +51,11 @@ By , they classify positively curved Eschenburg spaces up to homotopy equivalenc
 | ------------------- | --- | ----------------- | ------------ | 
 | `❘r❘`, `s`, `M₁`, `M₂`       <br> (or `❘r❘`, `s`, `s₂₂`)       |⇔| oriented homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
 | `❘r❘`, `s`, `M₁`, `M₂`, `p₁` <br> (or `❘r❘`, `s`, `s₂₂`, `p₁`) |⇔| oriented tangential homotopy equivalence |                           |
-| `❘r❘`, `s`, `s₂`, `p₁`  (& condition C)                        |⇔| oriented homeomorphism                   | [\[Kru05\]](#references), [\[CEZ07, Thm 2.3\]](#references)  | 
+| `❘r❘`, `s`, `s₂`, `p₁`  (& condition C)                        |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br> [\[CEZ07, Thm 2.3\]](#references)  | 
 |   |   |   |    |
 | `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s·M₁)`       <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s·s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
 | `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s·M₁)`, `p₁` <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s·s₂₂)`, `p₁`)  |⇔| tangential homotopy equivalence |   |
-| `❘r❘`, `❘s❘`, `❘s₂❘`,  `sign(s·s₂)`, `p₁` (& condition C)                                             |⇔| homeomorphism                   | [\[Kru05\]](#references), [\[CEZ07, Thm 2.3\]](#references)  | 
+| `❘r❘`, `❘s❘`, `❘s₂❘`,  `sign(s·s₂)`, `p₁` <br> (& condition C)                                        |⇔| homeomorphism                   | [\[Kru05\]](#references) <br> [\[CEZ07, Thm 2.3\]](#references)  | 
 
 Note, however, that formulas for computing the invariants `s₂` and `s₂₂` are only known when the parameters `(k₁,k₂,k₃,l₁,l₂,l₃)` satisfy a certain `Condition C` [\[CEZ07, §2\]](#references).  'Most' Eschenburg spaces satisfy this condition.  For Eschenburg spaces that do no satisfy this condition, no homeomorphism classification seems to be known.
     

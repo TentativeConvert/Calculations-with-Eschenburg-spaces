@@ -32,16 +32,15 @@ To analyse the Eschenburg space `E` described by parameters `(k₁,k₂,k₃,l�
 
 (or `esch.exe [k₁,k₂,k₃,l₁,l₂,l₃]` on Windows systems).  The "invariants" computed are:
 
-|        | range             | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | definition/interpretation   |
+|       | range             | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | definition/interpretation   |
 | ----- | ----------------- | ------- |  --------------- | ----------------------------------------------------------- |
-| `r`      | ∈ ℤ               | r(k,l) | –             | σ₂(k) - σ₂(l) |                                           |   
-| (  `❘r❘` | ∈ ℕ               | r      | L₂            | order of H⁴(E)  )                                         |   
-| `s`      | ∈ {0, ...,❘r❘/2}  | s      | L₃            | representative of σ₃(k) - σ₃(l) ∈ ℤ/❘r❘                   |   
-| `M₁`   | ∈ {-1, 0, 1}      | –      | r             | representative of σ₁(l)         ∈ ℤ/3                     | 
-| `M₂`   | ∈ {0, 1}          | –      | 3σ₂'          | representative of ο₁(l) + ο₂(l) ∈ ℤ/2                     | 
-| `p₁`     | ∈ {0, ..., ❘r❘-1} | p₁     | –             | representative of first Pontryagin class ∈  H⁴(E) = ℤ/❘r❘ | 
-| `s₂`     | ∈ (-1/2, 1/2]     | s₂     | –             | representative of KS-invariant s₂ ∈ ℚ/ℤ                   | 
-| `s₂₂`    | ∈ (-1/2, 1/2]     | s₂₂    | –             | representative of KS-invariant s₂₂ ∈ ℚ/ℤ                  | 
+| `❘r❘` | ∈ ℕ               | r = &#124;r(k,l)&#124;  | L₂            | &#124;σ₂(k) - σ₂(l)&#124; = order of H⁴(E) |                          
+| `s`   | ∈ {0, ...,&#124;r&#124;/2}  | s      | L₃            | representative of σ₃(k) - σ₃(l) ∈ ℤ/&#124;r&#124;                   |   
+| `M₁`  | ∈ {-1, 0, 1}      | –      | r             | representative of σ₁(l)         ∈ ℤ/3                     | 
+| `M₂`  | ∈ {0, 1}          | –      | 3σ₂'          | representative of ο₁(l) + ο₂(l) ∈ ℤ/2                     | 
+| `p₁`  | ∈ {0, ..., &#124;r&#124;-1} | p₁     | –             | representative of first Pontryagin class ∈  H⁴(E) = ℤ/&#124;r&#124; | 
+| `s₂`  | ∈ (-1/2, 1/2]     | s₂     | –             | representative of KS-invariant s₂ ∈ ℚ/ℤ                   | 
+| `s₂₂` | ∈ (-1/2, 1/2]     | s₂₂    | –             | representative of KS-invariant s₂₂ ∈ ℚ/ℤ                  | 
 
 Here, the left column denotes the notation for the various invariants used by the program; the third and fourth columns indicate the notation used in the litarature.  Evidently, we try to follow the notation [\[CEZ07\]](#references)  as close as possible.  By [\[CEZ07, Thm 2.3\]](#references), they classify positively curved Eschenburg spaces up to homotopy equivalence and homeomorphism as follows:
 

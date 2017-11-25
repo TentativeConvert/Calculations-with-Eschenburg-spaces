@@ -106,7 +106,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   //////////////////////////////////////////////////
   // List of spaces (all_spaces) is now complete.
   // Now look for tuples of spaces whose invariants |r| & |s| agree!
-  printf("\nLooking for spaces whose homotopy invariants |r|, |s|, |M1| and sign(s)*sign(M1) agree ...\n");
+  printf("\nLooking for spaces of same homotopy type ...\n");
  
   std::size_t counter_distinct_rs_values = 0;
   // std::size_t counter_singletons = 0;

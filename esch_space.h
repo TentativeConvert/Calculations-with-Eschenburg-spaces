@@ -13,9 +13,7 @@ class Space {
   int_least8_t M1_; // = -l1-l2-l3 mod 3
   int_least8_t M2_; // = l1 + l2 + l3 + l1l2 + l1l3 + l2l3 mod 2
   INT_R p1_;        // = p_1(k,l) modulo |r(k,l)|
-
   boost::rational<INT_KS> s2_;
-  boost::rational<INT_KS> s22_;
 
   // KS-invariants s2 and s22 take values in interval (-1/2,1/2]
   static const boost::rational<INT_KS> KS_UNKNOWN;      // (set to -1/1 in .cpp)
@@ -51,9 +49,8 @@ public:
   const int_least8_t M1() const { return M1_; }
   const int_least8_t M2() const { return M2_; }
   const INT_R& p1() const { return p1_; }
-
-  const boost::rational<INT_KS>& s22() const {return s22_; }
   const boost::rational<INT_KS>& s2() const {return s2_; }
+  boost::rational<INT_KS> s22() const;
 
   // Other methods that don't change class members:
   // (note that wrong values of s2 & s22 will be printed
@@ -63,7 +60,6 @@ public:
 
   // static methods:
   enum class comp {SMALLER, MAYBE_SMALLER, EQUAL, MAYBE_EQUAL, MAYBE_GREATER, GREATER};  // MAYBE_EQUAL is return when KS-invariants are unknown/uncomputable
-  static comp compareBasicType(const Space& E1, const Space& E2);                        // legacy
   static comp compareHomotopyType(const Space& E1, const Space& E2);
   static comp compareHomotopyType_using_KS(const Space& E1, const Space& E2);            // legacy
   static comp compareTangentialHomotopyType(const Space& E1, const Space& E2);

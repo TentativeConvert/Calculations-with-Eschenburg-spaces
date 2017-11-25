@@ -20,7 +20,10 @@ void Space::print(FILE* file) const
   else if (s2_ == KS_UNCOMPUTABLE)
     fprintf(file, "  |!| WARNING: condition C not satisfied |!|\n");
   else
-    fprintf(file, ",  s22 = %3lld/%lld,  s2 = %7lld/%lld\n", (long long)s22_.numerator(), (long long)s22_.denominator(), (long long)s2_.numerator(), (long long)s2_.denominator());
+    {
+      boost::rational<INT_KS> s22 = this->s22();
+      fprintf(file, ",  s22 = %3lld/%lld,  s2 = %7lld/%lld\n", (long long)s22.numerator(), (long long)s22.denominator(), (long long)s2_.numerator(), (long long)s2_.denominator());
+    }
 }
 
 void Space::print(void) const 
@@ -33,7 +36,10 @@ void Space::print(void) const
       if (s2_ == KS_UNCOMPUTABLE)
 	printf("! Condition C is not satisfied !\n");
       else
-	printf("  s22 = %lld/%lld,  s2 = %lld/%lld\n", (long long)s22_.numerator(), (long long)s22_.denominator(), (long long)s2_.numerator(), (long long)s2_.denominator());
+	{
+	  boost::rational<INT_KS> s22 = this->s22();
+	  printf("  s22 = %lld/%lld,  s2 = %lld/%lld\n", (long long)s22.numerator(), (long long)s22.denominator(), (long long)s2_.numerator(), (long long)s2_.denominator());
+	}
       if (is_positively_curved())
 	printf("  The space is positively curved.\n\n");
       else
@@ -61,7 +67,6 @@ Space::Space(array<INT_P,3> kkk, array<INT_P,3> lll){
   p1_ = absolute_mod(2*sigma1_k*sigma1_k - 6*sigma2_k, abs(r_));
   good_col_or_row = GOOD_CoR_UNKNOWN; 
   s2_ =  KS_UNKNOWN;
-  s22_ = KS_UNKNOWN;
 }
 
 bool Space::is_space(void) const {
@@ -92,6 +97,14 @@ bool Space::is_positively_curved(void) const {
 //////////////////////////////////////////////////
 // KS-invariants
 
+boost::rational<INT_KS> Space::s22() const
+{
+  if (s2_ == KS_UNKNOWN || s2_ == KS_UNCOMPUTABLE)
+    return s2_;
+  else
+    return reduce_mod_ZZ( 2*abs(r_)*s2_ );
+}
+
 bool Space::compute_KS_invariants() // compute s2 & s22
 {
   if (test_condition_C())
@@ -100,14 +113,11 @@ bool Space::compute_KS_invariants() // compute s2 & s22
 	compute_s2_from_col(good_col_or_row);
       else
 	compute_s2_from_row(good_col_or_row-3);
-      s22_ = 2*abs(r_)*s2_;  
-      s22_ = reduce_mod_ZZ(s22_);
       return true;
     }
   else 
     {
       s2_ = KS_UNCOMPUTABLE; 
-      s22_ = KS_UNCOMPUTABLE;
       return false;
     }
 } 
@@ -232,18 +242,6 @@ rational<INT_KS> Space::lens_s2(INT_P p, array<INT_P,4> param)
 
 //////////////////////////////////////////////////
 
-Space::comp Space::compareBasicType(const Space& E1, const Space& E2)
-{
-  if (abs(E1.r_) > abs(E2.r_)) return comp::GREATER;
-  if (abs(E1.r_) < abs(E2.r_)) return comp::SMALLER;
-  if (abs(E1.s_) > abs(E2.s_)) return comp::GREATER;
-  if (abs(E1.s_) < abs(E2.s_)) return comp::SMALLER;
-  if (abs(E1.p1_) > abs(E2.p1_)) return comp::GREATER;
-  if (abs(E1.p1_) < abs(E2.p1_)) return comp::SMALLER;
-  return comp::EQUAL;
-}
-
-
 Space::comp Space::compareHomotopyType(const Space& E1, const Space& E2)
 { 
   if (abs(E1.r_ ) > abs(E2.r_ ))  return comp::GREATER;
@@ -268,31 +266,41 @@ Space::comp Space::compareHomotopyType_using_KS(const Space& E1, const Space& E2
   // If both KS-invariants are unkown, return MAYBE_EQUAL;
   // otherwise, the unknown KS-invariant is   MAYBE_GREATER 
   // than the known one.			
-  if (E1.s22_ == KS_UNKNOWN || E1.s22_ == KS_UNCOMPUTABLE)
-    if (E2.s22_ == KS_UNKNOWN || E2.s22_ == KS_UNCOMPUTABLE)
+  if (E1.s22() == KS_UNKNOWN || E1.s22() == KS_UNCOMPUTABLE)
+    if (E2.s22() == KS_UNKNOWN || E2.s22() == KS_UNCOMPUTABLE)
       return comp::MAYBE_EQUAL;
     else return comp::MAYBE_GREATER;
-  if (E2.s22_ == KS_UNKNOWN || E2.s22_ == KS_UNCOMPUTABLE)
+  if (E2.s22() == KS_UNKNOWN || E2.s22() == KS_UNCOMPUTABLE)
     return comp::MAYBE_SMALLER;
-  if (abs(E1.s22_) > abs(E2.s22_)) return comp::GREATER;
-  if (abs(E1.s22_) < abs(E2.s22_)) return comp::SMALLER;
-  if (sign(E1.s22_)*sign(E1.s_) > sign(E2.s22_)*sign(E2.s_)) return comp::GREATER;
-  if (sign(E1.s22_)*sign(E1.s_) < sign(E2.s22_)*sign(E2.s_)) return comp::SMALLER;
+  if (abs(E1.s22()) > abs(E2.s22())) return comp::GREATER;
+  if (abs(E1.s22()) < abs(E2.s22())) return comp::SMALLER;
+  if (sign(E1.s22())*sign(E1.s_) > sign(E2.s22())*sign(E2.s_)) return comp::GREATER;
+  if (sign(E1.s22())*sign(E1.s_) < sign(E2.s22())*sign(E2.s_)) return comp::SMALLER;
   return comp::EQUAL;
 }
 
 Space::comp Space::compareTangentialHomotopyType(const Space& E1, const Space& E2)
 {
-  // returns MAYBE_EQUAL only if |r|,|s|, p1 agree and KS-invariants unknown/uncomputable
-  comp basic = compareBasicType(E1,E2);
-  if (basic != comp::EQUAL) return basic;
-  return compareHomotopyType(E1,E2);
+  comp homotopy = compareHomotopyType(E1,E2);
+  if (homotopy != comp::EQUAL) return homotopy;
+  if (abs(E1.p1_) > abs(E2.p1_)) return comp::GREATER;
+  if (abs(E1.p1_) < abs(E2.p1_)) return comp::SMALLER;
+  return comp::EQUAL;
 }
 
 Space::comp Space::compareHomeomorphismType(const Space& E1, const Space& E2)
 {
-  comp homotopy = compareHomotopyType(E1,E2);
-  if (homotopy != comp::EQUAL) return homotopy;
+  comp tangential_homotopy = compareTangentialHomotopyType(E1,E2);
+  if (tangential_homotopy != comp::EQUAL) return tangential_homotopy;
+  // If KS-invariants of both spaces are unkown, return MAYBE_EQUAL;
+  // otherwise, the unknown KS-invariant is MAYBE_GREATER 
+  // than the known one.			
+  if (E1.s2_ == KS_UNKNOWN || E1.s2_ == KS_UNCOMPUTABLE)
+    if (E2.s2_ == KS_UNKNOWN || E2.s2_ == KS_UNCOMPUTABLE)
+      return comp::MAYBE_EQUAL;
+    else return comp::MAYBE_GREATER;
+  if (E2.s2_ == KS_UNKNOWN || E2.s2_ == KS_UNCOMPUTABLE)
+    return comp::MAYBE_SMALLER;
   if (abs(E1.s2_) > abs(E2.s2_)) return comp::GREATER;
   if (abs(E1.s2_) < abs(E2.s2_)) return comp::SMALLER;
   if (sign(E1.s2_)*sign(E1.s_) > sign(E2.s2_)*sign(E2.s_)) return comp::GREATER;

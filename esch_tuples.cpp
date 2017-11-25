@@ -155,8 +155,8 @@ bool operator<(const SpaceTuple& T1, const SpaceTuple& T2) {
   if (T1.size() > T2.size()) return true;// sort tuple sizes in descending order!
   if (T1.size() < T2.size()) return false;
   if (!(T1.empty()) && !(T2.empty())){
-    Space::comp basic = Space::compareBasicType(T1[0],T2[0]);
-    if (basic == Space::comp::SMALLER || basic == Space::comp::MAYBE_SMALLER) return true;
+    Space::comp tht = Space::compareTangentialHomotopyType(T1[0],T2[0]);
+    if (tht == Space::comp::SMALLER || tht == Space::comp::MAYBE_SMALLER) return true;
   }
   return false;
 }

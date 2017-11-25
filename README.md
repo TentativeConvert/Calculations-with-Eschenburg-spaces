@@ -53,9 +53,9 @@ The table below summarizes which invariants need to agree in order for two Esche
 | ------------------- | --- | ----------------- | ------------ | 
 | `❘r❘`, `s`, `M₁`, `M₂`       <br> (or `❘r❘`, `s`, `s₂₂`)       |⇔| oriented homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
 | `❘r❘`, `s`, `M₁`, `M₂`, `p₁` <br> (or `❘r❘`, `s`, `s₂₂`, `p₁`) |⇔| oriented tangential homotopy equivalence |                           |
-| `❘r❘`, `s`, `s₂`, `p₁` <br> (& condition C)                        |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br> [\[CEZ07, Thm 2.3\]](#references)  | 
+| `❘r❘`, `s`, `s₂`, `p₁` <br> (& condition C)                        |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) [\[CEZ07, Thm 2.3\]](#references)  | 
 |   |   |   |    |
-| `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s)·sign(M₁)`       <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s)·sign(s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references)  <br> [\[Kru98\]](#references) |
+| `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s)·sign(M₁)`       <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s)·sign(s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references) [\[Kru98\]](#references) |
 | `❘r❘`, `❘s❘`, `❘M₁❘`, `M₂`,  `sign(s)·sign(M₁)`, `p₁` <br> (or `❘r❘`, `❘s❘`, `❘s₂₂❘`, `sign(s)·sign(s₂₂)`, `p₁`)  |⇔| tangential homotopy equivalence |   |
 | `❘r❘`, `❘s❘`, `❘s₂❘`,  `sign(s)·sign(s₂)`, `p₁` <br> (& condition C)                                        |⇔| homeomorphism                   | [\[Kru05\]](#references) <br> [\[CEZ07, Thm 2.3\]](#references)  | 
 

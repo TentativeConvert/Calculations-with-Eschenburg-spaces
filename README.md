@@ -63,7 +63,7 @@ Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references)
 
 ### "Equality"
 
-When we speak of pairs or tuples of "different" Eschenburg spaces below, we do so with respect to the following notion of equality.  Following [\[CEZ07\]](#references), we regard two Eschenburg spaces  E(k,l) and E(k',l')  as **equal** if and only if the parameters (k,l) can be transformed into the parameters (k',l') by a sequence of transformations as follows:
+When we speak of pairs or tuples of "different" Eschenburg spaces below, we do so with respect to the following notion of equality.  Following [\[CEZ07\]](#references), we regard two Eschenburg spaces  E(k,l) and E(k',l')  as **equal** if and only if the parameters (k,l) can be transformed into the parameters (k',l') by a sequence of transformations as follows (cf. [\[CEZ07, above Lemma 1.2)\]]):
 
 - Permute the parameters (k₁,k₂,k₃), or permute the parameters (l₁,l₂,l₃).
 - Simultaneously switch the signs of all parameters.

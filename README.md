@@ -80,7 +80,7 @@ The invariants computed by the program are:
 |         | range                       | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | definition/interpretation                    |
 | ------- | --------------------------- | ------------------------- | ---- | ------------------------------------------------------------------- |
 | `\|r\|` | ∈ ℕ                        | r = \|r(k,l)\|            | L₂   | \|σ₂(k) - σ₂(l)\| = order of H⁴(E)	           |			   
-| `s`	  | ∈ {0, ..., `\|r\|`/2}	| s			    | L₃   | representative of σ₃(k) - σ₃(l) ∈ ℤ/`\|r\|`  |   
+| `s`	  | ∈ {0, ..., `\|r\|`/2}	| s			    | L₃   | representative of σ₃(k) - σ₃(l) ∈ ℤ/`\|r\|` (determines linking form)  |   
 | `m₁`	  | ∈ {-1, 0, 1}		| –			    | r	   | representative of σ₁(l)	         ∈ ℤ/3        | 
 | `m₂`	  | ∈ {0, 1}			| –			    | 3σ₂' | representative of ο₁(l) + ο₂(l) ∈ ℤ/2        | 
 | `p₁`	  | ∈ {0, ..., `\|r\|`-1}       | p₁			    | –	   | representative of first Pontryagin class ∈	 H⁴(E) = ℤ/`\|r\|`  | 
@@ -89,7 +89,7 @@ The invariants computed by the program are:
 
 Here, the left column denotes the notation for the various invariants used by the program; 
 the third and fourth columns indicate the notation used in the litarature. 
-Evidently, we are trying to follow the notation [\[CEZ07\]](#references)  as closely as possible. 
+Evidently, we are trying to follow the notation of [\[CEZ07\]](#references)  as closely as possible. 
 Note that the invariants `s₂` and `s₂₂` can only be computed when the parameters  `(k₁,k₂,k₃,l₁,l₂,l₃)`  satsify a certain (weak) condition called "condition C" [\[CEZ07, §2\]](#references).
 
 ### Classification

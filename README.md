@@ -59,18 +59,17 @@ With the default configuration for the data types used, results should be reliab
 
 ## Mathematical background
 
-Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references).  An Eschenburg space *E = E(k,l)* is a biquotient of SU(3) by a certain action of *S¹* specified by a six-tuple of integer parameters *(k,l) = (k₁,k₂,k₃,l₁,l₂,l₃)*.  These parameters need to satisfy *k₁+k₂+k₃ = l₁+l₂+l₃* and some further conditions, see [\[CEZ07, (1.1)\]](#references).  There exists a certain left-invariant metric on SU(3) such that, for any choice of parameters, the action of *S¹* is by isometries.  We view Eschenburg spaces as Riemannian manifolds with respect to the quotient metric and say that *E = E(k,l)* **has positive sectional curvature** if it has positive sectional curvature with respect to this particular metric.  This condition positive curvature condition translates into a simply condition on the parameters, see [\[CEZ07, (1.2)\]](#references).
+Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references).  An Eschenburg space E = E(k,l) is a biquotient of SU(3) by a certain action of S¹ specified by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃).  These parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃ and some further conditions, see [\[CEZ07, (1.1)\]](#references).  There exists a certain left-invariant metric on SU(3) such that, for any choice of parameters, the action of S¹ is by isometries.  We view Eschenburg spaces as Riemannian manifolds with respect to the quotient metric and say that E = E(k,l) **has positive sectional curvature** if it has positive sectional curvature with respect to this particular metric.  This condition positive curvature condition translates into a simply condition on the parameters, see [\[CEZ07, (1.2)\]](#references).
 
 ### "Equality"
 
-Following [\[CEZ07\]](#references), we regard two Eschenburg spaces  *E(k,l)* and *E(k',l')*  as **equal** if and only if the parameters *(k,l)* can be transformed into the parameters *(k',l')* by a sequence of transformations as follows:
+Following [\[CEZ07\]](#references), we regard two Eschenburg spaces  E(k,l) and E(k',l')  as **equal** if and only if the parameters (k,l) can be transformed into the parameters (k',l') by a sequence of transformations as follows:
 
 - Permute the parameters (k₁,k₂,k₃), or permute the parameters (l₁,l₂,l₃).
 - Simultaneously switch the signs of all parameters.
 - Simultaneulsy add a fixed integer n to each parameter.
 
-Whenever *E(k,l)* and *E(k',l')* are equal in this sense, they are defined by equivalent actions: there exists an isometry SU(3) → SU(3), i.e. a diffeomorphism that respects the above left-invariant metric on SU(3), which is equivariant with respect to the action of *S¹* defined by *(k,l)* on the source and the action of S¹ defined by *(k',l')* on the target.   By [\[CEZ07, Lemma 1.2\]](#references), any positively curved Eschenburg spaces can be written as *E = E(k,l)* with *k₁ ≥ k₂ > l₁ ≥ l₂ ≥ l₃ = 0.  We refer to such a choice of parameters for *E* as **standard parametrization**.
-
+Whenever E(k,l) and E(k',l') are equal in this sense, they are defined by equivalent actions: there exists an isometry SU(3) → SU(3), i.e. a diffeomorphism that respects the above left-invariant metric on SU(3), which is equivariant with respect to the action of S¹ defined by (k,l) on the source and the action of S¹ defined by (k',l') on the target.   By [\[CEZ07, Lemma 1.2\]](#references), any positively curved Eschenburg spaces can be written as E = E(k,l) with k₁ ≥ k₂ > l₁ ≥ l₂ ≥ l₃ = 0.  In the implementation notes [docs/esch_generate.md](docs/esch_generate.md), we refer to such a choice of parameters for E as **standard parametrization**.
 
 ### Invariants 
 

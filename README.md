@@ -63,15 +63,14 @@ Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references)
 
 ### "Equality"
 
-When we speak of pairs or tuples of "different" Eschenburg spaces below, we do so with respect to the following notion of equality.  Following [\[CEZ07\]](#references), we regard two Eschenburg spaces  E(k,l) and E(k',l')  as **equal** if and only if the parameters (k,l) can be transformed into the parameters (k',l') by a sequence of transformations as follows (cf. [\[CEZ07, above Lemma 1.2)\]]):
+When we speak of pairs or tuples of "different" Eschenburg spaces below, we do so with respect to the following notion of equality.  Following [\[CEZ07\]](#references), we regard two Eschenburg spaces  E(k,l) and E(k',l')  as **equal** if and only if the parameters (k,l) can be transformed into the parameters (k',l') by a sequence of transformations as follows (cf. [\[CEZ07, above Lemma 1.4\]]):
 
 - Permute the parameters (k₁,k₂,k₃), or permute the parameters (l₁,l₂,l₃).
 - Simultaneously switch the signs of all parameters.
 - Simultaneously add a fixed integer n to each parameter.
 
-Whenever E(k,l) and E(k',l') are equal in this sense, they are defined by equivalent actions: there exists an isometry SU(3) → SU(3), i.e. a diffeomorphism that respects the above left-invariant metric on SU(3), which is equivariant with respect to the action of S¹ defined by (k,l) on the source and the action of S¹ defined by (k',l') on the target. 
-
-By [\[CEZ07, Lemma 1.2\]](#references), any positively curved Eschenburg spaces can be written as E = E(k,l) with k₁ ≥ k₂ > l₁ ≥ l₂ ≥ l₃ = 0.  
+Whenever E(k,l) and E(k',l') are equal in this sense, they are defined by equivalent actions: there exists an isometry SU(3) → SU(3), i.e. a diffeomorphism that respects the above left-invariant metric on SU(3), which is equivariant with respect to the action of S¹ defined by (k,l) on the source and the action of S¹ defined by (k',l') on the target.
+By [\[CEZ07, Lemma 1.4\]](#references), any positively curved Eschenburg spaces can be written as E = E(k,l) with k₁ ≥ k₂ > l₁ ≥ l₂ ≥ l₃ = 0.  
 <!-- In the implementation notes [docs/esch_generate.md](docs/esch_generate.md), we refer to such a choice of parameters for E as **standard parametrization**. -->
 
 ### Invariants 

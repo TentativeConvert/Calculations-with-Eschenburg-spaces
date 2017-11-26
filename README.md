@@ -25,17 +25,17 @@ There appear to be precompiled versions of MinGW, the GNU C compiler for Windows
 Once [installed](#installation), the program can be run from the command line:  simply navigate to the directory in which the program is installed and call `./esch` (on Linux) or `esch.exe` (on Windows).  Starting the program like this, without any additional parameters, will display some short usage instructions.  
 
 ### Analyse single space
-To analyse the Eschenburg space `E` described by parameters (k,l) = (`k₁`,`k₂`,`k₃`,`l₁`,`l₂`,`l₃`), enter one of
+To analyse the Eschenburg space E defined by the parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃), enter one of
 								
       ./esch [k₁,k₂,k₃,l₁,l₂,l₃]					
       ./esch "[k₁, k₂, k₃, l₁, l₂, l₃]"				
 
 For details on the invariants computed, see the [Mathematic Background](#mathematical-background) below.
 
-With the default configuration, the output of the program should be reliable for parameters `kᵢ` and `lᵢ` of absolute values up to `1500` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
+With the default configuration, the output of the program should be reliable for parameters kᵢ and lᵢ of absolute values up to 1500 (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
 ### Count 'isomorphism' classes in a range
-To count the number of various 'isomorphism' classes of positively curved Eschenburg spaces in a certain range, say with `|r| < 5000`, enter:						
+To count the number of various 'isomorphism' classes of positively curved Eschenburg spaces in a certain range, say with |r| < 5000, enter:						
 								
      ./esch r=5000						
 
@@ -52,14 +52,14 @@ See the examples files in the folder [bin_nix64](bin_nix64).  Note that the file
 
      ./esch r=5000 print=10000						
 
-The default value is controlled by the [configuration variable](#configuration) `DEFAULT_MAX_TUPLES_PER_TUPLE_SIZE_PER_FILE`, which can only be set at compile time (current value is `1010`).
+The default value is controlled by the [configuration variable](#configuration) `DEFAULT_MAX_TUPLES_PER_TUPLE_SIZE_PER_FILE`, which can only be set at compile time (current value is 1010).
 
-With the default configuration for the data types used, results should be reliable up to values of `|r| ≤ 600.000` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
+With the default configuration for the data types used, results should be reliable up to values of |r| ≤ 600.000 (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
 
 ## Mathematical background
 
-Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references).  An Eschenburg space E = E(k,l) is a biquotient of SU(3) by a certain action of S¹ specified by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃).  These parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃ and some further conditions, see [\[CEZ07, (1.1)\]](#references).  There exists a certain left-invariant metric on SU(3) such that, for any choice of parameters, the action of S¹ is by isometries.  We view Eschenburg spaces as Riemannian manifolds with respect to the quotient metric and say that E = E(k,l) **has positive sectional curvature** if it has positive sectional curvature with respect to this particular metric.  This positive curvature condition translates into a simply condition on the parameters, see [\[CEZ07, (1.2)\]](#references).
+Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references).  They are biquotients of SU(3) by actions of S¹.  Following [\[CEZ07\](#references), we specify this action of S¹ and the resulting Eschenburg space E = E(k,l) by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃).  These parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃ and some further conditions, see [\[CEZ07, (1.1)\]](#references).  There exists a certain left-invariant metric on SU(3) such that, for any choice of parameters, the action of S¹ is by isometries.  We view Eschenburg spaces as Riemannian manifolds with respect to the quotient metric and say that E = E(k,l) **has positive sectional curvature** if it has positive sectional curvature with respect to this particular metric.  This positive curvature condition translates into a simply condition on the parameters, see [\[CEZ07, (1.2)\]](#references).
 
 ### "Equality"
 

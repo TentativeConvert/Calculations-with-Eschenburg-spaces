@@ -10,8 +10,8 @@ class Space {
   INT_R r_;         // = r(k,l); it can be positive or negative.
                     // (in [CEZ07], "r := |r(k,l)|")
   INT_R s_;         // = s(k,l) modulo |r(k,l)|
-  int_least8_t M1_; // = -l1-l2-l3 mod 3
-  int_least8_t M2_; // = l1 + l2 + l3 + l1l2 + l1l3 + l2l3 mod 2
+  int_least8_t m1_; // = -l1-l2-l3 mod 3
+  int_least8_t m2_; // = l1 + l2 + l3 + l1l2 + l1l3 + l2l3 mod 2
   INT_R p1_;        // = p_1(k,l) modulo |r(k,l)|
   boost::rational<INT_KS> s2_;
 
@@ -46,8 +46,8 @@ public:
   const std::array<INT_P,3>& l() const { return k_; }
   const INT_R& r() const { return r_; }
   const INT_R& s() const { return s_; }
-  const int_least8_t M1() const { return M1_; }
-  const int_least8_t M2() const { return M2_; }
+  const int_least8_t m1() const { return m1_; }
+  const int_least8_t m2() const { return m2_; }
   const INT_R& p1() const { return p1_; }
   const boost::rational<INT_KS>& s2() const {return s2_; }
   boost::rational<INT_KS> s22() const;

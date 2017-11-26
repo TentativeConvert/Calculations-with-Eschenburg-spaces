@@ -82,8 +82,8 @@ int show_usage(std::string myname)
 \n -------   PROGRAM FOR CALCULATIONS WITH ESCHENBURG SPACES    ------- \
 \n To analyse Eschenburg space described by certain parameters, enter:	\
 \n									\
-\n       %s [75,54,-51,46,32,0]					\
-\n or    %s \"[75, 54, -51, 46, 32, 0]\"				\
+\n       %s  [400,168,-352,165,51,0]                                    \
+\n or    %s \"[ 440, 168, -320, 159, 129, 0 ]\"				\
 \n									\
 \n To generate various lists of tuples of positively curved Eschenburg	\
 \n spaces with |r| < 5000, enter:					\

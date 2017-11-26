@@ -18,7 +18,7 @@ Moreover, these quadruples are required to satisfy a list of coprimacy condition
 
       [CEZ07 (1.1)]                                       (2)
 
-which we will spell out below. (The conditions of [\[CEZ07 (1.2)\]](README.md#reference) for positive curvature are automatically satisfied in this parametrization.)  The task is thus to find all quadruples satisfying (1), (2) and
+which we will spell out below. (The conditions of [\[CEZ07 (1.2)\]](../README.md#reference) for positive curvature are automatically satisfied in this parametrization.)  The task is thus to find all quadruples satisfying (1), (2) and
 
       |r| ≤ R                                             (3)
 

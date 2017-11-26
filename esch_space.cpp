@@ -32,13 +32,13 @@ void Space::print(void) const
     {
       printf("\nInvariants of the Eschenburg space with parameters [%ld,%ld,%ld, %ld,%ld,%ld]:\n", 
 	     (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2]);
-      printf("  |r| = %ld,  s = %7ld,  M1 = %2d,  M2 = %d,  p1 = %ld\n",(long)(abs(r_)), (long)s_, (int)(M1_), (int)(M2_), (long)p1_);
+      printf("  |r| = %ld,  s = %ld,  M1 = %d,  M2 = %d\n  p1  = %ld\n",(long)(abs(r_)), (long)s_, (int)(M1_), (int)(M2_), (long)p1_);
       if (s2_ == KS_UNCOMPUTABLE)
 	printf("! Condition C is not satisfied !\n");
       else
 	{
 	  boost::rational<INT_KS> s22 = this->s22();
-	  printf("  s22 = %lld/%lld,  s2 = %lld/%lld\n", (long long)s22.numerator(), (long long)s22.denominator(), (long long)s2_.numerator(), (long long)s2_.denominator());
+	  printf("  s2  = %lld/%lld,  s22 = %lld/%lld\n", (long long)s2_.numerator(), (long long)s2_.denominator(), (long long)s22.numerator(), (long long)s22.denominator());
 	}
       if (is_positively_curved())
 	printf("  The space is positively curved.\n\n");

@@ -30,39 +30,9 @@ To analyse the Eschenburg space `E` described by parameters (k,l) = (`k₁`,`k�
       ./esch [k₁,k₂,k₃,l₁,l₂,l₃]					
       ./esch "[k₁, k₂, k₃, l₁, l₂, l₃]"				
 
-(or `esch.exe [k₁,k₂,k₃,l₁,l₂,l₃]` on Windows systems).  The "invariants" computed are:
+For details on the invariants computed, see the [Mathematic Background](#mathematical-background) below.
 
-|         | range                       | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | definition/interpretation                    |
-| ------- | --------------------------- | ------------------------- | ---- | ------------------------------------------------------------------- |
-| `\|r\|` | ∈ ℕ                        | r = \|r(k,l)\|            | L₂   | \|σ₂(k) - σ₂(l)\| = order of H⁴(E)	           |			   
-| `s`	  | ∈ {0, ..., `\|r\|`/2}	| s			    | L₃   | representative of σ₃(k) - σ₃(l) ∈ ℤ/`\|r\|`  |   
-| `M₁`	  | ∈ {-1, 0, 1}		| –			    | r	   | representative of σ₁(l)	         ∈ ℤ/3        | 
-| `M₂`	  | ∈ {0, 1}			| –			    | 3σ₂' | representative of ο₁(l) + ο₂(l) ∈ ℤ/2        | 
-| `p₁`	  | ∈ {0, ..., `\|r\|`-1}       | p₁			    | –	   | representative of first Pontryagin class ∈	 H⁴(E) = ℤ/`\|r\|`  | 
-| `s₂`	  | ∈ (-1/2, 1/2]		| s₂			    | –	   | representative of KS-invariant s₂ ∈ ℚ/ℤ	 | 
-| `s₂₂`	  | ∈ (-1/2, 1/2]		| s₂₂			    | –	   | representative of KS-invariant s₂₂ ∈ ℚ/ℤ	 | 
-
-Here, the left column denotes the notation for the various invariants used by the program; 
-the third and fourth columns indicate the notation used in the litarature. 
-Evidently, we are trying to follow the notation [\[CEZ07\]](#references)  as closely as possible. 
-Note that the invariants `s₂` and `s₂₂` can only be computed when the parameters  `(k₁,k₂,k₃,l₁,l₂,l₃)`  satsify a certain (weak) condition called "condition C" [\[CEZ07, §2\]](#references).
-
-The table below summarizes which invariants need to agree in order for two Eschenburg spaces to have the same homotopy type/homeomorphism type etc.  For example, the first line says that, according to [\[Mil00\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, `M₁` and `M₂` agree.  Alternatively, in the classification of [\[Kru98\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, and `s₂₂` agree.  
-
-| invariants … agree                                                 |⇔|   spaces agree up to …                   | References                                                          |
-| ------------------------------------------------------------------ | --- | ------------------------------------- | -------------------------------------------------------------------- | 
-| `\|r\|`, `s`, `M₁`, `M₂`       <br> (or `\|r\|`, `s`, `s₂₂`)       |⇔| oriented homotopy equivalence            | [\[Mil00\]](#references) <br>[\[Kru98\]](#references)                |
-| `\|r\|`, `s`, `M₁`, `M₂`, `p₁` <br> (or `\|r\|`, `s`, `s₂₂`, `p₁`) |⇔| oriented tangential homotopy equivalence |                                                                      |
-| `\|r\|`, `s`, `s₂`, `p₁` <br> (& condition C)                      |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
-|   |   |   |    |
-| `\|r\|`, `\|s\|`, `\|M₁\|`, `M₂`,  `sign(s)·sign(M₁)`       <br> (or `\|r\|`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references) <br>[\[Kru98\]](#references)                |
-| `\|r\|`, `\|s\|`, `\|M₁\|`, `M₂`,  `sign(s)·sign(M₁)`, `p₁` <br> (or `\|r\|`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`, `p₁`)  |⇔| tangential homotopy equivalence |                                                                      |
-| `\|r\|`, `\|s\|`, `\|s₂\|`,  `sign(s)·sign(s₂)`, `p₁` <br> (& condition C)                                                    |⇔| homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
-
-In the second half of the table, the `sign` of an invariant is defined as one of the values `+1, 0, -1` in the evident way.  The sign of `s₂` is `0` if and only if `s₂ = 0` or `s₂ = 1/2` (since 1/2 = -1/2 in ℚ/ℤ), and likewise for `s₂₂`.   The homeomorphism classification of [\[Kru05\]](#references) works only for spaces that satisfy "condition C".  It seems that no homeomorphism classification  is known for spaces that do not satisfy this condition.
-    
 With the default configuration, the output of the program should be reliable for parameters `kᵢ` and `lᵢ` of absolute values up to `1500` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
-
 
 ### Count 'isomorphism' classes in a range
 To count the number of various 'isomorphism' classes of positively curved Eschenburg spaces in a certain range, say with `|r| < 5000`, enter:						
@@ -86,6 +56,53 @@ The default value is controlled by the [configuration variable](#configuration) 
 
 With the default configuration for the data types used, results should be reliable up to values of `|r| ≤ 600.000` (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
+
+## Mathematical background
+
+An Eschenburg space *E = E(k,l)* is a biquotient of SU(3) by a certain action of *S¹* specified by a six-tuple of integer parameters *(k,l) = (k₁,k₂,k₃,l₁,l₂,l₃)*.  These parameters need to satisfy *k₁+k₂+k₃ = l₁+l₂+l₃* and some further conditions, see ... .  There exists a certain left-invariant metric on SU(3) such that, for any choice of parameters, the action of *S¹* is by isometries.  We can view the Eschenburg spaces as Riemannian manifolds with respect to the quotient metric.  We say that *E = E(k,l)* **has positive sectional curvature** if it has positive sectional curvature with respect to this particular metric.  Following [\[CEZ07\]](#references), we regard two Eschenburg spaces  *E(k,l)* and *E(k',l')*  are **equal** if and only if the parameters *(k,l)* can be transformed into the parameters *(k',l')* by a sequence of transformations as follows:
+
+- Permute the parameters (k₁,k₂,k₃) or (l₁,l₂,l₃).
+- Simultaneously switch the signs of all parameters.
+- Simultaneulsy add a fixed integer n to each parameter.
+
+Whenever *E(k,l)* and *E(k',l')* are equal in this sense, they are defined by equivalent actions: there exists an isometry SU(3) → SU(3), i.e. a diffeomorphism that respects the above left-invariant metric on SU(3), which is equivariant with respect to the action of *S¹* defined by *(k,l)* on the source and the action of S¹ defined by *(k',l')* on the target.   By [\[CEZ07, Lemma 1.2\]](#references), any positively curved Eschenburg spaces can be written as *E = E(k,l)* with *k₁ ≥ k₂ > l₁ ≥ l₂ ≥ l₃ = 0.  We refer to such a choice of parameters for *E* as **standard parametrization**.
+
+
+### Invariants 
+
+The invariants computed by the program are:
+
+|         | range                       | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | definition/interpretation                    |
+| ------- | --------------------------- | ------------------------- | ---- | ------------------------------------------------------------------- |
+| `\|r\|` | ∈ ℕ                        | r = \|r(k,l)\|            | L₂   | \|σ₂(k) - σ₂(l)\| = order of H⁴(E)	           |			   
+| `s`	  | ∈ {0, ..., `\|r\|`/2}	| s			    | L₃   | representative of σ₃(k) - σ₃(l) ∈ ℤ/`\|r\|`  |   
+| `M₁`	  | ∈ {-1, 0, 1}		| –			    | r	   | representative of σ₁(l)	         ∈ ℤ/3        | 
+| `M₂`	  | ∈ {0, 1}			| –			    | 3σ₂' | representative of ο₁(l) + ο₂(l) ∈ ℤ/2        | 
+| `p₁`	  | ∈ {0, ..., `\|r\|`-1}       | p₁			    | –	   | representative of first Pontryagin class ∈	 H⁴(E) = ℤ/`\|r\|`  | 
+| `s₂`	  | ∈ (-1/2, 1/2]		| s₂			    | –	   | representative of KS-invariant s₂ ∈ ℚ/ℤ	 | 
+| `s₂₂`	  | ∈ (-1/2, 1/2]		| s₂₂			    | –	   | representative of KS-invariant s₂₂ ∈ ℚ/ℤ	 | 
+
+Here, the left column denotes the notation for the various invariants used by the program; 
+the third and fourth columns indicate the notation used in the litarature. 
+Evidently, we are trying to follow the notation [\[CEZ07\]](#references)  as closely as possible. 
+Note that the invariants `s₂` and `s₂₂` can only be computed when the parameters  `(k₁,k₂,k₃,l₁,l₂,l₃)`  satsify a certain (weak) condition called "condition C" [\[CEZ07, §2\]](#references).
+
+### Classification
+
+The table below summarizes which invariants need to agree in order for two Eschenburg spaces to have the same homotopy type/homeomorphism type etc.  For example, the first line says that, according to [\[Mil00\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, `M₁` and `M₂` agree.  Alternatively, in the classification of [\[Kru98\]](#references), two Eschenburg spaces are homotopy equivalent through an orientation-preserving homotopy equivalence if and only if their invariants `|r|`, `s`, and `s₂₂` agree.  
+
+| invariants … agree                                                 |⇔|   spaces agree up to …                   | References                                                          |
+| ------------------------------------------------------------------ | --- | ------------------------------------- | -------------------------------------------------------------------- | 
+| `\|r\|`, `s`, `M₁`, `M₂`       <br> (or `\|r\|`, `s`, `s₂₂`)       |⇔| oriented homotopy equivalence            | [\[Mil00\]](#references) <br>[\[Kru98\]](#references)                |
+| `\|r\|`, `s`, `M₁`, `M₂`, `p₁` <br> (or `\|r\|`, `s`, `s₂₂`, `p₁`) |⇔| oriented tangential homotopy equivalence |                                                                      |
+| `\|r\|`, `s`, `s₂`, `p₁` <br> (& condition C)                      |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
+|   |   |   |    |
+| `\|r\|`, `\|s\|`, `\|M₁\|`, `M₂`,  `sign(s)·sign(M₁)`       <br> (or `\|r\|`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`)        |⇔| homotopy equivalence            | [\[Mil00\]](#references) <br>[\[Kru98\]](#references)                |
+| `\|r\|`, `\|s\|`, `\|M₁\|`, `M₂`,  `sign(s)·sign(M₁)`, `p₁` <br> (or `\|r\|`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`, `p₁`)  |⇔| tangential homotopy equivalence |                                                                      |
+| `\|r\|`, `\|s\|`, `\|s₂\|`,  `sign(s)·sign(s₂)`, `p₁` <br> (& condition C)                                                    |⇔| homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
+
+In the second half of the table, the `sign` of an invariant is defined as one of the values `+1, 0, -1` in the evident way.  The sign of `s₂` is `0` if and only if `s₂ = 0` or `s₂ = 1/2` (since 1/2 = -1/2 in ℚ/ℤ), and likewise for `s₂₂`.   The homeomorphism classification of [\[Kru05\]](#references) works only for spaces that satisfy "condition C".  It seems that no homeomorphism classification  is known for spaces that do not satisfy this condition.
+    
 
 ## Code base
 The code is structured as follows:

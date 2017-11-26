@@ -1,8 +1,8 @@
 ## Aim
-The aim is to find all pairs of Eschenburg spaces `E` with bounded invariant `|r|` whose polynomial invariants `|r|` and `|s|` agree.  This quest is divided into two tasks:
+The aim is to find all tuples of homotopy equivalent positively curved Eschenburg spaces `E` with bounded invariant `|r|`.  This quest is divided into two tasks:
 
-**Task 1:** Find all Eschenburg spaces with `|r| ≤ R` for some given bound `R`.  
-**Task 2:** Given a list of all such spaces, find all pairs on this list whose invariants `r` and `s` agree.
+**Task 1:** Find all positively curved Eschenburg spaces with `|r| ≤ R` for some given bound `R`.  
+**Task 2:** Given a list of all such spaces, find all tuples on this list whose homotopy invariants agree.
 
 The implementation of Task 1 is described in detail below.  Task 2 is fairly straight-forward.
 
@@ -18,7 +18,7 @@ Moreover, these quadruples are required to satisfy a list of coprimacy condition
 
       [CEZ07 (1.1)]                                       (2)
 
-which we will spell out below. (The conditions of [\[CEZ07 (1.2)\]](#reference) for positive curvature are automatically satisfied in this parametrization.)  The task is thus to find all quadruples satisfying (1), (2) and
+which we will spell out below. (The conditions of [\[CEZ07 (1.2)\]](README.md#reference) for positive curvature are automatically satisfied in this parametrization.)  The task is thus to find all quadruples satisfying (1), (2) and
 
       |r| ≤ R                                             (3)
 

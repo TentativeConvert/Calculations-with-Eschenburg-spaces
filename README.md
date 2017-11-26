@@ -65,7 +65,7 @@ Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references)
 
 Following [\[CEZ07\]](#references), we regard two Eschenburg spaces  *E(k,l)* and *E(k',l')*  as **equal** if and only if the parameters *(k,l)* can be transformed into the parameters *(k',l')* by a sequence of transformations as follows:
 
-- Permute the parameters (k₁,k₂,k₃) or (l₁,l₂,l₃).
+- Permute the parameters (k₁,k₂,k₃), or permute the parameters (l₁,l₂,l₃).
 - Simultaneously switch the signs of all parameters.
 - Simultaneulsy add a fixed integer n to each parameter.
 

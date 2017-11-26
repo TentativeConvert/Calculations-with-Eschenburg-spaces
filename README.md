@@ -59,7 +59,11 @@ With the default configuration for the data types used, results should be reliab
 
 ## Mathematical background
 
-An Eschenburg space *E = E(k,l)* is a biquotient of SU(3) by a certain action of *S¹* specified by a six-tuple of integer parameters *(k,l) = (k₁,k₂,k₃,l₁,l₂,l₃)*.  These parameters need to satisfy *k₁+k₂+k₃ = l₁+l₂+l₃* and some further conditions, see [\[CEZ07\], (1.1)](#references).  There exists a certain left-invariant metric on SU(3) such that, for any choice of parameters, the action of *S¹* is by isometries.  We view Eschenburg spaces as Riemannian manifolds with respect to the quotient metric and say that *E = E(k,l)* **has positive sectional curvature** if it has positive sectional curvature with respect to this particular metric.  Following [\[CEZ07\]](#references), we regard two Eschenburg spaces  *E(k,l)* and *E(k',l')*  are **equal** if and only if the parameters *(k,l)* can be transformed into the parameters *(k',l')* by a sequence of transformations as follows:
+Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references).  An Eschenburg space *E = E(k,l)* is a biquotient of SU(3) by a certain action of *S¹* specified by a six-tuple of integer parameters *(k,l) = (k₁,k₂,k₃,l₁,l₂,l₃)*.  These parameters need to satisfy *k₁+k₂+k₃ = l₁+l₂+l₃* and some further conditions, see [\[CEZ07, (1.1)\]](#references).  There exists a certain left-invariant metric on SU(3) such that, for any choice of parameters, the action of *S¹* is by isometries.  We view Eschenburg spaces as Riemannian manifolds with respect to the quotient metric and say that *E = E(k,l)* **has positive sectional curvature** if it has positive sectional curvature with respect to this particular metric.  This condition positive curvature condition translates into a simply condition on the parameters, see [\[CEZ07, (1.2)\].
+
+### "Equality"
+
+Following [\[CEZ07\]](#references), we regard two Eschenburg spaces  *E(k,l)* and *E(k',l')*  as **equal** if and only if the parameters *(k,l)* can be transformed into the parameters *(k',l')* by a sequence of transformations as follows:
 
 - Permute the parameters (k₁,k₂,k₃) or (l₁,l₂,l₃).
 - Simultaneously switch the signs of all parameters.
@@ -131,7 +135,8 @@ When compiling from scratch, the data types used in the computations and a few o
 
 ## References
 \[CEZ07\] [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6) Math. Ann. **339** (2007), no. 3, pp. 3–20. <br>
-\[Kru98] [B. Kruggel: *Kreck-Stolz invariants, normal invariants and the homotopy classification of generalised Wallach spaces.*](https://doi.org/10.1093/qmathj/49.4.469)
+\[Esch82\] [J.-H. Eschenburg: *New examples of manifolds with strictly positive curvature.*](https://doi.org/10.1007/BF01389224) Invent. Math. 66 (1982), no. 3, 469–480. <br>
+\[Kru98\] [B. Kruggel: *Kreck-Stolz invariants, normal invariants and the homotopy classification of generalised Wallach spaces.*](https://doi.org/10.1093/qmathj/49.4.469)
 Quart. J. Math. Oxford Ser. (2) 49 (1998), no. 196, 469–485. <br>
 \[Kru05\] [B. Kruggel: *Homeomorphism and diffeomorphism classification of Eschenburg spaces.*](https://doi.org/10.1093/qmath/hah031) Quart. J. Math. Oxford Ser. (2) **56**, 553–577 (2005) <br>
 \[Mil00\] [R. J. Milgram: *The classification of Aloff-Wallach manifolds and their generalizations.*](https://mathscinet.ams.org/mathscinet-getitem?mr=1747543) Surveys on surgery theory, Vol. 1, 379–407, Ann. of Math. Stud., 145, Princeton Univ. Press, Princeton, NJ, 2000. <br>

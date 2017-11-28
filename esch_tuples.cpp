@@ -33,7 +33,7 @@ void SpaceTupleList::print(const char* filename, const size_t& max_tuples)
   size_t counter_total = singletons;
   vector< std::size_t > counter(1);  
   counter[0] = singletons;
-  for(SpaceTuple F : *this)
+  for(const SpaceTuple& F : *this)
     {
       std::size_t s = F.size();
       if (s > counter.size()) 
@@ -77,6 +77,7 @@ void SpaceTupleList::print(const char* filename, const size_t& max_tuples)
   
   // Print tuples to file, grouped by tuple length
   printf("Writing to file %s ...",filename);
+  fflush(stdout);
   for(std::size_t c = counter.size(); c >= 2; --c)
     {
       fprintf(file,"\n\n\n############################################ Tuples of length %ld ############################################\n",(long)c);

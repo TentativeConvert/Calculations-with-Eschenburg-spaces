@@ -30,7 +30,7 @@ To analyse the Eschenburg space E defined by the parameters (k,l) = (k₁,k₂,k
       ./esch [k₁,k₂,k₃,l₁,l₂,l₃]					
       ./esch "[k₁, k₂, k₃, l₁, l₂, l₃]"				
 
-For details on the invariants computed, see the [Mathematic Background](#mathematical-background) below.
+For details on the invariants computed, see the [Mathematical Background](#mathematical-background) below.
 
 With the default configuration, the output of the program should be reliable for parameters kᵢ and lᵢ of absolute values up to 1500 (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
@@ -88,9 +88,9 @@ The invariants computed by the program are:
 | `s₂₂`	  | ∈ (-1/2, 1/2]		| s₂₂			    | –	   | representative of KS-invariant s₂₂ ∈ ℚ/ℤ	 | 
 
 Here, the left column denotes the notation for the various invariants used by the program; 
-the third and fourth columns indicate the notation used in the litarature. 
+the third and fourth columns indicate the notation used in the literature. 
 Evidently, we are trying to follow the notation of [\[CEZ07\]](#references)  as closely as possible. 
-Note that the invariants `s₂` and `s₂₂` can only be computed when the parameters  `(k₁,k₂,k₃,l₁,l₂,l₃)`  satisfy a certain (weak) condition called "condition C" [\[CEZ07, §2\]](#references).  For a translation between the parametrization of Eschenburg spaces used in [\[Mil00\]}(#references) and the parametrization used here, see [\[Sha02, end of §2\]](#references).
+Note that the invariants `s₂` and `s₂₂` can only be computed when the parameters  `(k₁,k₂,k₃,l₁,l₂,l₃)`  satisfy a certain (weak) condition called "condition C" [\[CEZ07, §2\]](#references).  For a translation between the parametrization of Eschenburg spaces used in [\[Mil00\]](#references) and the parametrization used here, see [\[Sha02, end of §2\]](#references).
 
 ### Classification
 

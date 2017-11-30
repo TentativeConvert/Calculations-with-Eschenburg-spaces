@@ -90,7 +90,7 @@ The invariants computed by the program are:
 Here, the left column denotes the notation for the various invariants used by the program; 
 the third and fourth columns indicate the notation used in the litarature. 
 Evidently, we are trying to follow the notation of [\[CEZ07\]](#references)  as closely as possible. 
-Note that the invariants `s₂` and `s₂₂` can only be computed when the parameters  `(k₁,k₂,k₃,l₁,l₂,l₃)`  satsify a certain (weak) condition called "condition C" [\[CEZ07, §2\]](#references).  For a translation between the notation of [\[Mil00]\](#references) and the notation used here, see [\[Sha02, end of §2\]](#references).
+Note that the invariants `s₂` and `s₂₂` can only be computed when the parameters  `(k₁,k₂,k₃,l₁,l₂,l₃)`  satisfy a certain (weak) condition called "condition C" [\[CEZ07, §2\]](#references).  For a translation between the parametrization of Eschenburg spaces used in [\[Mil00\]}(#references) and the parametrization used here, see [\[Sha02, end of §2\]](#references).
 
 ### Classification
 

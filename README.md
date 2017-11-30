@@ -30,7 +30,7 @@ To analyse the Eschenburg space E defined by the parameters (k,l) = (k₁,k₂,k
       ./esch [k₁,k₂,k₃,l₁,l₂,l₃]					
       ./esch "[k₁, k₂, k₃, l₁, l₂, l₃]"				
 
-For details on the invariants computed, see the [Mathematical Background](#mathematical-background) below.
+For details on the invariants computed, see the [Mathematical background](#mathematical-background) below.
 
 With the default configuration, the output of the program should be reliable for parameters kᵢ and lᵢ of absolute values up to 1500 (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 

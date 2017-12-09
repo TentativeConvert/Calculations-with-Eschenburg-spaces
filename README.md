@@ -59,11 +59,11 @@ With the default configuration for the data types used, results should be reliab
 
 ## Mathematical background
 
-Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references).  Each Eschenburg space is a biquotient of SU(3) by an action of S¹.  Following [\[CEZ07\]](#references), we specify this action of S¹ and the resulting Eschenburg space E = E(k,l) by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃), which we refer to as the **parameter vector** of E.  The parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃, and some further conditions that ensure that the S¹-action is free, see [\[CEZ07, (1.1)\]](#references).  
+Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references).  Each Eschenburg space is a (bi)quotient of SU(3) by an action of S¹.  Following [\[CEZ07\]](#references), we specify this action of S¹ and the resulting Eschenburg space E = E(k,l) by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃), which we refer to as the **parameter vector** of E.  The parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃, and some further conditions that ensure that the S¹-action is free, see [\[CEZ07, (1.1)\]](#references).  
 
 ### Positive curvature
 
-Eschenburg defines a torus-invariant metric on a compact Lie group to be a left-invariant metric which is bi-invariant with respect to some maximal torus of SU(3) [\[Esch84, §34\]](#references).  Let us define a **left Eschenburg metric** on an Eschenburg space E(k,l) to be a quotient metric of a metric on SU(3) that is torus-invariant and invariant with respect to the S¹-action specified by the parameters (k,l).  An Eschenburg space is said to be **positively curved** if it has positive sectional curvature with respect to *some* left Eschenburg metric.  This positive curvature condition translates into a simple condition on the parameters, see [\[Esch84, Satz 414\]](#references) or [\[CEZ07, (1.2)\]](#references). 
+Eschenburg defines a torus-invariant metric on a compact Lie group to be a left-invariant metric which is bi-invariant with respect to some maximal torus [\[Esch84, §34\]](#references).  Let us define a **left Eschenburg metric** on an Eschenburg space E(k,l) to be a quotient metric of a metric on SU(3) that is torus-invariant and invariant with respect to the S¹-action specified by the parameter vector (k,l).  An Eschenburg space is said to be **positively curved** if it has positive sectional curvature with respect to *some* left Eschenburg metric.  This positive curvature condition translates into a simple condition on the parameters, see [\[Esch84, Satz 414\]](#references) or [\[CEZ07, (1.2)\]](#references). 
 
 ### Normalized parameter vectors
 

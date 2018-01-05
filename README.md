@@ -148,12 +148,12 @@ When compiling from scratch, the data types used in the computations and a few o
 
 |            |      |
 | ---------- | ---- | 
-| \[CEZ07\]  | [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6) Math. Ann. **339** (2007), no. 3, pp. 3–20. |
-| \[Esch82\] | [J.-H. Eschenburg: *New examples of manifolds with strictly positive curvature.*](https://doi.org/10.1007/BF01389224) Invent. Math. 66 (1982), no. 3, 469–480. |
+| \[CEZ07\]  | [T. Chinburg, C. Escher and W. Ziller: *Topological properties of Eschenburg spaces and 3-Sasakian manifolds.*](https://doi.org/10.1007/s00208-007-0102-6) Math. Ann. **339** (2007), no. 3, 3–20. |
+| \[Esch82\] | [J.-H. Eschenburg: *New examples of manifolds with strictly positive curvature.*](https://doi.org/10.1007/BF01389224) Invent. Math. **66** (1982), no. 3, 469–480. |
 | \[Esch84\] | [J.-H. Eschenburg: *Freie isometrische Aktionen auf kompakten Lie-Gruppen mit positiv gekrümmten Orbiträumen.*](https://opus.bibliothek.uni-augsburg.de/opus4/frontdoor/index/index/docId/4219) Schriftenreihe des Mathematischen Instituts der Universität Münster, 2. Serie, Band 32, 1984. |
-| \[Kru98\]  | [B. Kruggel: *Kreck-Stolz invariants, normal invariants and the homotopy classification of generalised Wallach spaces.*](https://doi.org/10.1093/qmathj/49.4.469) Quart. J. Math. Oxford Ser. (2) 49 (1998), no. 196, 469–485. |
-| \[Kru05\]  | [B. Kruggel: *Homeomorphism and diffeomorphism classification of Eschenburg spaces.*](https://doi.org/10.1093/qmath/hah031) Quart. J. Math. Oxford Ser. (2) **56**, 553–577 (2005) |
+| \[Kru98\]  | [B. Kruggel: *Kreck-Stolz invariants, normal invariants and the homotopy classification of generalised Wallach spaces.*](https://doi.org/10.1093/qmathj/49.4.469) Quart. J. Math. Oxford Ser. (2) **49** (1998), no. 4, 469–485. |
+| \[Kru05\]  | [B. Kruggel: *Homeomorphism and diffeomorphism classification of Eschenburg spaces.*](https://doi.org/10.1093/qmath/hah031) Quart. J. Math. Oxford Ser. (2) **56** (2005), no. 4, 553–577. |
 | \[Mil00\]  | [R. J. Milgram: *The classification of Aloff-Wallach manifolds and their generalizations.*](https://mathscinet.ams.org/mathscinet-getitem?mr=1747543) Surveys on surgery theory, Vol. 1, 379–407, Ann. of Math. Stud., 145, Princeton Univ. Press, Princeton, NJ, 2000. |
-| \[Sha02\]  | [K. Shankar: *Strong inhomogeneity of Eschenburg spaces.*](https://doi.org/10.1307/mmj/1022636754) Michigan Math. J. **50** (2002), no. 1, pp. 125–141. |
+| \[Sha02\]  | [K. Shankar: *Strong inhomogeneity of Eschenburg spaces.*](https://doi.org/10.1307/mmj/1022636754) Michigan Math. J. **50** (2002), no. 1, 125–141. |
 
 

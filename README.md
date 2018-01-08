@@ -90,7 +90,7 @@ The invariants computed by the program are:
 |         | range                       | [\[CEZ07\]](#references)  | [\[Mil00\]](#references)    | definition/interpretation                    |
 | ------- | --------------------------- | ------------------------- | ---- | ------------------------------------------------------------------- |
 | `\|r\|` | ∈ ℕ                        | r = \|r(k,l)\|            | L₂   | \|σ₂(k) - σ₂(l)\| = order of H⁴(E)	           |			   
-| `s`	  | ∈ {-(`\|r\|`-1)/2, ..., (`\|r\|`-1)/2}	| s			    | L₃   | representative of σ₃(k) - σ₃(l) ∈ ℤ/`\|r\|` (determines linking form)  |   
+| `s`	  | ∈ (-`\|r\|`/2, `\|r\|`/2) ∩ ℤ | s			    | L₃   | representative of σ₃(k) - σ₃(l) ∈ ℤ/`\|r\|` (determines linking form)  |   
 | `m₁`	  | ∈ {-1, 0, 1}		| –			    | r	   | representative of σ₁(l) ∈ ℤ/3        | 
 | `m₂`	  | ∈ {0, 1}			| –			    | 3σ₂' | representative of σ₁(l) + σ₂(l) ∈ ℤ/2        | 
 | `p₁`	  | ∈ {0, ..., `\|r\|`-1}       | p₁			    | –	   | representative of first Pontryagin class ∈	 H⁴(E) = ℤ/`\|r\|`  | 

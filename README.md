@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1156300.svg)](https://doi.org/10.5281/zenodo.1156300)
+
 # Calculations with Eschenburg spaces
 
 This C++ program implements and combines a subset of the features of the following two pieces of code:
@@ -5,6 +7,7 @@ This C++ program implements and combines a subset of the features of the followi
 -  The (unpublished) C program described by T. Chinburg, C. Escher and W. Ziller in *Topological properties of Eschenburg spaces and 3-Sasakian manifolds* ([\[CEZ07\]](#references)), which generates lists of pairs of Eschenburg spaces whose "basic polynomial invariants" (`|r|`, `|s|` and `p₁`) agree. 
 -  The Maple program for computing invariants of Eschenburg spaces, also mentioned in [\[CEZ07\]](#references) and available on [W. Ziller's homepage](https://www.math.upenn.edu/~wziller/research.html).
 
+The program was used to find the pairs of positively curved, tangentially homotopy euqivalent but non-homeomorphic pairs of positively curved Eschenburg spaces in ([\[GZ17\]](#references).
 
 ## Installation
 
@@ -155,5 +158,5 @@ When compiling from scratch, the data types used in the computations and a few o
 | \[Kru05\]  | [B. Kruggel: *Homeomorphism and diffeomorphism classification of Eschenburg spaces.*](https://doi.org/10.1093/qmath/hah031) Quart. J. Math. Oxford Ser. (2) **56** (2005), no. 4, 553–577. |
 | \[Mil00\]  | [R. J. Milgram: *The classification of Aloff-Wallach manifolds and their generalizations.*](https://mathscinet.ams.org/mathscinet-getitem?mr=1747543) Surveys on surgery theory, Vol. 1, 379–407, Ann. of Math. Stud., 145, Princeton Univ. Press, Princeton, NJ, 2000. |
 | \[Sha02\]  | [K. Shankar: *Strong inhomogeneity of Eschenburg spaces.*](https://doi.org/10.1307/mmj/1022636754) Michigan Math. J. **50** (2002), no. 1, 125–141. |
-
+| \[GZ\] | D. González-Álvaro, M. Zibrowius, *Open manifolds with positively curved souls* (in preparation). |
 

@@ -19,7 +19,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   feedback.start(100);
 
   std::size_t c_spaces = 0; // counter
-  struct tinySpace {
+  struct tinySpace { 
     INT_P d;
     INT_P n;
     INT_P k1;

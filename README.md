@@ -11,14 +11,14 @@ The program was used to find the pairs of positively curved, tangentially homoto
 
 ## Installation
 
-Two precompiled binaries are available in the folders [bin_nix64](bin_nix64) and [bin_win64](bin_win64):
+Two precompiled binaries are available with the lastest [release](https://github.com/TentativeConvert/Eschenburg-calculator/releases/latest): 
 
-    bin_nix64/esch        -- for 64 bit Linux systems
-    bin_win64/esch.exe    -- for 64 bit Windows systems
+    esch        -- an executable file for 64 bit Linux systems
+    esch.exe    -- an executable file for 64 bit Windows systems
     
-(Both have been compiled on Ubuntu 14.04, using `gcc` and `mingw`, respectively.)  With a bit of luck, one of these will run on your system.  In this case, simply download the respective file to a folder of your choice.
+Both have been compiled on Ubuntu 14.04, using `gcc` and `mingw`, respectively.  With a bit of luck, one of these will run on your system.  In this case, simply download the respective file to a folder of your choice.
 
-If the above binaries are not appropriate for your system, download/clone the complete repository and compile from scratch.  Call `make win` or `make nix` to compile using the supplied `Makefile`s.  You will likely need to adapt the `Makefile`s to suit your system.   Your may also need to download and install some boost libraries.
+If these binaries do not work for you, you will need to download/clone the complete repository and compile from scratch.  Call `make win` or `make nix` to compile using the supplied `Makefile`s.  You will likely need to adapt the `Makefile`s to suit your system.   Your may also need to download and install some boost libraries.
 There appear to be precompiled versions of MinGW, the GNU C compiler for Windows, in which the boost libraries are already included:
 [nuwen.net/mingw.html](https://nuwen.net/mingw.html)  (no warranty).
 

@@ -62,7 +62,7 @@ With the default configuration for the data types used, results should be reliab
 
 ## Mathematical background
 
-For background on Eschenburg spaces, see [\[GZ\]] or [\[CEZ07]\].  Here we just summarize some of the key points.  The spaces were first introduced and studied in [\[Esch82\]](#references).  Each Eschenburg space is a (bi)quotient of SU(3) by an action of S¹.  Following [\[CEZ07\]](#references), we specify this action of S¹ and the resulting Eschenburg space E = E(k,l) by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃), which we refer to as the **parameter vector** of E.  The parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃, and some further conditions that ensure that the S¹-action is free, see [\[CEZ07, (1.1)\]](#references).  
+For background on Eschenburg spaces, see [\[GZ\]](#references) or [\[CEZ07]\](#references).  Here we just summarize some of the key points.  The spaces were first introduced and studied in [\[Esch82\]](#references).  Each Eschenburg space is a (bi)quotient of SU(3) by an action of S¹.  Following [\[CEZ07\]](#references), we specify this action of S¹ and the resulting Eschenburg space E = E(k,l) by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃), which we refer to as the **parameter vector** of E.  The parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃, and some further conditions that ensure that the S¹-action is free, see [\[CEZ07, (1.1)\]](#references).  
 
 ### Positive curvature
 

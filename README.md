@@ -62,7 +62,7 @@ With the default configuration for the data types used, results should be reliab
 
 ## Mathematical background
 
-Eschenburg spaces were first introduced and studied in [\[Esch82\]](#references).  Each Eschenburg space is a (bi)quotient of SU(3) by an action of S¹.  Following [\[CEZ07\]](#references), we specify this action of S¹ and the resulting Eschenburg space E = E(k,l) by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃), which we refer to as the **parameter vector** of E.  The parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃, and some further conditions that ensure that the S¹-action is free, see [\[CEZ07, (1.1)\]](#references).  
+For background on Eschenburg spaces, see [\[GZ\]] or [\[CEZ07]\].  Here we just summarize some of the key points.  The spaces were first introduced and studied in [\[Esch82\]](#references).  Each Eschenburg space is a (bi)quotient of SU(3) by an action of S¹.  Following [\[CEZ07\]](#references), we specify this action of S¹ and the resulting Eschenburg space E = E(k,l) by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃), which we refer to as the **parameter vector** of E.  The parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃, and some further conditions that ensure that the S¹-action is free, see [\[CEZ07, (1.1)\]](#references).  
 
 ### Positive curvature
 
@@ -112,11 +112,11 @@ For example, the first line says that, according [\[Kru98\]](#references), two E
 | invariants … agree                                                 |⇔|   spaces agree up to …                   | References                                                          |
 | ------------------------------------------------------------------ | --- | ------------------------------------- | -------------------------------------------------------------------- | 
 | `r`, `s`, `s₂₂`       |⇔| oriented homotopy equivalence            | [\[Kru98\]](#references) |
-| `r`, `s`, `s₂₂`, `p₁` |⇔| oriented tangential homotopy equivalence |                          |
+| `r`, `s`, `s₂₂`, `p₁` |⇔| oriented tangential homotopy equivalence | [\[GZ\]](#references)    |
 | `r`, `s`, `s₂`, `p₁`  |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
 |   |   |   |    |
 | `r`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`          |⇔| homotopy equivalence            | [\[Mil00\]](#references) <br>[\[Kru98\]](#references)                |
-| `r`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`, `p₁`    |⇔| tangential homotopy equivalence |                        |
+| `r`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`, `p₁`    |⇔| tangential homotopy equivalence | [\[GZ\]](#references) |
 | `\|r\|`, `\|s\|`, `\|s₂\|`,  `sign(s)·sign(s₂)`, `p₁` |⇔| homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
 
 In the second half of the table, the `sign` of an invariant is defined as one of the values `+1, 0, -1` in the evident way.  The sign of `s₂` is `0` if and only if `s₂ = 0` or `s₂ = 1/2` (since 1/2 = -1/2 in ℚ/ℤ), and likewise for `s₂₂`.   

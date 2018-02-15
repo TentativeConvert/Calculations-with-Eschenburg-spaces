@@ -2,12 +2,11 @@
 
 # Calculations with Eschenburg spaces
 
-This C++ program implements and combines a subset of the features of the following two pieces of code:
+This C++ program accompanies the paper [\[GZ18\]](#references).  It was used to find pairs of positively curved Eschenburg spaces which are homotopy equivalent but not tangentially homotopy euqivalent, and to find pairs of such spaces which are tangentially homotopy equivalent but non-homeomorphic.  The program implements and combines a subset of the features of the following two pre-existing pieces of code:
 
 -  The (unpublished) C program described by T. Chinburg, C. Escher and W. Ziller in *Topological properties of Eschenburg spaces and 3-Sasakian manifolds* ([\[CEZ07\]](#references)), which generates lists of pairs of Eschenburg spaces whose "basic polynomial invariants" (`r`, `s` and `p₁`) agree. 
 -  The Maple program for computing invariants of Eschenburg spaces, also mentioned in [\[CEZ07\]](#references) and available on [W. Ziller's homepage](https://www.math.upenn.edu/~wziller/research.html).
-
-The program was used to find the pairs of positively curved, tangentially homotopy euqivalent but non-homeomorphic pairs of positively curved Eschenburg spaces in ([\[GZ17\]](#references).
+ 
 
 ## Installation
 
@@ -62,7 +61,7 @@ With the default configuration for the data types used, results should be reliab
 
 ## Mathematical background
 
-For background on Eschenburg spaces, see [\[GZ\]](#references) or [\[CEZ07\]](#references).  Here we just summarize some of the key points.  The spaces were first introduced and studied in [\[Esch82\]](#references).  Each Eschenburg space is a (bi)quotient of SU(3) by an action of S¹.  Following [\[CEZ07\]](#references), we specify this action of S¹ and the resulting Eschenburg space E = E(k,l) by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃), which we refer to as the **parameter vector** of E.  The parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃, and some further conditions that ensure that the S¹-action is free, see [\[CEZ07, (1.1)\]](#references).  
+For background on Eschenburg spaces, see [\[GZ18\]](#references) or [\[CEZ07\]](#references).  Here we just summarize some of the key points.  The spaces were first introduced and studied in [\[Esch82\]](#references).  Each Eschenburg space is a (bi)quotient of SU(3) by an action of S¹.  Following [\[CEZ07\]](#references), we specify this action of S¹ and the resulting Eschenburg space E = E(k,l) by a six-tuple of integer parameters (k,l) = (k₁,k₂,k₃,l₁,l₂,l₃), which we refer to as the **parameter vector** of E.  The parameters need to satisfy k₁+k₂+k₃ = l₁+l₂+l₃, and some further conditions that ensure that the S¹-action is free, see [\[CEZ07, (1.1)\]](#references).  
 
 ### Positive curvature
 
@@ -112,11 +111,11 @@ For example, the first line says that, according [\[Kru98\]](#references), two E
 | invariants … agree                                                 |⇔|   spaces agree up to …                   | References                                                          |
 | ------------------------------------------------------------------ | --- | ------------------------------------- | -------------------------------------------------------------------- | 
 | `r`, `s`, `s₂₂`       |⇔| oriented homotopy equivalence            | [\[Kru98\]](#references) |
-| `r`, `s`, `s₂₂`, `p₁` |⇔| oriented tangential homotopy equivalence | [\[GZ\]](#references)    |
+| `r`, `s`, `s₂₂`, `p₁` |⇔| oriented tangential homotopy equivalence | [\[GZ18\]](#references)    |
 | `r`, `s`, `s₂`, `p₁`  |⇔| oriented homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
 |   |   |   |    |
 | `r`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`          |⇔| homotopy equivalence            | [\[Mil00\]](#references) <br>[\[Kru98\]](#references)                |
-| `r`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`, `p₁`    |⇔| tangential homotopy equivalence | [\[GZ\]](#references) |
+| `r`, `\|s\|`, `\|s₂₂\|`, `sign(s)·sign(s₂₂)`, `p₁`    |⇔| tangential homotopy equivalence | [\[GZ18\]](#references) |
 | `\|r\|`, `\|s\|`, `\|s₂\|`,  `sign(s)·sign(s₂)`, `p₁` |⇔| homeomorphism                   | [\[Kru05\]](#references) <br>[\[CEZ07, Thm&nbsp;2.3\]](#references)  | 
 
 In the second half of the table, the `sign` of an invariant is defined as one of the values `+1, 0, -1` in the evident way.  The sign of `s₂` is `0` if and only if `s₂ = 0` or `s₂ = 1/2` (since 1/2 = -1/2 in ℚ/ℤ), and likewise for `s₂₂`.   
@@ -158,5 +157,5 @@ When compiling from scratch, the data types used in the computations and a few o
 | \[Kru05\]  | [B. Kruggel: *Homeomorphism and diffeomorphism classification of Eschenburg spaces.*](https://doi.org/10.1093/qmath/hah031) Quart. J. Math. Oxford Ser. (2) **56** (2005), no. 4, 553–577. |
 | \[Mil00\]  | [R. J. Milgram: *The classification of Aloff-Wallach manifolds and their generalizations.*](https://mathscinet.ams.org/mathscinet-getitem?mr=1747543) Surveys on surgery theory, Vol. 1, 379–407, Ann. of Math. Stud., 145, Princeton Univ. Press, Princeton, NJ, 2000. |
 | \[Sha02\]  | [K. Shankar: *Strong inhomogeneity of Eschenburg spaces.*](https://doi.org/10.1307/mmj/1022636754) Michigan Math. J. **50** (2002), no. 1, 125–141. |
-| \[GZ\] | D. González-Álvaro, M. Zibrowius, *Open manifolds with positively curved souls* (in preparation). |
+| \[GZ18\] | D. González-Álvaro, M. Zibrowius, *Open manifolds with positively curved souls* (in preparation). |
 

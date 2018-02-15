@@ -7,11 +7,11 @@ This C++ program accompanies the paper [\[GZ18\]](#references).  It implements a
 -  The (unpublished) C program described by T. Chinburg, C. Escher and W. Ziller in *Topological properties of Eschenburg spaces and 3-Sasakian manifolds* ([\[CEZ07\]](#references)), which generates lists of pairs of Eschenburg spaces whose "basic polynomial invariants" (`r`, `s` and `p₁`) agree. 
 -  The Maple program for computing invariants of Eschenburg spaces, also mentioned in [\[CEZ07\]](#references) and available on [W. Ziller's homepage](https://www.math.upenn.edu/~wziller/research.html).
  
-In [\[GZ18\]](#references), the program is used to find pairs of positively curved Eschenburg spaces which are homotopy equivalent but not tangentially homotopy euqivalent, and to find pairs of such spaces which are tangentially homotopy equivalent but non-homeomorphic.
+In [\[GZ18\]](#references), the program is used to find pairs of positively curved Eschenburg spaces which are homotopy equivalent but not tangentially homotopy equivalent, and to find pairs of such spaces which are tangentially homotopy equivalent but non-homeomorphic.
 
 ## Installation
 
-Two precompiled binaries are available with the lastest [release](https://github.com/TentativeConvert/Eschenburg-calculator/releases/latest): 
+Two precompiled binaries are available with the latest [release](https://github.com/TentativeConvert/Eschenburg-calculator/releases/latest): 
 
     esch        -- an executable file for 64 bit Linux systems
     esch.exe    -- an executable file for 64 bit Windows systems

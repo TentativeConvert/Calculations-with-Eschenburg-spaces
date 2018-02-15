@@ -13,10 +13,10 @@ const boost::rational<INT_KS> Space::KS_UNCOMPUTABLE = boost::rational<INT_KS>(1
 
 void Space::print(FILE* file) const 
 {
-  //M2//fprintf(file, " [%4ld,%4ld,%4ld, %4ld,%4ld,%4ld] -> r = %5ld,  s = %7ld,  m1 = %2d,  m2 = %d,  p1 = %5ld",
-  //M2//  (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2],(long)(abs(r_)), (long)s_, (int)(m1_), (int)(m2_), (long)p1_);
+  //M2//fprintf(file, " [%4ld,%4ld,%4ld, %4ld,%4ld,%4ld] -> r = %5ld,  s = %7ld,  Sigma = %2d,  m2 = %d,  p1 = %5ld",
+  //M2//  (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2],(long)(abs(r_)), (long)s_, (int)(Sigma_), (int)(m2_), (long)p1_);
   fprintf(file, " [%4ld,%4ld,%4ld, %4ld,%4ld,%4ld] ->  r = %5ld,  s = %7ld,  Sigma = %2d,  p1 = %5ld",  //M2//
-	  (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2],(long)(abs(r_)), (long)s_, (int)(m1_), (long)p1_);  //M2//
+	  (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2],(long)(abs(r_)), (long)s_, (int)(Sigma_), (long)p1_);  //M2//
   if (s2_ == KS_UNKNOWN)
     fprintf(file, "\n");
   else if (s2_ == KS_UNCOMPUTABLE)
@@ -34,8 +34,8 @@ void Space::print(void) const
     {
       printf("\nInvariants of the Eschenburg space with parameters [%ld,%ld,%ld, %ld,%ld,%ld]:\n", 
 	     (long)k_[0],(long)k_[1],(long)k_[2],(long)l_[0],(long)l_[1],(long)l_[2]);
-      //M2//printf("  r = %ld,  s = %ld,  m1 = %d,  m2 = %d\n  p1  = %ld\n",(long)(abs(r_)), (long)s_, (int)(m1_), (int)(m2_), (long)p1_);
-      printf("  r = %ld,  s = %ld,  Sigma = %d \n  p1  = %ld\n",(long)(abs(r_)), (long)s_, (int)(m1_), (long)p1_); //M2//
+      //M2//printf("  r = %ld,  s = %ld,  Sigma = %d,  m2 = %d\n  p1  = %ld\n",(long)(abs(r_)), (long)s_, (int)(Sigma_), (int)(m2_), (long)p1_);
+      printf("  r = %ld,  s = %ld,  Sigma = %d \n  p1  = %ld\n",(long)(abs(r_)), (long)s_, (int)(Sigma_), (long)p1_); //M2//
       if (s2_ == KS_UNCOMPUTABLE)
 	printf("! Condition C is not satisfied !\n");
       else
@@ -65,7 +65,7 @@ Space::Space(array<INT_P,3> kkk, array<INT_P,3> lll){
   INT_R sigma3_l = (INT_R)l_[0]*(INT_R)l_[1]*(INT_R)l_[2];
   r_ = sigma2_k - sigma2_l;
   s_ = signed_mod(sigma3_k-sigma3_l, abs(r_))*sign(r_);
-  m1_ = signed_mod(-sigma1_l,3);
+  Sigma_ = signed_mod(sigma1_l,3);
   //M2//m2_ = absolute_mod(sigma1_l + sigma2_l,2);
   p1_ = absolute_mod(2*sigma1_k*sigma1_k - 6*sigma2_k, abs(r_));
   good_col_or_row = GOOD_CoR_UNKNOWN; 
@@ -251,12 +251,12 @@ rational<INT_KS> Space::lens_s2(INT_P p, array<INT_P,4> param)
 //M2//  if (abs(E1.r_ ) < abs(E2.r_ ))  return comp::SMALLER;
 //M2//  if (abs(E1.s_ ) > abs(E2.s_ ))  return comp::GREATER;
 //M2//  if (abs(E1.s_ ) < abs(E2.s_ )) return comp::SMALLER;
-//M2//  if (abs(E1.m1_) > abs(E2.m1_)) return comp::GREATER;
-//M2//  if (abs(E1.m1_) < abs(E2.m1_)) return comp::SMALLER;
+//M2//  if (abs(E1.Sigma_) > abs(E2.Sigma_)) return comp::GREATER;
+//M2//  if (abs(E1.Sigma_) < abs(E2.Sigma_)) return comp::SMALLER;
 //M2//  if (    E1.m2_  >     E2.m2_ ) return comp::GREATER;
 //M2//  if (	  E1.m2_  <     E2.m2_ ) return comp::SMALLER;
-//M2//  if (sign(E1.m1_)*sign(E1.s_) > sign(E2.m1_)*sign(E2.s_)) return comp::GREATER;
-//M2//  if (sign(E1.m1_)*sign(E1.s_) < sign(E2.m1_)*sign(E2.s_)) return comp::SMALLER;
+//M2//  if (sign(E1.Sigma_)*sign(E1.s_) > sign(E2.Sigma_)*sign(E2.s_)) return comp::GREATER;
+//M2//  if (sign(E1.Sigma_)*sign(E1.s_) < sign(E2.Sigma_)*sign(E2.s_)) return comp::SMALLER;
 //M2//  return comp::EQUAL;
 //M2//}
 
@@ -267,10 +267,10 @@ Space::comp Space::compareHomotopyType(const Space& E1, const Space& E2)
   if (abs(E1.r_) < abs(E2.r_)) return comp::SMALLER;
   if (abs(E1.s_) > abs(E2.s_)) return comp::GREATER;
   if (abs(E1.s_) < abs(E2.s_)) return comp::SMALLER;
-  if (abs(E1.m1_) > abs(E2.m1_)) return comp::GREATER;  //M2//
-  if (abs(E1.m1_) < abs(E2.m1_)) return comp::SMALLER;  //M2// 
-  if (sign(E1.m1_)*sign(E1.s_) > sign(E2.m1_)*sign(E2.s_)) return comp::GREATER;  //M2//
-  if (sign(E1.m1_)*sign(E1.s_) < sign(E2.m1_)*sign(E2.s_)) return comp::SMALLER;  //M2//
+  if (abs(E1.Sigma_) > abs(E2.Sigma_)) return comp::GREATER;  //M2//
+  if (abs(E1.Sigma_) < abs(E2.Sigma_)) return comp::SMALLER;  //M2// 
+  if (sign(E1.Sigma_)*sign(E1.s_) > sign(E2.Sigma_)*sign(E2.s_)) return comp::GREATER;  //M2//
+  if (sign(E1.Sigma_)*sign(E1.s_) < sign(E2.Sigma_)*sign(E2.s_)) return comp::SMALLER;  //M2//
   // If both KS-invariants are unkown, return MAYBE_EQUAL;
   // otherwise, the unknown KS-invariant is   MAYBE_GREATER 
   // than the known one.			

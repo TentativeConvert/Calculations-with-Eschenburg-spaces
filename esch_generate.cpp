@@ -25,7 +25,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
     INT_P k1;
     INT_P k2;
     INT_R unreduced_s() const { return -(k1*k2*(n+d)); };
-    int_least8_t M1() const { return (int_least8_t)signed_mod(-k1-k2+n+d, 3); };
+    int_least8_t SIGMA() const { return (int_least8_t)signed_mod(+k1+k2-n-d, 3); };
     //M2//int_least8_t M2() const { return (int_least8_t)absolute_mod(k1 + k2 -n-d + k1*k2 -k1*n-k1*d -k2*n-k2*d, 2); };
   };
   deque< deque< struct tinySpace > > all_spaces((INT_R)((R+1)/2)); 
@@ -122,24 +122,24 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
   for(INT_R hmr = 0; hmr < (R+1)/2; ++hmr){  //hmr = "half minus r" (abgerundet)
     feedback.update((std::size_t)hmr);
     //------------------------------------------------
-    // Sort spaces in all_spaces[hmr] by their invariants |s| and |M1|.
+    // Sort spaces in all_spaces[hmr] by their invariants |s| and |SIGMA|.
     // To speed up sorting, turn the deque all_spaces[hmr] into a list r_spaces.
     struct miniSpace {
-      // slightly higher memory usage than tinySpace: two more variables (s & M1)
+      // slightly higher memory usage than tinySpace: two more variables (s & SIGMA)
       INT_P d;
       INT_P n;
       INT_P k1;
       INT_P k2;
       INT_R s;
-      int_least8_t M1; // only values are +1, 0, -1
+      int_least8_t SIGMA; // only values are +1, 0, -1
       //M2//int_least8_t M2; // only values are 1, 0
       bool operator<(const miniSpace& otherspace) const {
 	if (abs(s) > abs(otherspace.s)) return false;
 	if (abs(s) < abs(otherspace.s)) return true;
-	if (abs(M1) > abs(otherspace.M1)) return false;
-	if (abs(M1) < abs(otherspace.M1)) return true;
-	if (sign(s)*sign(M1) > sign(otherspace.s)*sign(otherspace.M1)) return false;
-	if (sign(s)*sign(M1) < sign(otherspace.s)*sign(otherspace.M1)) return true;
+	if (abs(SIGMA) > abs(otherspace.SIGMA)) return false;
+	if (abs(SIGMA) < abs(otherspace.SIGMA)) return true;
+	if (sign(s)*sign(SIGMA) > sign(otherspace.s)*sign(otherspace.SIGMA)) return false;
+	if (sign(s)*sign(SIGMA) < sign(otherspace.s)*sign(otherspace.SIGMA)) return true;
 	//M2//if (M2 > otherspace.M2) return false;
 	//M2//if (M2 < otherspace.M2) return true;
 	return false;
@@ -154,7 +154,7 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
       r_spaces[i].k1 = E.k1;
       r_spaces[i].k2 = E.k2;
       r_spaces[i].s =  signed_mod(E.unreduced_s(),mr);
-      r_spaces[i].M1 = E.M1();
+      r_spaces[i].SIGMA = E.SIGMA();
       //M2//r_spaces[i].M2 = E.M2();
     }
     std::sort(r_spaces.begin(),r_spaces.end());
@@ -165,8 +165,8 @@ SpaceTupleList::SpaceTupleList(const INT_R& R)
 	std::size_t i2 = i1+1;
 	while (i2 < r_spaces.size() 
 	       && abs(r_spaces[i1].s) == abs(r_spaces[i2].s)
-	       && abs(r_spaces[i1].M1) == abs(r_spaces[i2].M1)
-	       && sign(r_spaces[i1].s)*sign(r_spaces[i1].M1) == sign(r_spaces[i2].s)*sign(r_spaces[i2].M1)
+	       && abs(r_spaces[i1].SIGMA) == abs(r_spaces[i2].SIGMA)
+	       && sign(r_spaces[i1].s)*sign(r_spaces[i1].SIGMA) == sign(r_spaces[i2].s)*sign(r_spaces[i2].SIGMA)
 	       //M2//&& r_spaces[i1].M2 == r_spaces[i2].M2
 	       )
 	  ++i2;

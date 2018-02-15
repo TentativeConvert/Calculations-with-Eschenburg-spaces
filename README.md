@@ -4,7 +4,7 @@
 
 This C++ program implements and combines a subset of the features of the following two pieces of code:
 
--  The (unpublished) C program described by T. Chinburg, C. Escher and W. Ziller in *Topological properties of Eschenburg spaces and 3-Sasakian manifolds* ([\[CEZ07\]](#references)), which generates lists of pairs of Eschenburg spaces whose "basic polynomial invariants" (`r`, `|s|` and `p₁`) agree. 
+-  The (unpublished) C program described by T. Chinburg, C. Escher and W. Ziller in *Topological properties of Eschenburg spaces and 3-Sasakian manifolds* ([\[CEZ07\]](#references)), which generates lists of pairs of Eschenburg spaces whose "basic polynomial invariants" (`r`, `s` and `p₁`) agree. 
 -  The Maple program for computing invariants of Eschenburg spaces, also mentioned in [\[CEZ07\]](#references) and available on [W. Ziller's homepage](https://www.math.upenn.edu/~wziller/research.html).
 
 The program was used to find the pairs of positively curved, tangentially homotopy euqivalent but non-homeomorphic pairs of positively curved Eschenburg spaces in ([\[GZ17\]](#references).

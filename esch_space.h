@@ -11,7 +11,7 @@ class Space {
                     // (in [CEZ07], "r := |r(k,l)|")
   INT_R s_;         // = s(k,l) modulo |r(k,l)|
   int_least8_t m1_; // = -l1-l2-l3 mod 3
-  int_least8_t m2_; // = l1 + l2 + l3 + l1l2 + l1l3 + l2l3 mod 2
+  //M2//int_least8_t m2_; // = l1 + l2 + l3 + l1l2 + l1l3 + l2l3 mod 2
   INT_R p1_;        // = p_1(k,l) modulo |r(k,l)|
   boost::rational<INT_KS> s2_;
 
@@ -47,7 +47,7 @@ public:
   const INT_R& r() const { return r_; }
   const INT_R& s() const { return s_; }
   const int_least8_t m1() const { return m1_; }
-  const int_least8_t m2() const { return m2_; }
+  //M2//const int_least8_t m2() const { return m2_; }
   const INT_R& p1() const { return p1_; }
   const boost::rational<INT_KS>& s2() const {return s2_; }
   boost::rational<INT_KS> s22() const;
@@ -61,7 +61,7 @@ public:
   // static methods:
   enum class comp {SMALLER, MAYBE_SMALLER, EQUAL, MAYBE_EQUAL, MAYBE_GREATER, GREATER};  // MAYBE_EQUAL is return when KS-invariants are unknown/uncomputable
   static comp compareHomotopyType(const Space& E1, const Space& E2);
-  static comp compareHomotopyType_using_KS(const Space& E1, const Space& E2);            // legacy
+  //M2//static comp compareHomotopyType_using_KS(const Space& E1, const Space& E2);            // legacy
   static comp compareTangentialHomotopyType(const Space& E1, const Space& E2);
   static comp compareHomeomorphismType(const Space& E1, const Space& E2);
 };

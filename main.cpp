@@ -56,16 +56,20 @@ int analyse_space(const INT_P& k1, const INT_P& k2, const INT_P& k3,
 
 int generate_lists(const INT_R& R, const size_t& max_tuples){
   Feedback feedback;
-  SpaceTupleList tuples_he(R);
-  //SpaceTupleList tuples_he2(tuples_he,Space::compareHomotopyType, "homotopy classes");
+  SpaceTupleList tuples_basic(R);
+
+  tuples_basic.compute_KS_invariants();                                                  //M2//
+  SpaceTupleList tuples_he(tuples_basic,Space::compareHomotopyType, "homotopy classes"); //M2//
+  tuples_basic.clear();                                                                  //M2//
   tuples_he.print("list1-he.txt", max_tuples);
-    
+
   SpaceTupleList tuples_the(tuples_he,Space::compareTangentialHomotopyType, "tangential homotopy classes");
   tuples_he.clear();
-  tuples_the.compute_KS_invariants();
+  //M2//tuples_the.compute_KS_invariants();
   tuples_the.print("list2-the.txt", max_tuples);
   
   SpaceTupleList tuples_homeo(tuples_the,Space::compareHomeomorphismType, "homeomorphism classes");
+  tuples_the.clear();
   tuples_homeo.print("list3-homeo.txt", max_tuples);
   feedback.message("Closing: please wait while memory is being recovered ...\r");
   return 0;
@@ -86,7 +90,7 @@ int show_usage(std::string myname)
 \n or    %s \"[ 440, 168, -320, 159, 129, 0 ]\"				\
 \n									\
 \n To generate various lists of tuples of positively curved Eschenburg	\
-\n spaces with |r| < 5000, enter:					\
+\n spaces with r < 5000, enter:	                                        \
 \n									\
 \n        %s r=5000							\
 \n									\

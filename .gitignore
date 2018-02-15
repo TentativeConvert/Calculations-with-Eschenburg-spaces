@@ -40,6 +40,8 @@ docs/*.log
 *.lib
 
 # Executables
+bin_win64/*
+bin_nix64/*
 *.exe
 *.out
 *.app

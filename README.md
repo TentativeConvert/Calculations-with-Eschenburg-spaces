@@ -4,7 +4,7 @@
 
 This C++ program implements and combines a subset of the features of the following two pieces of code:
 
--  The (unpublished) C program described by T. Chinburg, C. Escher and W. Ziller in *Topological properties of Eschenburg spaces and 3-Sasakian manifolds* ([\[CEZ07\]](#references)), which generates lists of pairs of Eschenburg spaces whose "basic polynomial invariants" (`|r|`, `|s|` and `p₁`) agree. 
+-  The (unpublished) C program described by T. Chinburg, C. Escher and W. Ziller in *Topological properties of Eschenburg spaces and 3-Sasakian manifolds* ([\[CEZ07\]](#references)), which generates lists of pairs of Eschenburg spaces whose "basic polynomial invariants" (`r`, `|s|` and `p₁`) agree. 
 -  The Maple program for computing invariants of Eschenburg spaces, also mentioned in [\[CEZ07\]](#references) and available on [W. Ziller's homepage](https://www.math.upenn.edu/~wziller/research.html).
 
 The program was used to find the pairs of positively curved, tangentially homotopy euqivalent but non-homeomorphic pairs of positively curved Eschenburg spaces in ([\[GZ17\]](#references).
@@ -38,7 +38,7 @@ For details on the invariants computed, see the [Mathematical background](#mathe
 With the default configuration, the output of the program should be reliable for parameters kᵢ and lᵢ of absolute values up to 1500 (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
 ### Count 'isomorphism' classes in a range
-To count the number of various 'isomorphism' classes of positively curved Eschenburg spaces in a certain range, say with |r| < 5000, enter:						
+To count the number of various 'isomorphism' classes of positively curved Eschenburg spaces in a certain range, say with r < 5000, enter:						
 								
      ./esch r=5000						
 
@@ -57,7 +57,7 @@ See the examples files in the folder [bin_nix64](bin_nix64).  Note that the file
 
 The default value is controlled by the [configuration variable](#configuration) `DEFAULT_MAX_TUPLES_PER_TUPLE_SIZE_PER_FILE`, which can only be set at compile time (current value is 1010).
 
-With the default configuration for the data types used, results should be reliable up to values of `|r|` ≤ 600.000 (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
+With the default configuration for the data types used, results should be reliable up to values of `r` ≤ 600.000 (see [docs/limits.pdf](docs/limits.pdf) and [Configuration](#configuration) below).
 
 
 ## Mathematical background
@@ -136,7 +136,7 @@ All code for computing the above invariants is contained in this class.  The cla
 
 The class `SpaceTuple` is a simple wrapper around `std::deque< Space >`.  The class `SpaceTupleList` is a wrapper around `std::deque < SpaceTuple >` with two interesting constructors:
 
-One constructor, implemented separately in `esch_generate.cpp`, first generates a list of all positively curved Eschenburg spaces with `|r|` bounded by a given integer.  (More precisely, it generates a list of parameter values (k₁,k₂,k₃,l₁,l₂,l₃) that specify an Eschenburg space with `|r|` bounded by this integer.)  It then uses Milgram's homotopy invariants to find tuples of homotopy equivalent spaces on this list.  See [docs/esch_generate.md](docs/esch_generate.md) for further details.
+One constructor, implemented separately in `esch_generate.cpp`, first generates a list of all positively curved Eschenburg spaces with `r` bounded by a given integer.  (More precisely, it generates a list of parameter values (k₁,k₂,k₃,l₁,l₂,l₃) that specify an Eschenburg space with `r` bounded by this integer.)  It then uses Milgram's homotopy invariants to find tuples of homotopy equivalent spaces on this list.  See [docs/esch_generate.md](docs/esch_generate.md) for further details.
 
 The other constructor takes an existing list of tuples and a "filter" as input.  Possible "filters" are "tangential homotopy class" or  "homeomorphism class".  The constructor looks for (sub-)tuples of spaces in the given list of tuples that fall into the same isomorphism class according to the "filter".
 

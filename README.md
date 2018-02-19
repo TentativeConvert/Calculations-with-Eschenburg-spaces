@@ -52,7 +52,7 @@ To count the number of various 'isomorphism' classes of positively curved Eschen
 |  `list3-homeo.txt`    | homeomorphism classes       |
      
 In addition to the counting statistics, these files will contain lists of tuples that specify the same isomorphism class.  
-See the examples files in the folder [bin_nix64](bin_nix64).  Note that the files will be overwritten the next time the program is run.  If you want to keep the results, make a copy of these files.  To limit the maximum file size, the maximum number of tuples listed in each file can be controlled with the command-line option `print = XXX`, e.g.
+See the examples files in the folder [sample_results](sample_results).  Note that, unless you rename them, the files will be overwritten the next time the program is run.  To limit the maximum file size, the maximum number of tuples listed in each file can be controlled with the command-line option `print = XXX`, e.g.
 
      ./esch r=5000 print=10000						
 
